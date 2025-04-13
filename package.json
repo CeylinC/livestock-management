@@ -1,0 +1,13 @@
+{
+  "name": "livestock-management",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/CeylinC/livestock-management.git",
+  "author": "Ceylin <caltepeceylin@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
