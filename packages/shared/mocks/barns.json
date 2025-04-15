@@ -1,0 +1,212 @@
+[
+  {
+    "id": "barn-1",
+    "name": "Yayla Ahırı",
+    "type": "inek",
+    "gender": "FEMALE",
+    "createdAt": "2023-01-01T08:00:00Z"
+  },
+  {
+    "id": "barn-2",
+    "name": "Dere Ahırı",
+    "type": "koyun",
+    "gender": "MALE",
+    "createdAt": "2023-02-05T10:15:00Z"
+  },
+  {
+    "id": "barn-3",
+    "name": "Ova Ahırı",
+    "type": "tavuk",
+    "gender": "KARMA",
+    "createdAt": "2023-03-12T14:00:00Z"
+  },
+  {
+    "id": "barn-4",
+    "name": "Zirve Ahırı",
+    "type": "inek",
+    "gender": "FEMALE",
+    "createdAt": "2023-04-18T09:30:00Z"
+  },
+  {
+    "id": "barn-5",
+    "name": "Göl Ahırı",
+    "type": "koyun",
+    "gender": "MALE",
+    "createdAt": "2023-05-20T11:00:00Z"
+  },
+  {
+    "id": "barn-6",
+    "name": "Sahil Ahırı",
+    "type": "tavuk",
+    "gender": "KARMA",
+    "createdAt": "2023-06-25T13:45:00Z"
+  },
+  {
+    "id": "barn-7",
+    "name": "Vadi Ahırı",
+    "type": "inek",
+    "gender": "FEMALE",
+    "createdAt": "2023-07-01T16:20:00Z"
+  },
+  {
+    "id": "barn-8",
+    "name": "Köy Ahırı",
+    "type": "koyun",
+    "gender": "MALE",
+    "createdAt": "2023-08-10T07:50:00Z"
+  },
+  {
+    "id": "barn-9",
+    "name": "Ada Ahırı",
+    "type": "tavuk",
+    "gender": "KARMA",
+    "createdAt": "2023-09-15T18:10:00Z"
+  },
+  {
+    "id": "barn-10",
+    "name": "Çiftlik 1",
+    "type": "inek",
+    "gender": "FEMALE",
+    "createdAt": "2023-10-05T12:00:00Z"
+  },
+  {
+    "id": "barn-11",
+    "name": "Çiftlik 2",
+    "type": "koyun",
+    "gender": "MALE",
+    "createdAt": "2023-10-06T12:00:00Z"
+  },
+  {
+    "id": "barn-12",
+    "name": "Çiftlik 3",
+    "type": "tavuk",
+    "gender": "KARMA",
+    "createdAt": "2023-10-07T12:00:00Z"
+  },
+  {
+    "id": "barn-13",
+    "name": "Orman Ahırı",
+    "type": "inek",
+    "gender": "FEMALE",
+    "createdAt": "2023-10-08T12:00:00Z"
+  },
+  {
+    "id": "barn-14",
+    "name": "Tepe Ahırı",
+    "type": "koyun",
+    "gender": "MALE",
+    "createdAt": "2023-10-09T12:00:00Z"
+  },
+  {
+    "id": "barn-15",
+    "name": "Gölge Ahırı",
+    "type": "tavuk",
+    "gender": "KARMA",
+    "createdAt": "2023-10-10T12:00:00Z"
+  },
+  {
+    "id": "barn-16",
+    "name": "Dalyan Ahırı",
+    "type": "inek",
+    "gender": "FEMALE",
+    "createdAt": "2023-10-11T12:00:00Z"
+  },
+  {
+    "id": "barn-17",
+    "name": "Pazar Ahırı",
+    "type": "koyun",
+    "gender": "MALE",
+    "createdAt": "2023-10-12T12:00:00Z"
+  },
+  {
+    "id": "barn-18",
+    "name": "Yıldız Ahırı",
+    "type": "tavuk",
+    "gender": "KARMA",
+    "createdAt": "2023-10-13T12:00:00Z"
+  },
+  {
+    "id": "barn-19",
+    "name": "Ay Ahırı",
+    "type": "inek",
+    "gender": "FEMALE",
+    "createdAt": "2023-10-14T12:00:00Z"
+  },
+  {
+    "id": "barn-20",
+    "name": "Güneş Ahırı",
+    "type": "koyun",
+    "gender": "MALE",
+    "createdAt": "2023-10-15T12:00:00Z"
+  },
+  {
+    "id": "barn-21",
+    "name": "Serin Ahırı",
+    "type": "tavuk",
+    "gender": "KARMA",
+    "createdAt": "2023-10-16T12:00:00Z"
+  },
+  {
+    "id": "barn-22",
+    "name": "Yel Ahırı",
+    "type": "inek",
+    "gender": "FEMALE",
+    "createdAt": "2023-10-17T12:00:00Z"
+  },
+  {
+    "id": "barn-23",
+    "name": "Koz Ahırı",
+    "type": "koyun",
+    "gender": "MALE",
+    "createdAt": "2023-10-18T12:00:00Z"
+  },
+  {
+    "id": "barn-24",
+    "name": "Sıcak Ahır",
+    "type": "tavuk",
+    "gender": "KARMA",
+    "createdAt": "2023-10-19T12:00:00Z"
+  },
+  {
+    "id": "barn-25",
+    "name": "Bulut Ahırı",
+    "type": "inek",
+    "gender": "FEMALE",
+    "createdAt": "2023-10-20T12:00:00Z"
+  },
+  {
+    "id": "barn-26",
+    "name": "Yağmur Ahırı",
+    "type": "koyun",
+    "gender": "MALE",
+    "createdAt": "2023-10-21T12:00:00Z"
+  },
+  {
+    "id": "barn-27",
+    "name": "Fırtına Ahırı",
+    "type": "tavuk",
+    "gender": "KARMA",
+    "createdAt": "2023-10-22T12:00:00Z"
+  },
+  {
+    "id": "barn-28",
+    "name": "Sis Ahırı",
+    "type": "inek",
+    "gender": "FEMALE",
+    "createdAt": "2023-10-23T12:00:00Z"
+  },
+  {
+    "id": "barn-29",
+    "name": "Duman Ahırı",
+    "type": "koyun",
+    "gender": "MALE",
+    "createdAt": "2023-10-24T12:00:00Z"
+  },
+  {
+    "id": "barn-30",
+    "name": "Gökyüzü Ahırı",
+    "type": "tavuk",
+    "gender": "KARMA",
+    "createdAt": "2023-10-25T12:00:00Z"
+  }
+]
