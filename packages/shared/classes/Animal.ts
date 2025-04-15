@@ -12,6 +12,9 @@ export class Animal implements IAnimal {
   gender: gender;
   birthday: Dayjs;
   barnName: string;
+  weight: number;
+  isPregnant: boolean;
+  createdAt?: Dayjs | undefined;
 
   constructor(data?: any) {
     this.id = data?.id || "";
@@ -22,5 +25,7 @@ export class Animal implements IAnimal {
     this.gender = data?.gender || gender.male;
     this.birthday = dayjs(data?.birthday);
     this.barnName = data?.barnName || "";
+    this.weight = data?.weight || 0;
+    this.isPregnant = data?.isPregnant || false;
   }
 }

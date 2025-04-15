@@ -10,5 +10,7 @@ export interface IAnimal{
     gender: gender;
     birthday: Dayjs;
     barnName: string;
+    weight: number;
+    isPregnant: boolean;
     createdAt?: Dayjs;
 }
