@@ -19,7 +19,7 @@ export default function SaleTable() {
 }
 
 function SaleTableHeader() {
-  return <div className="w-full flex flex-row justify-between items-center border border-gray-100 py-1 rounded-md">
+  return <div className="w-full h-[50px] flex flex-row justify-between items-center border border-gray-100 py-1 rounded-md">
     <div className="w-1/7 text-center text-sm">
       İsim
     </div>
@@ -64,7 +64,7 @@ function SaleTableItem({
 }: {
   sale: ISale
 }) {
-  return <div className="w-full flex flex-row justify-between items-center border border-gray-100 py-1 rounded-md hover:border-[#7CFF6B] hover:bg-[#f4fef3] transition-colors cursor-pointer">
+  return <div className="w-full h-[50px] flex flex-row justify-between items-center border border-gray-100 py-1 rounded-md hover:border-[#7CFF6B] hover:bg-[#f4fef3] transition-colors cursor-pointer">
     <div className="w-1/7 text-center text-sm">
       {sale.name || "-"}
     </div>

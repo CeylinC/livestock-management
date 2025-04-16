@@ -18,7 +18,7 @@ export default function AnimalTable() {
 }
 
 function AnimalTableHeader() {
-  return <div className="w-full flex flex-row justify-between items-center border border-gray-100 py-1 rounded-md">
+  return <div className="w-full h-[50px] flex flex-row justify-between items-center border border-gray-100 py-1 rounded-md">
     <div className="w-1/6">
       <div className="w-full text-center text-sm">
         İsim
@@ -60,7 +60,7 @@ function AnimalTableItem({
 } : {
   animal: IAnimal
 }) {
-  return <div className="w-full flex flex-row justify-between items-center border border-gray-100 py-1 rounded-md hover:border-[#7CFF6B] hover:bg-[#f4fef3] transition-colors cursor-pointer">
+  return <div className="w-full h-[50px] flex flex-row justify-between items-center border border-gray-100 py-1 rounded-md hover:border-[#7CFF6B] hover:bg-[#f4fef3] transition-colors cursor-pointer">
     <div className="w-1/6">
       <div className="w-full text-center text-sm font-bold">
         {animal.name || "-"}
