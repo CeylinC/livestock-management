@@ -4,9 +4,10 @@ import Pagination from "@/components/Pagination";
 import AnimalTable from "@/components/tables/AnimalTable";
 import { useAnimalStore } from "../../../../../../packages/shared/stores/useAnimalStore"
 import { useEffect, useState } from "react";
+import Drawer from "@/components/Drawer";
 
 export default function AnimalsPage() {
-  const { getAnimals } = useAnimalStore()
+  const { getAnimals, selectedAnimal, selectAnimal } = useAnimalStore()
   const [pageNumber, setPageNumber] = useState(1)
 
   useEffect(() => {
@@ -15,8 +16,13 @@ export default function AnimalsPage() {
     }
   }, [pageNumber])
 
+  const handleCloseDrawer = () => {
+    selectAnimal(null)
+  }
+
   return (
     <div className="flex flex-col gap-4 relative h-full">
+      {selectedAnimal && <Drawer onClose={handleCloseDrawer}/>}
       <div>
       <div className="font-bold text-2xl">Hayvanlar</div>
       <div className="text-gray-500 text-xs">Bilgileri Düzenlemek İçin İlgili Satıra Tıklayınız</div>

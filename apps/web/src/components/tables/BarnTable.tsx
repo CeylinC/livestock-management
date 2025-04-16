@@ -35,7 +35,16 @@ function BarnTableItem({
 }: {
   barn: IBarn
 }) {
-  return <div className="w-full h-[50px] flex flex-row justify-between items-center border border-gray-100 py-1 rounded-md hover:border-[#7CFF6B] hover:bg-[#f4fef3] transition-colors cursor-pointer">
+  const { selectBarn } = useBarnStore()
+
+  const selectTableItem = (barn: IBarn) => {
+    selectBarn(barn)
+  }
+
+  return <div
+    className="w-full h-[50px] flex flex-row justify-between items-center border border-gray-100 py-1 rounded-md hover:border-[#7CFF6B] hover:bg-[#f4fef3] transition-colors cursor-pointer"
+    onClick={() => selectTableItem(barn)}
+  >
     <div className="w-1/3 text-center text-sm">
       {barn.name || "-"}
     </div>

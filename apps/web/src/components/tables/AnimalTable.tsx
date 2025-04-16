@@ -11,7 +11,7 @@ export default function AnimalTable() {
     <AnimalTableHeader />
     {
       animals?.map((animal, index) => {
-        return <AnimalTableItem animal={animal} key={index}/>
+        return <AnimalTableItem animal={animal} key={index} />
       })
     }
   </div>
@@ -57,10 +57,19 @@ function AnimalTableHeader() {
 
 function AnimalTableItem({
   animal
-} : {
+}: {
   animal: IAnimal
 }) {
-  return <div className="w-full h-[50px] flex flex-row justify-between items-center border border-gray-100 py-1 rounded-md hover:border-[#7CFF6B] hover:bg-[#f4fef3] transition-colors cursor-pointer">
+  const { selectAnimal } = useAnimalStore()
+
+  const selectTableItem = (animal: IAnimal) => {
+    selectAnimal(animal)
+  }
+
+  return <div
+    className="w-full h-[50px] flex flex-row justify-between items-center border border-gray-100 py-1 rounded-md hover:border-[#7CFF6B] hover:bg-[#f4fef3] transition-colors cursor-pointer"
+    onClick={() => selectTableItem(animal)}
+  >
     <div className="w-1/6">
       <div className="w-full text-center text-sm font-bold">
         {animal.name || "-"}
@@ -85,10 +94,10 @@ function AnimalTableItem({
     </div>
     <div className="w-1/6">
       <div className="w-full flex justify-center items-center">
-        <Badge value={animal.gender} label={toReadableGender[animal.gender]}/>
+        <Badge value={animal.gender} label={toReadableGender[animal.gender]} />
       </div>
       <div className="w-full text-center text-sm">
-        {animal.isPregnant ? <Badge value={animal.isPregnant ? "PREGNANT" : undefined} label={"Hamile"}/>  : "-"}
+        {animal.isPregnant ? <Badge value={animal.isPregnant ? "PREGNANT" : undefined} label={"Hamile"} /> : "-"}
       </div>
     </div>
     <div className="w-1/6 text-center text-sm">
