@@ -33,7 +33,7 @@ const Drawer = ({
             >Kapat</div>
           </button>
         </div>
-
+        {children}
       </div>
     </>
   );
