@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 export default function DateInput({
   value,
@@ -7,10 +7,10 @@ export default function DateInput({
   label,
   format = "DD.MM.YYYY",
 }: {
-  value: Date;
-  onChange: (date: Date) => void;
+  value: Dayjs;
+  onChange: (date: Dayjs) => void;
   label: string;
-  format?: string; // örnek: "DD.MM.YYYY"
+  format?: string;
 }) {
   const [inputValue, setInputValue] = useState(dayjs(value).format(format));
   const [error, setError] = useState(false);
@@ -19,10 +19,10 @@ export default function DateInput({
     const val = e.target.value;
     setInputValue(val);
 
-    const parsed = dayjs(val, format, true); // strict parse
+    const parsed = dayjs(val, format, true);
     if (parsed.isValid()) {
       setError(false);
-      onChange(parsed.toDate());
+      onChange(parsed);
     } else {
       setError(true);
     }
