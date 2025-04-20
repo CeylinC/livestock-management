@@ -4,7 +4,6 @@ import { paymentState, saleCategory } from "../enums";
 export interface ISale {
   id: string;
   name: string;
-  type: string;
   category: saleCategory;
   amount: string;
   price: string;

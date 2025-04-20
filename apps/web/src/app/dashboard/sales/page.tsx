@@ -5,6 +5,9 @@ import { useSaleStore } from "../../../../../../packages/shared/stores/useSaleSt
 import { useEffect, useState } from "react";
 import SaleTable from "@/components/tables/SaleTable";
 import Drawer from "@/components/Drawer";
+import Button from "@/components/Button";
+import { Sale } from "../../../../../../packages/shared/classes";
+import SaleForm from "@/components/forms/SaleForm";
 
 export default function SalesPage() {
   const { getSales, selectSale, selectedSale } = useSaleStore()
@@ -22,10 +25,17 @@ export default function SalesPage() {
 
   return (
     <div className="flex flex-col gap-4 relative h-full">
-      {selectedSale && <Drawer onClose={handleCloseDrawer} />}
-      <div>
-        <div className="font-bold text-2xl">Satışlar</div>
-        <div className="text-gray-500 text-xs">Bilgileri Düzenlemek İçin İlgili Satıra Tıklayınız</div>
+      {selectedSale && <Drawer onClose={handleCloseDrawer}>
+          <SaleForm defaultSale={selectedSale} />
+        </Drawer>}
+      <div className="flex flex-row justify-between">
+        <div>
+          <div className="font-bold text-2xl">Satışlar</div>
+          <div className="text-gray-500 text-xs">Bilgileri Düzenlemek İçin İlgili Satıra Tıklayınız</div>
+        </div>
+        <div className="w-32">
+          <Button label="Satış Ekle" onClick={() => selectSale(new Sale())} />
+        </div>
       </div>
       <SaleTable />
       <div className="absolute bottom-10 right-1/2 translate-1/2">

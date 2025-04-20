@@ -26,13 +26,8 @@ function SaleTableHeader() {
     <div className="w-1/7 text-center text-sm">
       Kategori
     </div>
-    <div className="w-1/7">
-      <div className="w-full text-center text-sm">
-        Miktar
-      </div>
-      <div className="w-full text-center text-sm font-light">
-        Tip
-      </div>
+    <div className="w-1/7 text-center text-sm">
+      Miktar
     </div>
     <div className="w-1/7 text-center text-sm">
       Ücret
@@ -82,14 +77,9 @@ function SaleTableItem({
         <Badge value={sale.category} label={toReadableSalesCategories[sale.category]} />
       </div>
     </div>
-    <div className="w-1/7">
-      <div className="w-full text-center text-sm font-bold">
+    <div className="w-1/7 text-center text-sm">
         {sale.amount || "-"}
       </div>
-      <div className="w-full text-center text-sm font-light text-gray-500">
-        {sale.type || "-"}
-      </div>
-    </div>
     <div className="w-1/7 text-center text-sm">
       {sale.price || "-"}
     </div>
