@@ -36,7 +36,7 @@ export default function Pagination ({
       <button
         disabled={pageNumber === 1}
         onClick={() => handlePageClick(pageNumber - 1)}
-        className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+        className="px-3 py-1 bg-gray-200 rounded cursor-pointer transition hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
       >
         ←
       </button>
@@ -46,7 +46,7 @@ export default function Pagination ({
           <button
             key={index}
             onClick={() => handlePageClick(page)}
-            className={`px-3 py-1 rounded ${page === pageNumber ? 'bg-gradient-to-tr from-[#0A8270] to-[#7CFF6B] text-white' : 'bg-gray-100'
+            className={`px-3 py-1 rounded cursor-pointer transition hover:brightness-90 ${page === pageNumber ? 'bg-gradient-to-tr from-[#0A8270] to-[#7CFF6B] text-white' : 'bg-gray-100'
               }`}
           >
             {page}
@@ -61,7 +61,7 @@ export default function Pagination ({
       <button
         disabled={pageNumber === totalPages}
         onClick={() => handlePageClick(pageNumber + 1)}
-        className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+        className="px-3 py-1 bg-gray-200 rounded cursor-pointer transition hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
       >
         →
       </button>

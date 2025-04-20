@@ -42,10 +42,11 @@ function AnimalTableHeader() {
     <div className="w-1/6 text-center text-sm">
       Doğum Tarihi
     </div>
-    <div className="w-1/6">
+    <div className="w-1/6 flex flex-row items-center justify-center">
       <div className="w-full text-center text-sm">
         Cinsiyet
       </div>
+      <span className="text-gray-300">/</span>
       <div className="w-full text-center text-sm">
         Hamilelik
       </div>
@@ -93,10 +94,11 @@ function AnimalTableItem({
     <div className="w-1/6 text-center text-sm">
       {dayjs(animal.birthday).format("DD/MM/YYYY") || "-"}
     </div>
-    <div className="w-1/6">
+    <div className="w-1/6 flex flex-row items-center justify-center">
       <div className="w-full flex justify-center items-center">
         <Badge value={animal.gender} label={toReadableGender[animal.gender]} />
       </div>
+      <span className="text-gray-300">/</span>
       <div className="w-full text-center text-sm">
         {animal.isPregnant ? <Badge value={animal.isPregnant ? "PREGNANT" : undefined} label={"Hamile"} /> : "-"}
       </div>

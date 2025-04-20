@@ -24,7 +24,7 @@ export const BadgeColors = {
   },
   [saleCategory.animal]: {
     text: "white",
-    bg: "#795548"
+    bg: "#03A791"
   },
   [saleCategory.animalProduct]: {
     text: "white",
@@ -36,11 +36,11 @@ export const BadgeColors = {
   },
   [saleCategory.feed]: {
     text: "white",
-    bg: "#8BC34A"
+    bg: "#FFA55D"
   },
   [saleCategory.fertilizer]: {
     text: "white",
-    bg: "#CDDC39"
+    bg: "#795548"
   },
   [saleCategory.medicine]: {
     text: "white",
