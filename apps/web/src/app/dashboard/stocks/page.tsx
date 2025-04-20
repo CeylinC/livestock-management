@@ -5,6 +5,9 @@ import { useStockStore } from "../../../../../../packages/shared/stores/useStock
 import { useEffect, useState } from "react";
 import StockTable from "@/components/tables/StockTable";
 import Drawer from "@/components/Drawer";
+import Button from "@/components/Button";
+import { Stock } from "../../../../../../packages/shared/classes";
+import StockForm from "@/components/forms/StockForm";
 
 export default function StocksPage() {
   const { getStocks, selectStock, selectedStock } = useStockStore()
@@ -22,10 +25,17 @@ export default function StocksPage() {
 
   return (
     <div className="flex flex-col gap-4 relative h-full">
-      {selectedStock && <Drawer onClose={handleCloseDrawer} />}
-      <div>
-        <div className="font-bold text-2xl">Stoklar</div>
-        <div className="text-gray-500 text-xs">Bilgileri Düzenlemek İçin İlgili Satıra Tıklayınız</div>
+      {selectedStock && <Drawer onClose={handleCloseDrawer}>
+          <StockForm defaultStock={selectedStock}/>
+        </Drawer>}
+      <div className="flex flex-row justify-between">
+        <div>
+          <div className="font-bold text-2xl">Stoklar</div>
+          <div className="text-gray-500 text-xs">Bilgileri Düzenlemek İçin İlgili Satıra Tıklayınız</div>
+        </div>
+        <div className="w-32">
+          <Button label="Stok Ekle" onClick={() => selectStock(new Stock())} />
+        </div>
       </div>
       <StockTable />
       <div className="absolute bottom-10 right-1/2 translate-1/2">
