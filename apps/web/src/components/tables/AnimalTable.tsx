@@ -3,6 +3,7 @@ import { useAnimalStore } from "../../../../../packages/shared/stores/useAnimalS
 import { IAnimal } from "../../../../../packages/shared/models"
 import { toReadableGender } from "../../../../../packages/shared/utils/toReadableGender"
 import dayjs from "dayjs"
+import { toReadableAnimalType } from "../../../../../packages/shared/utils/toReadableAnimalType"
 
 export default function AnimalTable() {
   const { animals } = useAnimalStore()
@@ -29,10 +30,10 @@ function AnimalTableHeader() {
     </div>
     <div className="w-1/6">
       <div className="w-full text-center text-sm">
-        Cins
+        Tür
       </div>
       <div className="w-full text-center text-sm">
-        Tür
+        Cins
       </div>
     </div>
     <div className="w-1/6 text-center text-sm">
@@ -80,7 +81,7 @@ function AnimalTableItem({
     </div>
     <div className="w-1/6">
       <div className="w-full text-center text-sm">
-        {animal.type || "-"}
+        {toReadableAnimalType[animal.type] || "-"}
       </div>
       <div className="w-full text-center text-sm font-light text-gray-500">
         {animal.genus || "-"}

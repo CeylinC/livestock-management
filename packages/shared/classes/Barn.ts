@@ -1,10 +1,11 @@
+import { animalTypes } from "../enums/animalTypes";
 import { gender } from "../enums/gender";
 import { IBarn } from "../models/IBarn";
 
 export class Barn implements IBarn {
   id: string;
   name: string;
-  type: string;
+  type: animalTypes;
   gender: gender;
 
   constructor(data?: any) {

@@ -2,12 +2,13 @@ import { Dayjs } from "dayjs";
 import { gender } from "../enums";
 import { IAnimal } from "../models";
 import dayjs from "dayjs";
+import { animalTypes } from "../enums/animalTypes";
 
 export class Animal implements IAnimal {
   id: string;
   name: string;
   earring: string;
-  type: string;
+  type: animalTypes;
   genus: string;
   gender: gender;
   birthday: Dayjs;

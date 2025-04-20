@@ -2,6 +2,7 @@ import Badge from "../Badge"
 import { IBarn } from "../../../../../packages/shared/models"
 import { useBarnStore } from "../../../../../packages/shared/stores/useBarnStore"
 import { toReadableGender } from "../../../../../packages/shared/utils/toReadableGender"
+import { toReadableAnimalType } from "../../../../../packages/shared/utils/toReadableAnimalType"
 
 export default function BarnTable() {
   const { barns } = useBarnStore()
@@ -49,7 +50,7 @@ function BarnTableItem({
       {barn.name || "-"}
     </div>
     <div className="w-1/3 text-center text-sm">
-      {barn.type || "-"}
+      {toReadableAnimalType[barn.type] || "-"}
     </div>
     <div className="w-1/3 text-center text-sm">
       <div className="w-full flex justify-center items-center">

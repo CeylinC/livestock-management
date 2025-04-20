@@ -9,6 +9,8 @@ import { Animal } from "../../../../../packages/shared/classes";
 import { Dayjs } from "dayjs";
 import { gender } from "../../../../../packages/shared/enums";
 import { toReadableGender } from "../../../../../packages/shared/utils/toReadableGender";
+import { toReadableAnimalType } from "../../../../../packages/shared/utils/toReadableAnimalType";
+import { animalTypes } from "../../../../../packages/shared/enums/animalTypes";
 
 export default function AnimalForm({
   defaultAnimal
@@ -17,10 +19,15 @@ export default function AnimalForm({
 }) {
   const [animal, setAnimal] = useState(defaultAnimal ?? new Animal())
 
-  const options = [
-    { label: toReadableGender[gender.female], value: gender.female },
-    { label: toReadableGender[gender.male], value: gender.male },
-  ];
+  const genderOptions = [gender.female, gender.male].map((gender) => ({
+    label: toReadableGender[gender],
+    value: gender
+  }));
+
+  const typeOptions = Object.values(animalTypes).map((g) => ({
+    label: toReadableAnimalType[g],
+    value: g
+  }));
 
   const onChangeName = (value: string) => {
     setAnimal(prev => ({ ...prev, name: value }))
@@ -35,7 +42,7 @@ export default function AnimalForm({
   }
 
   const onChangeType = (value: string) => {
-    setAnimal(prev => ({ ...prev, type: value }))
+    setAnimal(prev => ({ ...prev, type: (value as animalTypes) }))
   }
 
   const onChangeWeight = (value: number) => {
@@ -67,8 +74,14 @@ export default function AnimalForm({
     <div className="font-bold text-xl">{animal.id ? "Hayvan Kaydını Güncelle" : "Hayvan Kaydı Oluştur"}</div>
     <Input name="name" label="İsim" value={animal.name} onChange={(value) => onChangeName(value)} />
     <Input name="earring" label="Kulak Numarası" value={animal.earring} onChange={(value) => onChangeEarring(value)} />
-    <Input name="genus" label="Cins" value={animal.genus} onChange={(value) => onChangeGenus(value)} />
-    <Input name="type" label="Tür" value={animal.type} onChange={(value) => onChangeType(value)} />
+    <Dropdown
+      label="Tür"
+      options={typeOptions}
+      value={animal.type}
+      onChange={onChangeType}
+      placeholder="Seçiniz"
+    />
+    <Input name="genus" label="Cins" value={animal.type} onChange={(value) => onChangeGenus(value)} />
     <Input name="weight" label="Ağırlık (KG)" value={animal.weight.toString()} onChange={(value) => onChangeWeight(Number(value))} />
     <DateInput label="Doğum Tarihi (örn. 19.04.2025)"
       value={animal.birthday}
@@ -78,7 +91,7 @@ export default function AnimalForm({
       <div className={`${animal.gender === gender.female ? "w-1/2" : "w-full"}`}>
         <Dropdown
           label="Cinsiyet"
-          options={options}
+          options={genderOptions}
           value={animal.gender}
           onChange={onChangeGender}
           placeholder="Seçiniz"
@@ -94,7 +107,7 @@ export default function AnimalForm({
     </div>
     <Dropdown
       label="Ağıl"
-      options={options}
+      options={genderOptions}
       value={animal.barnName}
       onChange={onChangeBarn}
       placeholder="Seçiniz"

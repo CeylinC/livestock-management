@@ -1,14 +1,13 @@
 import { useState } from "react";
-import Checkbox from "../Checkbox";
-import DateInput from "../DateInput";
 import Input from "../Input";
 import Dropdown from "../Dropdown";
 import Button from "../Button";
 import { IBarn } from "../../../../../packages/shared/models";
 import { Barn } from "../../../../../packages/shared/classes";
-import { Dayjs } from "dayjs";
 import { gender } from "../../../../../packages/shared/enums";
 import { toReadableGender } from "../../../../../packages/shared/utils/toReadableGender";
+import { animalTypes } from "../../../../../packages/shared/enums/animalTypes";
+import { toReadableAnimalType } from "../../../../../packages/shared/utils/toReadableAnimalType";
 
 export default function BarnForm({
   defaultBarn
@@ -23,12 +22,17 @@ export default function BarnForm({
     { label: toReadableGender[gender.karma], value: gender.karma },
   ];
 
+  const typeOptions = Object.values(animalTypes).map((g) => ({
+    label: toReadableAnimalType[g],
+    value: g
+  }));
+
   const onChangeName = (value: string) => {
     setBarn(prev => ({ ...prev, name: value }))
   }
 
   const onChangeType = (value: string) => {
-    setBarn(prev => ({ ...prev, type: value }))
+    setBarn(prev => ({ ...prev, type: (value as animalTypes) }))
   }
 
   const onChangeGender = (value: string) => {
@@ -42,7 +46,13 @@ export default function BarnForm({
   return <div className="px-4 py-2 flex flex-col gap-4">
     <div className="font-bold text-xl">{barn.id ? "Ağıl Kaydını Güncelle" : "Ağıl Kaydı Oluştur"}</div>
     <Input name="name" label="İsim" value={barn.name} onChange={(value) => onChangeName(value)} />
-    <Input name="type" label="Tür" value={barn.type} onChange={(value) => onChangeType(value)} />
+    <Dropdown
+      label="Tür"
+      options={typeOptions}
+      value={barn.type}
+      onChange={onChangeType}
+      placeholder="Seçiniz"
+    />
     <Dropdown
       label="Cinsiyet"
       options={options}
