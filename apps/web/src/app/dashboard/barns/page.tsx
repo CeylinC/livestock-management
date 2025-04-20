@@ -5,6 +5,9 @@ import BarnTable from "@/components/tables/BarnTable";
 import { useBarnStore } from "../../../../../../packages/shared/stores/useBarnStore"
 import { useEffect, useState } from "react";
 import Drawer from "@/components/Drawer";
+import Button from "@/components/Button";
+import { Barn } from "../../../../../../packages/shared/classes";
+import BarnForm from "@/components/forms/BarnForm";
 
 export default function BarnsPage() {
   const { getBarns, selectBarn, selectedBarn } = useBarnStore()
@@ -22,10 +25,17 @@ export default function BarnsPage() {
 
   return (
     <div className="flex flex-col gap-4 relative h-full">
-      {selectedBarn && <Drawer onClose={handleCloseDrawer} />}
-      <div>
-        <div className="font-bold text-2xl">Ağıllar</div>
-        <div className="text-gray-500 text-xs">Bilgileri Düzenlemek İçin İlgili Satıra Tıklayınız</div>
+      {selectedBarn && <Drawer onClose={handleCloseDrawer}>
+        <BarnForm defaultBarn={selectedBarn}/>
+        </Drawer>}
+      <div className="flex flex-row justify-between">
+        <div>
+          <div className="font-bold text-2xl">Ağıllar</div>
+          <div className="text-gray-500 text-xs">Bilgileri Düzenlemek İçin İlgili Satıra Tıklayınız</div>
+        </div>
+        <div className="w-32">
+          <Button label="Ağıl Ekle" onClick={() => selectBarn(new Barn())} />
+        </div>
       </div>
       <BarnTable />
       <div className="absolute bottom-10 right-1/2 translate-1/2">
