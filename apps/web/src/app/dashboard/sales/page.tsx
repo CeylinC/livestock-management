@@ -8,6 +8,7 @@ import Drawer from "@/components/Drawer";
 import Button from "@/components/Button";
 import { Sale } from "../../../../../../packages/shared/classes";
 import SaleForm from "@/components/forms/SaleForm";
+import SaleFilterMenu from "@/components/filterMenus/SaleFilterMenu";
 
 export default function SalesPage() {
   const { getSales, selectSale, selectedSale } = useSaleStore()
@@ -26,15 +27,18 @@ export default function SalesPage() {
   return (
     <div className="flex flex-col gap-4 relative h-full">
       {selectedSale && <Drawer onClose={handleCloseDrawer}>
-          <SaleForm defaultSale={selectedSale} />
-        </Drawer>}
+        <SaleForm defaultSale={selectedSale} />
+      </Drawer>}
       <div className="flex flex-row justify-between">
         <div>
           <div className="font-bold text-2xl">Satışlar</div>
           <div className="text-gray-500 text-xs">Bilgileri Düzenlemek İçin İlgili Satıra Tıklayınız</div>
         </div>
-        <div className="w-32">
-          <Button label="Satış Ekle" onClick={() => selectSale(new Sale())} />
+        <div className="flex flex-row gap-2 items-center">
+          <SaleFilterMenu />
+          <div className="w-32">
+            <Button label="Satış Ekle" onClick={() => selectSale(new Sale())} />
+          </div>
         </div>
       </div>
       <SaleTable />

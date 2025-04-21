@@ -8,6 +8,7 @@ import Drawer from "@/components/Drawer";
 import AnimalForm from "@/components/forms/AnimalForm";
 import Button from "@/components/Button";
 import { Animal } from "../../../../../../packages/shared/classes";
+import AnimalFilterMenu from "@/components/filterMenus/AnimalFilterMenu";
 
 export default function AnimalsPage() {
   const { getAnimals, selectedAnimal, selectAnimal } = useAnimalStore()
@@ -34,8 +35,11 @@ export default function AnimalsPage() {
           <div className="font-bold text-2xl">Hayvanlar</div>
           <div className="text-gray-500 text-xs">Bilgileri Düzenlemek İçin İlgili Satıra Tıklayınız</div>
         </div>
-        <div className="w-32">
-          <Button label="Hayvan Ekle" onClick={() => selectAnimal(new Animal())} />
+        <div className="flex flex-row gap-2 items-center">
+          <AnimalFilterMenu />
+          <div className="w-32">
+            <Button label="Hayvan Ekle" onClick={() => selectAnimal(new Animal())} />
+          </div>
         </div>
       </div>
       <AnimalTable />
