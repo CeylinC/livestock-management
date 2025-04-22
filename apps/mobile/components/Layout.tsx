@@ -10,7 +10,7 @@ export default function Layout({
 }) {
   return <LinearGradient
     colors={['#0A8270', '#7CFF6B']}
-    start={{ x: 0, y: 0 }} // sol alt
+    start={{ x: 0, y: 0 }}
     end={{ x: 1, y: 0 }} 
     style={styles.gradient}
 
