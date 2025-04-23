@@ -1,48 +1,64 @@
 import { View, StyleSheet, Text } from "react-native";
 import Badge from "../Badge";
 import { gender } from "../../../../packages/shared/enums";
+import { IAnimal } from "../../../../packages/shared/models";
+import { toReadableGender } from "../../../../packages/shared/utils/toReadableGender";
+import { toReadableAnimalType } from "../../../../packages/shared/utils/toReadableAnimalType";
 
-export default function AnimalCard() {
+export default function AnimalCard({
+  animal
+}: {
+  animal: IAnimal
+}) {
   return <View style={styles.card}>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>İsim</Text>
-      <Text style={styles.contentValue}>İsim</Text>
+      <Text style={styles.contentValue}>{animal.name || "-"}</Text>
     </View>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>Kulak Numarası</Text>
-      <Text style={styles.contentValue}>İsim</Text>
+      <Text style={styles.contentValue}>{animal.earring || "-"}</Text>
     </View>
     <View style={styles.contentRow}>
       <View style={styles.contentCell}>
         <Text style={styles.contentLabel}>Tür</Text>
-        <Text style={styles.contentValue}>İsim</Text>
+        <Text style={styles.contentValue}>{toReadableAnimalType[animal.type] || "-"}</Text>
       </View>
       <View style={styles.contentCell}>
         <Text style={styles.contentLabel}>Cins</Text>
-        <Text style={styles.contentValue}>İsim</Text>
+        <Text style={styles.contentValue}>{animal.genus || "-"}</Text>
       </View>
     </View>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>Ağırlık</Text>
-      <Text style={styles.contentValue}>İsim</Text>
+      <Text style={styles.contentValue}>{animal.weight || "-"}</Text>
     </View>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>Doğum Tarihi</Text>
-      <Text style={styles.contentValue}>İsim</Text>
+      <Text style={styles.contentValue}>{animal.birthday.format("DD/MM/YYYY") || "-"}</Text>
     </View>
     <View style={styles.contentRow}>
       <View style={styles.contentCell}>
         <Text style={styles.contentLabel}>Cinsiyet</Text>
-        <View style={styles.contentBadge}><Badge label="Dişi" value={gender.female}/></View>
+        <View style={styles.contentBadge}><Badge label={toReadableGender[animal.gender]} value={animal.gender} /></View>
       </View>
-      <View style={styles.contentCell}>
-        <Text style={styles.contentLabel}>Hamilelik</Text>
-        <View style={styles.contentBadge}><Badge label="Hamile" value={"PREGNANT"}/></View>
-      </View>
+      {
+        animal.gender === gender.female &&
+        (
+          <View style={styles.contentCell}>
+            <Text style={styles.contentLabel}>Hamilelik</Text>
+            <View style={styles.contentBadge}>{
+              animal.gender === gender.female ?
+                (<Badge label="Hamile" value={"PREGNANT"} />) :
+                <Text style={styles.contentValue}>-</Text>
+            }</View>
+          </View>
+        )
+      }
     </View>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>Ağıl</Text>
-      <Text style={styles.contentValue}>İsim</Text>
+      <Text style={styles.contentValue}>{animal.barnName}</Text>
     </View>
   </View>
 }

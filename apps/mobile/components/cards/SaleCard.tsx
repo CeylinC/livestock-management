@@ -1,47 +1,52 @@
 import { View, StyleSheet, Text } from "react-native";
 import Badge from "../Badge";
-import { gender } from "../../../../packages/shared/enums";
+import { ISale } from "../../../../packages/shared/models";
+import { toReadableSalesCategories } from "../../../../packages/shared/utils/toReadableSalesCategories";
 
-export default function SaleCard() {
+export default function SaleCard({
+  sale
+}: {
+  sale: ISale
+}) {
   return <View style={styles.card}>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>İsim</Text>
-      <Text style={styles.contentValue}>İsim</Text>
+      <Text style={styles.contentValue}>{sale.name || "-"}</Text>
     </View>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>Kategori</Text>
-      <View style={styles.contentBadge}><Badge label="Dişi" value={gender.female} /></View>
+      <View style={styles.contentBadge}><Badge label={toReadableSalesCategories[sale.category]} value={sale.category} /></View>
     </View>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>Miktar</Text>
-      <Text style={styles.contentValue}>İsim</Text>
+      <Text style={styles.contentValue}>{sale.amount || "-"}</Text>
     </View>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>Ücret</Text>
-      <Text style={styles.contentValue}>İsim</Text>
+      <Text style={styles.contentValue}>{sale.price || "-"}</Text>
     </View>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>Satış Tarihi</Text>
-      <Text style={styles.contentValue}>İsim</Text>
+      <Text style={styles.contentValue}>{sale.saleDate.format("DD/MM/YYYY") || "-"}</Text>
     </View>
     <View style={styles.contentRow}>
       <View style={styles.contentCell}>
         <Text style={styles.contentLabel}>Alıcı İsmi</Text>
-        <Text style={styles.contentValue}>İsim</Text>
+        <Text style={styles.contentValue}>{sale.recipientName || "-"}</Text>
       </View>
       <View style={styles.contentCell}>
         <Text style={styles.contentLabel}>İletişim</Text>
-        <Text style={styles.contentValue}>İsim</Text>
+        <Text style={styles.contentValue}>{sale.contact || "-"}</Text>
       </View>
     </View>
     <View style={styles.contentRow}>
       <View style={styles.contentCell}>
         <Text style={styles.contentLabel}>Ödeme Durumu</Text>
-        <Text style={styles.contentValue}>İsim</Text>
+        <Text style={styles.contentValue}>{sale.paymentState || "-"}</Text>
       </View>
       <View style={styles.contentCell}>
         <Text style={styles.contentLabel}>Ödeme Tarihi</Text>
-        <Text style={styles.contentValue}>İsim</Text>
+        <Text style={styles.contentValue}>{sale.paymentDate.format("DD/MM/YYYY") || "-"}</Text>
       </View>
     </View>
 

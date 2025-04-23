@@ -1,20 +1,26 @@
 import { View, StyleSheet, Text } from "react-native";
 import Badge from "../Badge";
-import { gender } from "../../../../packages/shared/enums";
+import { IBarn } from "../../../../packages/shared/models";
+import { toReadableAnimalType } from "../../../../packages/shared/utils/toReadableAnimalType";
+import { toReadableGender } from "../../../../packages/shared/utils/toReadableGender";
 
-export default function BarnCard() {
+export default function BarnCard({
+  barn
+}: {
+  barn: IBarn
+}) {
   return <View style={styles.card}>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>İsim</Text>
-      <Text style={styles.contentValue}>İsim</Text>
+      <Text style={styles.contentValue}>{barn.name || "-"}</Text>
     </View>
     <View style={styles.contentCell}>
       <Text style={styles.contentLabel}>Tür</Text>
-      <Text style={styles.contentValue}>İsim</Text>
+      <Text style={styles.contentValue}>{toReadableAnimalType[barn.type]}</Text>
     </View>
     <View style={styles.contentCell}>
       <Text style={styles.contentLabel}>Cinsiyet</Text>
-      <View style={styles.contentBadge}><Badge label="Dişi" value={gender.female} /></View>
+      <View style={styles.contentBadge}><Badge label={toReadableGender[barn.gender]} value={barn.gender} /></View>
     </View>
   </View>
 }

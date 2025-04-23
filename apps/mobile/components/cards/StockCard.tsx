@@ -1,28 +1,34 @@
 import { View, StyleSheet, Text } from "react-native";
 import Badge from "../Badge";
-import { gender } from "../../../../packages/shared/enums";
+import { gender, saleCategory } from "../../../../packages/shared/enums";
+import { IStock } from "../../../../packages/shared/models";
+import { toReadableSalesCategories } from "../../../../packages/shared/utils/toReadableSalesCategories";
 
-export default function StockCard() {
+export default function StockCard({
+  stock
+}: {
+  stock: IStock
+}) {
     return <View style={styles.card}>
       <View style={styles.contentRow}>
         <Text style={styles.contentLabel}>İsim</Text>
-        <Text style={styles.contentValue}>İsim</Text>
+        <Text style={styles.contentValue}>{stock.name || "-"}</Text>
       </View>
       <View style={styles.contentRow}>
         <Text style={styles.contentLabel}>Kategori</Text>
-        <View style={styles.contentBadge}><Badge label="Dişi" value={gender.female}/></View>
+        <View style={styles.contentBadge}><Badge label={toReadableSalesCategories[stock.category]} value={stock.category}/></View>
       </View>
       <View style={styles.contentRow}>
         <Text style={styles.contentLabel}>Miktar</Text>
-        <Text style={styles.contentValue}>İsim</Text>
+        <Text style={styles.contentValue}>{stock.amount || "-"}</Text>
       </View>
       <View style={styles.contentRow}>
         <Text style={styles.contentLabel}>Satıcı</Text>
-        <Text style={styles.contentValue}>İsim</Text>
+        <Text style={styles.contentValue}>{stock.dealer || "-"}</Text>
       </View>
       <View style={styles.contentRow}>
         <Text style={styles.contentLabel}>Stok Yeri</Text>
-        <Text style={styles.contentValue}>İsim</Text>
+        <Text style={styles.contentValue}>{stock.storage || "-"}</Text>
       </View>
     </View>
 }
