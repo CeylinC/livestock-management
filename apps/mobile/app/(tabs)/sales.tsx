@@ -8,11 +8,13 @@ import GhostButton from '@/components/GhostButton';
 import Button from '@/components/Button';
 import SheetModal from '@/components/SheetModal';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ISale } from '../../../../packages/shared/models';
+import SaleForm from '@/components/forms/SaleForm';
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function SalesScreen() {
-  const { getSales, sales } = useSaleStore()
+  const { getSales, sales, selectSale, selectedSale } = useSaleStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
 
@@ -22,8 +24,9 @@ export default function SalesScreen() {
     }
   }, [pageNumber])
 
-  const openBottomSheet = () => {
-    setBottomSheetIndex(1)
+  const openBottomSheet = (sale: ISale | null) => {
+    selectSale(sale)
+    setBottomSheetIndex(3)
   }
 
   return (
@@ -32,16 +35,16 @@ export default function SalesScreen() {
         <Text>Sales</Text>
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
-            <GhostButton label='Filtrele' onPress={openBottomSheet} />
+            <GhostButton label='Filtrele' onPress={() => {}} />
           </View>
           <View style={styles.button}>
-            <Button label='Satış Ekle' onPress={openBottomSheet} />
+            <Button label='Satış Ekle' onPress={() => openBottomSheet(null)} />
           </View>
         </View>
         <View style={styles.cardContainer}>
           {
             sales?.map(((sale, index) => (
-              <TouchableOpacity onPress={openBottomSheet} key={index}>
+              <TouchableOpacity onPress={() => openBottomSheet(sale)} key={index}>
                 <SaleCard sale={sale} />
               </TouchableOpacity>
             )))
@@ -50,7 +53,7 @@ export default function SalesScreen() {
         </View>
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-        <Text>Deneme</Text>
+        <SaleForm defaultSale={selectedSale}/>
       </SheetModal>
     </GestureHandlerRootView>
   );

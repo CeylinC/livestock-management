@@ -8,11 +8,14 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SheetModal from '@/components/SheetModal';
 import Button from '@/components/Button';
 import GhostButton from '@/components/GhostButton';
+import Checkbox from '@/components/Checkbox';
+import AnimalForm from '@/components/forms/AnimalForm';
+import { IAnimal } from '../../../../packages/shared/models';
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function AnimalsScreen() {
-  const { getAnimals, animals } = useAnimalStore()
+  const { getAnimals, animals, selectAnimal, selectedAnimal } = useAnimalStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
 
@@ -22,8 +25,9 @@ export default function AnimalsScreen() {
     }
   }, [pageNumber])
 
-  const openBottomSheet = () => {
-    setBottomSheetIndex(1)
+  const openBottomSheet = (animal: IAnimal | null) => {
+    selectAnimal(animal)
+    setBottomSheetIndex(2)
   }
 
   return (
@@ -32,16 +36,16 @@ export default function AnimalsScreen() {
         <Text>Animals</Text>
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
-            <GhostButton label='Filtrele' onPress={openBottomSheet} />
+            <GhostButton label='Filtrele' onPress={() => {}} />
           </View>
           <View style={styles.button}>
-            <Button label='Hayvan Ekle' onPress={openBottomSheet} />
+            <Button label='Hayvan Ekle' onPress={() => openBottomSheet(null)} />
           </View>
         </View>
         <View style={styles.cardContainer}>
           {
             animals?.map(((animal, index) => (
-              <TouchableOpacity onPress={openBottomSheet} key={index}>
+              <TouchableOpacity onPress={() => openBottomSheet(animal)} key={index}>
                 <AnimalCard animal={animal} />
               </TouchableOpacity>
             )))
@@ -50,7 +54,7 @@ export default function AnimalsScreen() {
         </View>
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-        <Text>Deneme</Text>
+        <AnimalForm defaultAnimal={selectedAnimal}/>
       </SheetModal>
     </GestureHandlerRootView>
   );

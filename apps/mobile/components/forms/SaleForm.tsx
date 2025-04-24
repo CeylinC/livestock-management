@@ -1,17 +1,17 @@
 import { useState } from "react";
-import Checkbox from "../Checkbox";
 import DateInput from "../DateInput";
 import Input from "../Input";
 import Dropdown from "../Dropdown";
 import Button from "../Button";
-import { ISale } from "../../../../../packages/shared/models";
-import { Sale } from "../../../../../packages/shared/classes";
-import { paymentState, saleCategory } from "../../../../../packages/shared/enums";
-import { toReadableSalesCategories } from "../../../../../packages/shared/utils/toReadableSalesCategories";
 import { Dayjs } from "dayjs";
-import { toReadablePaymentState } from "../../../../../packages/shared/utils/toReadablePaymentState";
+import { ISale } from "../../../../packages/shared/models";
+import { paymentState, saleCategory } from "../../../../packages/shared/enums";
+import { Sale } from "../../../../packages/shared/classes";
+import { toReadableSalesCategories } from "../../../../packages/shared/utils/toReadableSalesCategories";
+import { toReadablePaymentState } from "../../../../packages/shared/utils/toReadablePaymentState";
+import { View, StyleSheet } from "react-native";
 
-export default function StockForm({
+export default function SaleForm({
   defaultSale
 }: {
   defaultSale: ISale | null
@@ -68,8 +68,7 @@ export default function StockForm({
     console.log(sale)
   }
 
-  return <div className="px-4 py-2 flex flex-col gap-4">
-    <div className="font-bold text-xl">{sale.id ? "Satış Kaydını Güncelle" : "Satış Kaydı Oluştur"}</div>
+  return <View style={styles.container}>
     <Input name="name" label="İsim" value={sale.name} onChange={(value) => onChangeName(value)} />
     <Dropdown
       label="Kategori"
@@ -86,23 +85,26 @@ export default function StockForm({
       format="DD.MM.YYYY" />
     <Input name="type" label="Alıcı İsmi" value={sale.recipientName} onChange={(value) => onChangeRecipientName(value)} />
     <Input name="type" label="İletişim" value={sale.contact} onChange={(value) => onChangeContact(value)} />
-    <div className="flex flex-row gap-2 items-center">
-      <div className="w-1/2">
-        <Dropdown
-          label="Ödeme Durumu"
-          options={PaymentStateOptions}
-          value={sale.paymentState}
-          onChange={onChangePaymentState}
-          placeholder="Seçiniz"
-        />
-      </div>
-      <div className="w-1/2">
-        <DateInput label="Satış Tarihi (örn. 19.04.2025)"
-          value={sale.saleDate}
-          onChange={onChangeSaleDate}
-          format="DD.MM.YYYY" />
-      </div>
-    </div>
-    <Button label="Ekle" onClick={onSubmit} />
-  </div>
+    <Dropdown
+      label="Ödeme Durumu"
+      options={PaymentStateOptions}
+      value={sale.paymentState}
+      onChange={onChangePaymentState}
+      placeholder="Seçiniz"
+    />
+    <DateInput label="Satış Tarihi (örn. 19.04.2025)"
+      value={sale.saleDate}
+      onChange={onChangePaymentDate}
+      format="DD.MM.YYYY" />
+    <Button label={defaultSale?.id ? "Kaydı Güncelle" : "Kayıt Oluştur"} onPress={onSubmit} />
+  </View >
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 16,
+    paddingVertical: 32,
+    display: "flex",
+    gap: 8
+  }
+})

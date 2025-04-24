@@ -8,11 +8,13 @@ import GhostButton from '@/components/GhostButton';
 import Button from '@/components/Button';
 import SheetModal from '@/components/SheetModal';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { IStock } from '../../../../packages/shared/models';
+import StockForm from '@/components/forms/StockForm';
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function StocksScreen() {
-  const { getStocks, stocks } = useStockStore()
+  const { getStocks, stocks, selectStock, selectedStock } = useStockStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
 
@@ -22,8 +24,9 @@ export default function StocksScreen() {
     }
   }, [pageNumber])
 
-  const openBottomSheet = () => {
-    setBottomSheetIndex(1)
+  const openBottomSheet = (stock: IStock | null) => {
+    selectStock(stock)
+    setBottomSheetIndex(2)
   }
 
   return (
@@ -32,16 +35,16 @@ export default function StocksScreen() {
         <Text>Stocks</Text>
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
-            <GhostButton label='Filtrele' onPress={openBottomSheet} />
+            <GhostButton label='Filtrele' onPress={() => { }} />
           </View>
           <View style={styles.button}>
-            <Button label='Stock Ekle' onPress={openBottomSheet} />
+            <Button label='Stock Ekle' onPress={() => openBottomSheet(null)} />
           </View>
         </View>
         <View style={styles.cardContainer}>
           {
             stocks?.map(((stock, index) => (
-              <TouchableOpacity onPress={openBottomSheet} key={index}>
+              <TouchableOpacity onPress={() => openBottomSheet(stock)} key={index}>
                 <StockCard stock={stock} key={index} />
               </TouchableOpacity>
             )))
@@ -50,7 +53,7 @@ export default function StocksScreen() {
         </View>
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-        <Text>Deneme</Text>
+        <StockForm defaultStock={selectedStock} />
       </SheetModal>
     </GestureHandlerRootView>
   );

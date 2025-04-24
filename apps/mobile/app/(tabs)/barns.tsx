@@ -8,11 +8,13 @@ import GhostButton from '@/components/GhostButton';
 import Button from '@/components/Button';
 import SheetModal from '@/components/SheetModal';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import BarnForm from '@/components/forms/BarnForm';
+import { IBarn } from '../../../../packages/shared/models';
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function BarnsScreen() {
-  const { getBarns, barns } = useBarnStore()
+  const { getBarns, barns, selectedBarn, selectBarn } = useBarnStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
 
@@ -22,7 +24,8 @@ export default function BarnsScreen() {
     }
   }, [pageNumber])
 
-  const openBottomSheet = () => {
+  const openBottomSheet = (barn: IBarn | null) => {
+    selectBarn(barn)
     setBottomSheetIndex(1)
   }
 
@@ -32,16 +35,16 @@ export default function BarnsScreen() {
         <Text>Barns</Text>
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
-            <GhostButton label='Filtrele' onPress={openBottomSheet} />
+            <GhostButton label='Filtrele' onPress={() => {}} />
           </View>
           <View style={styles.button}>
-            <Button label='Ağıl Ekle' onPress={openBottomSheet} />
+            <Button label='Ağıl Ekle' onPress={() => openBottomSheet(null)} />
           </View>
         </View>
         <View style={styles.cardContainer}>
           {
             barns?.map(((barn, index) => (
-              <TouchableOpacity onPress={openBottomSheet} key={index}>
+              <TouchableOpacity onPress={() => openBottomSheet(barn)} key={index}>
                 <BarnCard barn={barn} />
               </TouchableOpacity>
             )))
@@ -50,7 +53,7 @@ export default function BarnsScreen() {
         </View>
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-        <Text>Deneme</Text>
+        <BarnForm defaultBarn={selectedBarn}/>
       </SheetModal>
     </GestureHandlerRootView>
   );

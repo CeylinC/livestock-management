@@ -1,13 +1,12 @@
+import { View, StyleSheet } from "react-native";
 import { useState } from "react";
-import Checkbox from "../Checkbox";
-import DateInput from "../DateInput";
+import { IStock } from "../../../../packages/shared/models";
+import { Stock } from "../../../../packages/shared/classes";
+import { saleCategory } from "../../../../packages/shared/enums";
 import Input from "../Input";
 import Dropdown from "../Dropdown";
 import Button from "../Button";
-import { IStock } from "../../../../../packages/shared/models";
-import { Stock } from "../../../../../packages/shared/classes";
-import { saleCategory } from "../../../../../packages/shared/enums";
-import { toReadableSalesCategories } from "../../../../../packages/shared/utils/toReadableSalesCategories";
+import { toReadableSalesCategories } from "../../../../packages/shared/utils/toReadableSalesCategories";
 
 export default function StockForm({
   defaultStock
@@ -45,8 +44,7 @@ export default function StockForm({
     console.log(stock)
   }
 
-  return <div className="px-4 py-2 flex flex-col gap-4">
-    <div className="font-bold text-xl">{stock.id ? "Stok Kaydını Güncelle" : "Stok Kaydı Oluştur"}</div>
+  return <View style={styles.container}>
     <Input name="name" label="İsim" value={stock.name} onChange={(value) => onChangeName(value)} />
     <Dropdown
       label="Kategori"
@@ -58,6 +56,15 @@ export default function StockForm({
     <Input name="type" label="Miktar" value={stock.amount} onChange={(value) => onChangeType(value)} />
     <Input name="type" label="Satıcı" value={stock.dealer} onChange={(value) => onChangeDealer(value)} />
     <Input name="type" label="Stok Yeri" value={stock.storage} onChange={(value) => onChangeStorage(value)} />
-    <Button label="Ekle" onClick={onSubmit} />
-  </div>
+
+    <Button label={defaultStock?.id ? "Kaydı Güncelle" : "Kayıt Oluştur"} onPress={onSubmit} />
+  </View>
 }
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 16,
+    paddingVertical: 32,
+    display: "flex",
+    gap: 8
+  }
+})

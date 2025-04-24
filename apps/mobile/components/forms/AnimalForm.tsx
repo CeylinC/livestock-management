@@ -1,0 +1,119 @@
+import { View, StyleSheet } from "react-native";
+import Checkbox from "../Checkbox";
+import { useState } from "react";
+import { IAnimal } from "../../../../packages/shared/models";
+import { Animal } from "../../../../packages/shared/classes";
+import { gender } from "../../../../packages/shared/enums";
+import { toReadableGender } from "../../../../packages/shared/utils/toReadableGender";
+import { toReadableAnimalType } from "../../../../packages/shared/utils/toReadableAnimalType";
+import { animalTypes } from "../../../../packages/shared/enums/animalTypes";
+import { Dayjs } from "dayjs";
+import Input from "../Input";
+import Dropdown from "../Dropdown";
+import DateInput from "../DateInput";
+import Button from "../Button";
+
+export default function AnimalForm({
+  defaultAnimal
+}: {
+  defaultAnimal: IAnimal | null
+}) {
+  const [animal, setAnimal] = useState(defaultAnimal ?? new Animal())
+
+  const genderOptions = [gender.female, gender.male].map((gender) => ({
+    label: toReadableGender[gender],
+    value: gender
+  }));
+
+  const typeOptions = Object.values(animalTypes).map((g) => ({
+    label: toReadableAnimalType[g],
+    value: g
+  }));
+
+  const onChangeName = (value: string) => {
+    setAnimal(prev => ({ ...prev, name: value }))
+  }
+
+  const onChangeEarring = (value: string) => {
+    setAnimal(prev => ({ ...prev, earring: value }))
+  }
+
+  const onChangeGenus = (value: string) => {
+    setAnimal(prev => ({ ...prev, genus: value }))
+  }
+
+  const onChangeType = (value: string) => {
+    setAnimal(prev => ({ ...prev, type: (value as animalTypes) }))
+  }
+
+  const onChangeWeight = (value: number) => {
+    setAnimal(prev => ({ ...prev, weight: value }))
+  }
+
+  const onChangeBirthday = (value: Dayjs) => {
+    setAnimal(prev => ({ ...prev, birthday: value }))
+  }
+
+  const onChangeGender = (value: string) => {
+    setAnimal(prev => ({ ...prev, gender: (value as gender) }))
+  }
+
+  const onChangePregnant = (value: boolean) => {
+    setAnimal(prev => ({ ...prev, isPregnant: value }))
+  }
+
+
+  const onChangeBarn = (value: string) => {
+    setAnimal(prev => ({ ...prev, barn: value }))
+  }
+
+  const onSubmit = () => {
+    console.log(animal)
+  }
+
+  return <View style={styles.container}>
+    <Input name="name" label="İsim" value={animal.name} onChange={(value) => onChangeName(value)} />
+    <Input name="earring" label="Kulak Numarası" value={animal.earring} onChange={(value) => onChangeEarring(value)} />
+    <Dropdown
+      label="Tür"
+      options={typeOptions}
+      value={animal.type}
+      onChange={onChangeType}
+      placeholder="Seçiniz"
+    />
+    <Input name="genus" label="Cins" value={animal.genus} onChange={(value) => onChangeGenus(value)} />
+    <Input name="weight" label="Ağırlık (KG)" value={animal.weight.toString()} onChange={(value) => onChangeWeight(Number(value))} />
+    <DateInput label="Doğum Tarihi (örn. 19.04.2025)"
+      value={animal.birthday}
+      onChange={onChangeBirthday}
+      format="DD.MM.YYYY" />
+    <Dropdown
+      label="Cinsiyet"
+      options={genderOptions}
+      value={animal.gender}
+      onChange={onChangeGender}
+      placeholder="Seçiniz"
+    />
+    {
+      animal.gender == gender.female && (
+        <Checkbox label="Hamile mi?" checked={animal.isPregnant} onChange={onChangePregnant} />
+      )
+    }
+    <Dropdown
+      label="Ağıl"
+      options={genderOptions}
+      value={animal.barnName}
+      onChange={onChangeBarn}
+      placeholder="Seçiniz"
+    />
+    <Button label={defaultAnimal?.id ? "Kaydı Güncelle" : "Kayıt Oluştur"} onPress={onSubmit} />
+  </View>
+}
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 16,
+    paddingVertical: 32,
+    display: "flex",
+    gap: 8
+  }
+})
