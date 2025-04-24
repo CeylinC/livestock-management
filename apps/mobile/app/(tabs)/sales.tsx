@@ -10,6 +10,7 @@ import SheetModal from '@/components/SheetModal';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ISale } from '../../../../packages/shared/models';
 import SaleForm from '@/components/forms/SaleForm';
+import SaleFilterMenu from '@/components/filtermenus/SaleFilterMenu';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -17,6 +18,7 @@ export default function SalesScreen() {
   const { getSales, sales, selectSale, selectedSale } = useSaleStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
+  const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
 
   useEffect(() => {
     if (pageNumber) {
@@ -29,13 +31,17 @@ export default function SalesScreen() {
     setBottomSheetIndex(3)
   }
 
+  const openBottomSheetFilter = () => {
+    setBottomSheetIndexFilter(1)
+  }
+
   return (
     <GestureHandlerRootView>
       <Layout>
         <Text>Sales</Text>
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
-            <GhostButton label='Filtrele' onPress={() => {}} />
+            <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
           </View>
           <View style={styles.button}>
             <Button label='Satış Ekle' onPress={() => openBottomSheet(null)} />
@@ -53,7 +59,10 @@ export default function SalesScreen() {
         </View>
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-        <SaleForm defaultSale={selectedSale}/>
+        <SaleForm defaultSale={selectedSale} />
+      </SheetModal>
+      <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
+        <SaleFilterMenu />
       </SheetModal>
     </GestureHandlerRootView>
   );

@@ -10,6 +10,7 @@ import SheetModal from '@/components/SheetModal';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BarnForm from '@/components/forms/BarnForm';
 import { IBarn } from '../../../../packages/shared/models';
+import BarnFilterMenu from '@/components/filtermenus/BarnFilterMenu';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -17,6 +18,7 @@ export default function BarnsScreen() {
   const { getBarns, barns, selectedBarn, selectBarn } = useBarnStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
+  const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
 
   useEffect(() => {
     if (pageNumber) {
@@ -27,6 +29,10 @@ export default function BarnsScreen() {
   const openBottomSheet = (barn: IBarn | null) => {
     selectBarn(barn)
     setBottomSheetIndex(1)
+  }
+
+  const openBottomSheetFilter = () => {
+    setBottomSheetIndexFilter(1)
   }
 
   return (
@@ -54,6 +60,9 @@ export default function BarnsScreen() {
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
         <BarnForm defaultBarn={selectedBarn}/>
+      </SheetModal>
+      <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
+        <BarnFilterMenu/>
       </SheetModal>
     </GestureHandlerRootView>
   );

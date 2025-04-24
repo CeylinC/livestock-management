@@ -10,6 +10,7 @@ import SheetModal from '@/components/SheetModal';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { IStock } from '../../../../packages/shared/models';
 import StockForm from '@/components/forms/StockForm';
+import StockFilterMenu from '@/components/filtermenus/StockFilterMenu';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -17,6 +18,7 @@ export default function StocksScreen() {
   const { getStocks, stocks, selectStock, selectedStock } = useStockStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
+  const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
 
   useEffect(() => {
     if (pageNumber) {
@@ -29,13 +31,17 @@ export default function StocksScreen() {
     setBottomSheetIndex(2)
   }
 
+  const openBottomSheetFilter = () => {
+    setBottomSheetIndexFilter(1)
+  }
+
   return (
     <GestureHandlerRootView>
       <Layout>
         <Text>Stocks</Text>
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
-            <GhostButton label='Filtrele' onPress={() => { }} />
+            <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
           </View>
           <View style={styles.button}>
             <Button label='Stock Ekle' onPress={() => openBottomSheet(null)} />
@@ -54,6 +60,9 @@ export default function StocksScreen() {
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
         <StockForm defaultStock={selectedStock} />
+      </SheetModal>
+      <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
+        <StockFilterMenu />
       </SheetModal>
     </GestureHandlerRootView>
   );
