@@ -8,7 +8,6 @@ export default function DasboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   useCurrentUser()
 
   return (

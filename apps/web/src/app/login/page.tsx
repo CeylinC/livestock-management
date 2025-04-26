@@ -4,10 +4,15 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { supabase } from "@/utils/supabaseClient";
 import { useState } from "react";
+import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+
+  const { getUser } = useUserStore()
+    const router = useRouter()
 
   const signInWithEmail = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -17,6 +22,9 @@ export default function Login() {
 
     if (error) {
       throw new Error(error.message);
+    } else {
+      getUser(email)
+      router.push("/dashboard")
     }
 
     return data;
