@@ -16,7 +16,7 @@ export default function SettingsPage() {
       throw new Error(error.message);
     }
     clearUser()
-    router.push("/")
+    router.push("/login")
   };
   
   return (

@@ -1,6 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import { ReactNode } from "react";
-import { SafeAreaView, ScrollView, View, Text } from "react-native";
+import { SafeAreaView, ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
@@ -9,12 +10,16 @@ export default function Layout({
 }: {
   children?: ReactNode
 }) {
+
+  const routeSettings = () => {
+    router.push("/settings")
+  }
+  
   return <LinearGradient
       colors={['#0A8270', '#7CFF6B']}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
       style={styles.gradient}
-
     >
       <SafeAreaView style={styles.background}>
         <View style={styles.topContent}>
@@ -23,7 +28,7 @@ export default function Layout({
             <Text style={styles.usernameText}>Ceylin</Text>
           </View>
           <View>
-            <Text>S</Text>
+            <TouchableOpacity onPress={routeSettings}><Text>S</Text></TouchableOpacity>
           </View>
         </View>
         <ScrollView style={styles.content}>

@@ -1,5 +1,5 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { router, Tabs } from 'expo-router';
+import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
@@ -7,9 +7,28 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { supabase } from '@/utils/supabaseClient';
+import { useUserStore } from '../../../../packages/shared/stores/useUserStore';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const {user, getUser} = useUserStore()
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const { data } = await supabase.auth.getSession();
+
+      if (!data?.session) {
+        router.push("/login");
+      } else {
+        if(!user && data.session.user.email) {
+          getUser(data.session?.user.email)
+        }
+      }
+    };
+
+    getCurrentUser();
+  }, [router]);
 
   return (
     <Tabs
