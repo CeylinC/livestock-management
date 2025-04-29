@@ -19,7 +19,7 @@ export default function AnimalForm({
 }: {
   defaultAnimal: IAnimal | null
 }) {
-  const { addAnimal } = useAnimalStore()
+  const { addAnimal, updateAnimal } = useAnimalStore()
   const { user } = useUserStore()
   const [animal, setAnimal] = useState(defaultAnimal ?? new Animal())
 
@@ -32,10 +32,6 @@ export default function AnimalForm({
     label: toReadableAnimalType[g],
     value: g
   }));
-
-  useEffect(() => {
-    console.log(user)
-  }, [user])
 
   const onChangeName = (value: string) => {
     setAnimal(prev => ({ ...prev, name: value }))
@@ -74,8 +70,12 @@ export default function AnimalForm({
   }
 
   const onSubmit = () => {
-    if(user?.id) {
-      addAnimal(user.id, animal)
+    if (user?.id) {
+      if (animal.id) {
+        updateAnimal(user.id, animal)
+      } else {
+        addAnimal(user.id, animal)
+      }
     }
   }
 

@@ -15,6 +15,7 @@ interface SaleState {
   setFilters: (value: { category: saleCategory | null, paymentState: paymentState | null }) => void
   getSaleCount: (userID: string) => void
   addSale: (userId: string, sale: ISale) => void
+  updateSale: (userId: string, sale: ISale) => void
 }
 
 export const useSaleStore = create<SaleState>((set, get) => ({
@@ -65,5 +66,31 @@ export const useSaleStore = create<SaleState>((set, get) => ({
       .single()
 
     set((state) => ({ sales: state.sales ? [new Sale(data), ...state.sales].slice(0, -1) : [new Sale(data)] }))
+  },
+  updateSale: async (userId, sale) => {
+    const { data, error } = await supabase
+      .from('sales')
+      .update({
+        name: sale.name,
+        category: sale.category,
+        amount: sale.amount,
+        price: sale.price,
+        sale_date: sale.saleDate.toDate(),
+        recipient_name: sale.recipientName,
+        contact: sale.contact,
+        payment_state: sale.paymentState,
+        payment_date: sale.saleDate.toDate()
+      })
+      .eq('id', sale.id)
+      .eq('user_id', userId)
+      .select()
+      .single();
+  
+    set((state) => ({
+      sales: state.sales
+        ? state.sales.map((s) => s.id === sale.id ? new Sale(data) : s)
+        : []
+    }));
   }
+  
 }))

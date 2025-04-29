@@ -15,6 +15,7 @@ interface StockState {
   setFilters: (value: { category: saleCategory | null }) => void
   getStockCount: (userID: string) => void
   addStock: (userId: string, stock: IStock) => void
+  updateStock: (userId: string, stock: IStock) => void
 }
 
 export const useStockStore = create<StockState>((set, get) => ({
@@ -61,5 +62,27 @@ export const useStockStore = create<StockState>((set, get) => ({
       .single()
 
     set((state) => ({ stocks: state.stocks ? [new Stock(data), ...state.stocks].slice(0, -1) : [new Stock(data)] }))
+  },
+  updateStock: async (userId, stock) => {
+    const { data, error } = await supabase
+      .from('stocks')
+      .update({
+        name: stock.name,
+        category: stock.category,
+        amount: stock.amount,
+        dealer: stock.dealer,
+        storage: stock.storage
+      })
+      .eq('id', stock.id)
+      .eq('user_id', userId)
+      .select()
+      .single();
+  
+    set((state) => ({
+      stocks: state.stocks
+        ? state.stocks.map((s) => s.id === stock.id ? new Stock(data) : s)
+        : []
+    }));
   }
+  
 }))

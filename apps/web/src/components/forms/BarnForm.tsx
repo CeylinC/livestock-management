@@ -16,7 +16,7 @@ export default function BarnForm({
 }: {
   defaultBarn: IBarn | null
 }) {
-  const { addBarn } = useBarnStore()
+  const { addBarn, updateBarn } = useBarnStore()
   const { user } = useUserStore()
   const [barn, setBarn] = useState(defaultBarn ?? new Barn())
 
@@ -45,7 +45,11 @@ export default function BarnForm({
 
   const onSubmit = () => {
     if (user?.id) {
-      addBarn(user.id, barn)
+      if(barn.id) {
+        updateBarn(user.id, barn)
+      } else {
+        addBarn(user.id, barn)
+      }
     }
   }
 

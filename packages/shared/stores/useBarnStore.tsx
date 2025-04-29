@@ -16,6 +16,7 @@ interface BarnState {
   setFilters: (value: { type: animalTypes | null, gender: gender | null }) => void
   getBarnCount: (userID: string) => void
   addBarn: (userId: string, barn: IBarn) => void
+  updateBarn: (userId: string, barn: IBarn) => void
 }
 
 export const useBarnStore = create<BarnState>((set, get) => ({
@@ -60,5 +61,24 @@ export const useBarnStore = create<BarnState>((set, get) => ({
       .single()
 
     set((state) => ({ barns: state.barns ? [new Barn(data), ...state.barns].slice(0, -1) : [new Barn(data)] }))
+  },
+  updateBarn: async (userId, barn) => {
+    const { data, error } = await supabase
+      .from('barns')
+      .update({
+        name: barn.name,
+        type: barn.type,
+        gender: barn.gender
+      })
+      .eq('id', barn.id)
+      .eq('user_id', userId)
+      .select()
+      .single();
+  
+    set((state) => ({
+      barns: state.barns
+        ? state.barns.map((b) => b.id === barn.id ? new Barn(data) : b)
+        : []
+    }));
   }
 }))

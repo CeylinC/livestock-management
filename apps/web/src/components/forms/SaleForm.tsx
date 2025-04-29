@@ -18,7 +18,7 @@ export default function StockForm({
 }: {
   defaultSale: ISale | null
 }) {
-  const { addSale } = useSaleStore()
+  const { addSale, updateSale } = useSaleStore()
   const { user } = useUserStore()
   const [sale, setSale] = useState(defaultSale ?? new Sale())
 
@@ -70,7 +70,11 @@ export default function StockForm({
 
   const onSubmit = () => {
     if (user?.id) {
-      addSale(user.id, sale)
+      if(sale.id) {
+        updateSale(user.id, sale)
+      } else {
+        addSale(user.id, sale)
+      }
     }
   }
 
