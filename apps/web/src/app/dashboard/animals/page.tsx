@@ -9,14 +9,22 @@ import AnimalForm from "@/components/forms/AnimalForm";
 import Button from "@/components/Button";
 import { Animal } from "../../../../../../packages/shared/classes";
 import AnimalFilterMenu from "@/components/filterMenus/AnimalFilterMenu";
+import { useUserStore } from "../../../../../../packages/shared/stores/useUserStore";
 
 export default function AnimalsPage() {
-  const { getAnimals, selectedAnimal, selectAnimal } = useAnimalStore()
+  const { getAnimals, selectedAnimal, selectAnimal, getAnimalCount, animalCount } = useAnimalStore()
+  const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
 
   useEffect(() => {
-    if (pageNumber) {
-      getAnimals(pageNumber)
+    if(user?.id) {
+      getAnimalCount(user.id)
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (user?.id && pageNumber) {
+      getAnimals(user.id, pageNumber)
     }
   }, [pageNumber])
 
@@ -44,7 +52,7 @@ export default function AnimalsPage() {
       </div>
       <AnimalTable />
       <div className="absolute bottom-10 right-1/2 translate-1/2">
-        <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={3} />
+        <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={animalCount / 10 + 1} />
       </div>
     </div>
   );

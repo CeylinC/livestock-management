@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Checkbox from "../Checkbox";
 import DateInput from "../DateInput";
 import Input from "../Input";
@@ -11,12 +11,16 @@ import { gender } from "../../../../../packages/shared/enums";
 import { toReadableGender } from "../../../../../packages/shared/utils/toReadableGender";
 import { toReadableAnimalType } from "../../../../../packages/shared/utils/toReadableAnimalType";
 import { animalTypes } from "../../../../../packages/shared/enums/animalTypes";
+import { useAnimalStore } from "../../../../../packages/shared/stores/useAnimalStore";
+import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
 
 export default function AnimalForm({
   defaultAnimal
 }: {
   defaultAnimal: IAnimal | null
 }) {
+  const { addAnimal } = useAnimalStore()
+  const { user } = useUserStore()
   const [animal, setAnimal] = useState(defaultAnimal ?? new Animal())
 
   const genderOptions = [gender.female, gender.male].map((gender) => ({
@@ -28,6 +32,10 @@ export default function AnimalForm({
     label: toReadableAnimalType[g],
     value: g
   }));
+
+  useEffect(() => {
+    console.log(user)
+  }, [user])
 
   const onChangeName = (value: string) => {
     setAnimal(prev => ({ ...prev, name: value }))
@@ -61,13 +69,15 @@ export default function AnimalForm({
     setAnimal(prev => ({ ...prev, isPregnant: value }))
   }
 
-
   const onChangeBarn = (value: string) => {
     setAnimal(prev => ({ ...prev, barn: value }))
   }
 
   const onSubmit = () => {
-    console.log(animal)
+    if(user) {
+      console.log(user)
+      addAnimal(user.id, animal)
+    }
   }
 
   return <div className="px-4 py-2 flex flex-col gap-4">
@@ -81,7 +91,7 @@ export default function AnimalForm({
       onChange={onChangeType}
       placeholder="Seçiniz"
     />
-    <Input name="genus" label="Cins" value={animal.type} onChange={(value) => onChangeGenus(value)} />
+    <Input name="genus" label="Cins" value={animal.genus} onChange={(value) => onChangeGenus(value)} />
     <Input name="weight" label="Ağırlık (KG)" value={animal.weight.toString()} onChange={(value) => onChangeWeight(Number(value))} />
     <DateInput label="Doğum Tarihi (örn. 19.04.2025)"
       value={animal.birthday}

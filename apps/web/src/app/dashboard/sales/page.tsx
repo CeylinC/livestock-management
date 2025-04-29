@@ -9,14 +9,22 @@ import Button from "@/components/Button";
 import { Sale } from "../../../../../../packages/shared/classes";
 import SaleForm from "@/components/forms/SaleForm";
 import SaleFilterMenu from "@/components/filterMenus/SaleFilterMenu";
+import { useUserStore } from "../../../../../../packages/shared/stores/useUserStore";
 
 export default function SalesPage() {
-  const { getSales, selectSale, selectedSale } = useSaleStore()
+  const { getSales, selectSale, selectedSale, getSaleCount, saleCount } = useSaleStore()
+  const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
 
   useEffect(() => {
-    if (pageNumber) {
-      getSales(pageNumber)
+    if(user?.id) {
+      getSaleCount(user.id)
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (user?.id && pageNumber) {
+      getSales(user.id, pageNumber)
     }
   }, [pageNumber])
 
@@ -43,7 +51,7 @@ export default function SalesPage() {
       </div>
       <SaleTable />
       <div className="absolute bottom-10 right-1/2 translate-1/2">
-        <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={3} />
+        <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={saleCount / 10 + 1} />
       </div>
     </div>
   );

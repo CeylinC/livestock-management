@@ -9,14 +9,22 @@ import Button from "@/components/Button";
 import { Stock } from "../../../../../../packages/shared/classes";
 import StockForm from "@/components/forms/StockForm";
 import StockFilterMenu from "@/components/filterMenus/StockFilterMenu";
+import { useUserStore } from "../../../../../../packages/shared/stores/useUserStore";
 
 export default function StocksPage() {
-  const { getStocks, selectStock, selectedStock } = useStockStore()
+  const { getStocks, selectStock, selectedStock, getStockCount, stockCount } = useStockStore()
+  const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
 
   useEffect(() => {
-    if (pageNumber) {
-      getStocks(pageNumber)
+    if (user?.id) {
+      getStockCount(user.id)
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (user?.id && pageNumber) {
+      getStocks(user.id, pageNumber)
     }
   }, [pageNumber])
 
@@ -43,7 +51,7 @@ export default function StocksPage() {
       </div>
       <StockTable />
       <div className="absolute bottom-10 right-1/2 translate-1/2">
-        <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={3} />
+        <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={stockCount / 10 + 1} />
       </div>
     </div>
   );

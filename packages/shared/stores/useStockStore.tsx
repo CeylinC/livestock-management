@@ -1,31 +1,49 @@
 import { create } from "zustand"
 import { IStock } from "../models"
 import { Stock } from "../classes"
-import mockData from "../mocks/stocks.json"
 import { webPageSize } from "../constant/pageSize";
 import { saleCategory } from "../enums";
+import { supabase } from "../utils/supabaseClient";
 
 interface StockState {
   stocks: IStock[] | null
   selectedStock: IStock | null
   filters: { category: saleCategory | null }
-  getStocks: (pageNumber: number) => void
+  stockCount: number
+  getStocks: (userId: string, pageNumber: number) => void
   selectStock: (animal: IStock | null) => void
   setFilters: (value: { category: saleCategory | null }) => void
+  getStockCount: (userID: string) => void
 }
 
 export const useStockStore = create<StockState>((set, get) => ({
   stocks: null,
   selectedStock: null,
   filters: { category: null },
-  getStocks: (pageNumber) => {
-    const temp = mockData.slice((pageNumber - 1) * webPageSize, pageNumber * webPageSize)
-    set(() => ({
-      stocks: temp.map((stock) => new Stock(stock))
-    }))
+  stockCount: 0,
+  getStocks: async (userId, pageNumber) => {
+    const { data, error } = await supabase
+      .from('stocks')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .range((pageNumber - 1) * 10, pageNumber * 10 - 1);
+
+    set(() => ({ stocks: data ? data.map((stock => new Stock(stock))) : null }))
   },
   selectStock: (stock) => {
     set(() => ({ selectedStock: stock }))
   },
-  setFilters: (value) => set({ filters: value })
+  setFilters: (value) => set({ filters: value }),
+  getStockCount: async (userID) => {
+    const { count } = await supabase
+      .from('stocks')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userID);
+
+    if (count && count >= 0) {
+      console.log(count)
+      set(() => ({ stockCount: count }))
+    }
+  },
 }))

@@ -14,7 +14,7 @@ const useCurrentUser = () => {
       if (!data?.session) {
         router.push("/login");
       } else {
-        if(!user && data.session.user.email) {
+        if(!user?.id && data.session.user.email) {
           getUser(data.session?.user.email)
         }
       }

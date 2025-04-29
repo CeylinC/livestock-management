@@ -9,14 +9,22 @@ import Button from "@/components/Button";
 import { Barn } from "../../../../../../packages/shared/classes";
 import BarnForm from "@/components/forms/BarnForm";
 import BarnFilterMenu from "@/components/filterMenus/BarnFilterMenu";
+import { useUserStore } from "../../../../../../packages/shared/stores/useUserStore";
 
 export default function BarnsPage() {
-  const { getBarns, selectBarn, selectedBarn } = useBarnStore()
+  const { getBarns, selectBarn, selectedBarn, getBarnCount, barnCount } = useBarnStore()
+  const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
 
   useEffect(() => {
-    if (pageNumber) {
-      getBarns(pageNumber)
+    if (user?.id) {
+      getBarnCount(user.id)
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (user?.id && pageNumber) {
+      getBarns(user.id, pageNumber)
     }
   }, [pageNumber])
 
@@ -43,7 +51,7 @@ export default function BarnsPage() {
       </div>
       <BarnTable />
       <div className="absolute bottom-10 right-1/2 translate-1/2">
-        <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={3} />
+        <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={barnCount / 10 + 1} />
       </div>
     </div>
   );
