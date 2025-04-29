@@ -25,8 +25,8 @@ export class Animal implements IAnimal {
     this.genus = data?.genus || "";
     this.gender = data?.gender || gender.male;
     this.birthday = dayjs(data?.birthday);
-    this.barnName = data?.barnName || "";
+    this.barnName = data?.barnName || data?.barn || "";
     this.weight = data?.weight || 0;
-    this.isPregnant = data?.isPregnant || false;
+    this.isPregnant = data?.isPregnant || data?.is_pregnant || false;
   }
 }

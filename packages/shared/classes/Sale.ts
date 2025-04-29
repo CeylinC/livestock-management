@@ -5,7 +5,6 @@ import { ISale } from "../models";
 export class Sale implements ISale {
   id: string;
   name: string;
-  type: string;
   category: saleCategory;
   amount: string;
   price: string;
@@ -18,14 +17,13 @@ export class Sale implements ISale {
   constructor(data?: any) {
     this.id = data?.id;
     this.name = data?.name;
-    this.type = data?.type;
     this.category = data?.category;
     this.amount = data?.amount;
     this.price = data?.price;
-    this.saleDate = dayjs(data?.saleDate);
-    this.recipientName = data?.recipientName;
+    this.saleDate = dayjs(data?.saleDate || data?.sale_date);
+    this.recipientName = data?.recipientName || data?.recipient_name;
     this.contact = data?.contact;
-    this.paymentState = data?.paymentState;
-    this.paymentDate = dayjs(data?.paymentDate);
+    this.paymentState = data?.paymentState || data?.payment_state;
+    this.paymentDate = dayjs(data?.paymentDate || data?.payment_date);
   }
 }
