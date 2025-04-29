@@ -10,12 +10,16 @@ import { paymentState, saleCategory } from "../../../../../packages/shared/enums
 import { toReadableSalesCategories } from "../../../../../packages/shared/utils/toReadableSalesCategories";
 import { Dayjs } from "dayjs";
 import { toReadablePaymentState } from "../../../../../packages/shared/utils/toReadablePaymentState";
+import { useSaleStore } from "../../../../../packages/shared/stores/useSaleStore";
+import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
 
 export default function StockForm({
   defaultSale
 }: {
   defaultSale: ISale | null
 }) {
+  const { addSale } = useSaleStore()
+  const { user } = useUserStore()
   const [sale, setSale] = useState(defaultSale ?? new Sale())
 
   const categoryOptions = Object.values(saleCategory).map((g) => ({
@@ -65,7 +69,9 @@ export default function StockForm({
   }
 
   const onSubmit = () => {
-    console.log(sale)
+    if (user?.id) {
+      addSale(user.id, sale)
+    }
   }
 
   return <div className="px-4 py-2 flex flex-col gap-4">
@@ -99,7 +105,7 @@ export default function StockForm({
       <div className="w-1/2">
         <DateInput label="Satış Tarihi (örn. 19.04.2025)"
           value={sale.saleDate}
-          onChange={onChangeSaleDate}
+          onChange={onChangePaymentDate}
           format="DD.MM.YYYY" />
       </div>
     </div>

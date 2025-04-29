@@ -14,6 +14,7 @@ interface StockState {
   selectStock: (animal: IStock | null) => void
   setFilters: (value: { category: saleCategory | null }) => void
   getStockCount: (userID: string) => void
+  addStock: (userId: string, stock: IStock) => void
 }
 
 export const useStockStore = create<StockState>((set, get) => ({
@@ -42,8 +43,23 @@ export const useStockStore = create<StockState>((set, get) => ({
       .eq('user_id', userID);
 
     if (count && count >= 0) {
-      console.log(count)
       set(() => ({ stockCount: count }))
     }
   },
+  addStock: async (userId, stock) => {
+    const { data, error } = await supabase
+      .from('stocks')
+      .insert([{
+        user_id: userId,
+        name: stock.name,
+        category: stock.category,
+        amount: stock.amount,
+        dealer: stock.dealer,
+        storage: stock.storage,
+      }])
+      .select()
+      .single()
+
+    set((state) => ({ stocks: state.stocks ? [new Stock(data), ...state.stocks].slice(0, -1) : [new Stock(data)] }))
+  }
 }))

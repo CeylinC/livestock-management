@@ -11,9 +11,10 @@ interface SaleState {
   filters: { category: saleCategory | null, paymentState: paymentState | null }
   saleCount: number,
   getSales: (userId: string, pageNumber: number) => void
-  selectSale: (animal: ISale | null) => void
+  selectSale: (sale: ISale | null) => void
   setFilters: (value: { category: saleCategory | null, paymentState: paymentState | null }) => void
   getSaleCount: (userID: string) => void
+  addSale: (userId: string, sale: ISale) => void
 }
 
 export const useSaleStore = create<SaleState>((set, get) => ({
@@ -42,8 +43,27 @@ export const useSaleStore = create<SaleState>((set, get) => ({
       .eq('user_id', userID);
 
     if (count && count >= 0) {
-      console.log(count)
       set(() => ({ saleCount: count }))
     }
   },
+  addSale: async (userId, sale) => {
+    const { data, error } = await supabase
+      .from('sales')
+      .insert([{
+        user_id: userId,
+        name: sale.name,
+        category: sale.category,
+        amount: sale.amount,
+        price: sale.price,
+        sale_date: sale.saleDate.toDate(),
+        recipient_name: sale.recipientName,
+        contact: sale.contact,
+        payment_state: sale.paymentState,
+        payment_date: sale.saleDate.toDate()
+      }])
+      .select()
+      .single()
+
+    set((state) => ({ sales: state.sales ? [new Sale(data), ...state.sales].slice(0, -1) : [new Sale(data)] }))
+  }
 }))

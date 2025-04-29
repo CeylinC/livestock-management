@@ -8,12 +8,16 @@ import { IStock } from "../../../../../packages/shared/models";
 import { Stock } from "../../../../../packages/shared/classes";
 import { saleCategory } from "../../../../../packages/shared/enums";
 import { toReadableSalesCategories } from "../../../../../packages/shared/utils/toReadableSalesCategories";
+import { useStockStore } from "../../../../../packages/shared/stores/useStockStore";
+import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
 
 export default function StockForm({
   defaultStock
 }: {
   defaultStock: IStock | null
 }) {
+  const { addStock } = useStockStore()
+  const { user } = useUserStore()
   const [stock, setStock] = useState(defaultStock ?? new Stock())
 
   const options = Object.values(saleCategory).map((g) => ({
@@ -42,7 +46,9 @@ export default function StockForm({
   }
 
   const onSubmit = () => {
-    console.log(stock)
+    if (user?.id) {
+      addStock(user.id, stock)
+    }
   }
 
   return <div className="px-4 py-2 flex flex-col gap-4">

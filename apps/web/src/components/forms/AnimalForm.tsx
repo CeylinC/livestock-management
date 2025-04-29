@@ -74,8 +74,7 @@ export default function AnimalForm({
   }
 
   const onSubmit = () => {
-    if(user) {
-      console.log(user)
+    if(user?.id) {
       addAnimal(user.id, animal)
     }
   }

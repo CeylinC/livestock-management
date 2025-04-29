@@ -40,7 +40,6 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
       .eq('user_id', userID);
 
     if (count && count >= 0) {
-      console.log(count)
       set(() => ({ animalCount: count }))
     }
   },
@@ -66,6 +65,6 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
       .select()
       .single()
 
-    set((state) => ({ animals: state.animals ? [new Animal(data), ...state.animals] : [new Animal(data)] }))
+    set((state) => ({ animals: state.animals ? [new Animal(data), ...state.animals].slice(0, -1) : [new Animal(data)] }))
   }
 }))

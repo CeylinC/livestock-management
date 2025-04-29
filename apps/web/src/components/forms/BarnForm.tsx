@@ -8,12 +8,16 @@ import { gender } from "../../../../../packages/shared/enums";
 import { toReadableGender } from "../../../../../packages/shared/utils/toReadableGender";
 import { animalTypes } from "../../../../../packages/shared/enums/animalTypes";
 import { toReadableAnimalType } from "../../../../../packages/shared/utils/toReadableAnimalType";
+import { useBarnStore } from "../../../../../packages/shared/stores/useBarnStore";
+import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
 
 export default function BarnForm({
   defaultBarn
 }: {
   defaultBarn: IBarn | null
 }) {
+  const { addBarn } = useBarnStore()
+  const { user } = useUserStore()
   const [barn, setBarn] = useState(defaultBarn ?? new Barn())
 
   const options = [
@@ -40,7 +44,9 @@ export default function BarnForm({
   }
 
   const onSubmit = () => {
-    console.log(barn)
+    if (user?.id) {
+      addBarn(user.id, barn)
+    }
   }
 
   return <div className="px-4 py-2 flex flex-col gap-4">
