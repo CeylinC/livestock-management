@@ -17,6 +17,7 @@ interface BarnState {
   getBarnCount: (userID: string) => void
   addBarn: (userId: string, barn: IBarn) => void
   updateBarn: (userId: string, barn: IBarn) => void
+  deleteBarn: (userId: string, barnId: string) => void
 }
 
 export const useBarnStore = create<BarnState>((set, get) => ({
@@ -80,5 +81,21 @@ export const useBarnStore = create<BarnState>((set, get) => ({
         ? state.barns.map((b) => b.id === barn.id ? new Barn(data) : b)
         : []
     }));
+  },
+  deleteBarn: async (userId, barnId) => {
+    const { error } = await supabase
+      .from('barns')
+      .delete()
+      .eq('id', barnId)
+      .eq('user_id', userId);
+  
+    if (!error) {
+      set((state) => ({
+        barns: state.barns
+          ? state.barns.filter(barn => barn.id !== barnId)
+          : []
+      }));
+    }
   }
+  
 }))

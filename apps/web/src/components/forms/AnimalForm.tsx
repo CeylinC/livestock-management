@@ -15,11 +15,13 @@ import { useAnimalStore } from "../../../../../packages/shared/stores/useAnimalS
 import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
 
 export default function AnimalForm({
-  defaultAnimal
+  defaultAnimal,
+  currentPage
 }: {
   defaultAnimal: IAnimal | null
+  currentPage: number
 }) {
-  const { addAnimal, updateAnimal } = useAnimalStore()
+  const { addAnimal, updateAnimal, deleteAnimal, getAnimals } = useAnimalStore()
   const { user } = useUserStore()
   const [animal, setAnimal] = useState(defaultAnimal ?? new Animal())
 
@@ -79,6 +81,15 @@ export default function AnimalForm({
     }
   }
 
+  const onDelete = async () => {
+    if (user?.id) {
+      if (animal.id) {
+        await deleteAnimal(user.id, animal.id)
+        await getAnimals(user.id, currentPage)
+      }
+    }
+  }
+
   return <div className="px-4 py-2 flex flex-col gap-4">
     <div className="font-bold text-xl">{animal.id ? "Hayvan Kaydını Güncelle" : "Hayvan Kaydı Oluştur"}</div>
     <Input name="name" label="İsim" value={animal.name} onChange={(value) => onChangeName(value)} />
@@ -122,6 +133,9 @@ export default function AnimalForm({
       placeholder="Seçiniz"
       direction="up"
     />
-    <Button label="Ekle" onClick={onSubmit} />
+    <div className="flex flex-row gap-2">
+      <Button label="Ekle" onClick={onSubmit} />
+      <Button label="Sil" onClick={onDelete} />
+    </div>
   </div>
 }

@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Checkbox from "../Checkbox";
-import DateInput from "../DateInput";
 import Input from "../Input";
 import Dropdown from "../Dropdown";
 import Button from "../Button";
@@ -12,11 +10,13 @@ import { useStockStore } from "../../../../../packages/shared/stores/useStockSto
 import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
 
 export default function StockForm({
-  defaultStock
+  defaultStock,
+  currentPage
 }: {
   defaultStock: IStock | null
+  currentPage: number
 }) {
-  const { addStock, updateStock } = useStockStore()
+  const { addStock, updateStock, deleteStock, getStocks } = useStockStore()
   const { user } = useUserStore()
   const [stock, setStock] = useState(defaultStock ?? new Stock())
 
@@ -47,10 +47,19 @@ export default function StockForm({
 
   const onSubmit = () => {
     if (user?.id) {
-      if(stock.id) {
+      if (stock.id) {
         updateStock(user.id, stock)
       } else {
         addStock(user.id, stock)
+      }
+    }
+  }
+
+  const onDelete = async () => {
+    if (user?.id) {
+      if (stock.id) {
+        await deleteStock(user.id, stock.id)
+        await getStocks(user.id, currentPage)
       }
     }
   }
@@ -68,6 +77,9 @@ export default function StockForm({
     <Input name="type" label="Miktar" value={stock.amount} onChange={(value) => onChangeType(value)} />
     <Input name="type" label="Satıcı" value={stock.dealer} onChange={(value) => onChangeDealer(value)} />
     <Input name="type" label="Stok Yeri" value={stock.storage} onChange={(value) => onChangeStorage(value)} />
-    <Button label="Ekle" onClick={onSubmit} />
+    <div className="flex flex-row gap-2">
+      <Button label="Ekle" onClick={onSubmit} />
+      <Button label="Sil" onClick={onDelete} />
+    </div>
   </div>
 }

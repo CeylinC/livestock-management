@@ -12,7 +12,7 @@ import AnimalFilterMenu from "@/components/filterMenus/AnimalFilterMenu";
 import { useUserStore } from "../../../../../../packages/shared/stores/useUserStore";
 
 export default function AnimalsPage() {
-  const { getAnimals, selectedAnimal, selectAnimal, getAnimalCount, animalCount } = useAnimalStore()
+  const { getAnimals, selectedAnimal, selectAnimal, getAnimalCount, animalCount, animals } = useAnimalStore()
   const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
 
@@ -35,7 +35,7 @@ export default function AnimalsPage() {
   return (
     <div className="flex flex-col gap-4 relative h-full">
       {selectedAnimal && <Drawer onClose={handleCloseDrawer}>
-        <AnimalForm defaultAnimal={selectedAnimal} />
+        <AnimalForm defaultAnimal={selectedAnimal} currentPage={pageNumber}/>
       </Drawer>
       }
       <div className="flex flex-row justify-between">

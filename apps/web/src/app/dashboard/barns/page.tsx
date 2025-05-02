@@ -35,7 +35,7 @@ export default function BarnsPage() {
   return (
     <div className="flex flex-col gap-4 relative h-full">
       {selectedBarn && <Drawer onClose={handleCloseDrawer}>
-        <BarnForm defaultBarn={selectedBarn} />
+        <BarnForm defaultBarn={selectedBarn} currentPage={pageNumber}/>
       </Drawer>}
       <div className="flex flex-row justify-between">
         <div>

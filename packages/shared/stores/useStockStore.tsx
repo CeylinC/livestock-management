@@ -16,6 +16,7 @@ interface StockState {
   getStockCount: (userID: string) => void
   addStock: (userId: string, stock: IStock) => void
   updateStock: (userId: string, stock: IStock) => void
+  deleteStock: (userId: string, stockId: string) => void
 }
 
 export const useStockStore = create<StockState>((set, get) => ({
@@ -77,12 +78,27 @@ export const useStockStore = create<StockState>((set, get) => ({
       .eq('user_id', userId)
       .select()
       .single();
-  
+
     set((state) => ({
       stocks: state.stocks
         ? state.stocks.map((s) => s.id === stock.id ? new Stock(data) : s)
         : []
     }));
+  },
+  deleteStock: async (userId, stockId) => {
+    const { error } = await supabase
+      .from('stocks')
+      .delete()
+      .eq('id', stockId)
+      .eq('user_id', userId);
+
+    if (!error) {
+      set((state) => ({
+        stocks: state.stocks
+          ? state.stocks.filter(stock => stock.id !== stockId)
+          : []
+      }));
+    }
   }
-  
+
 }))

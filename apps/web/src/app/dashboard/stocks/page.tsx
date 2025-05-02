@@ -35,7 +35,7 @@ export default function StocksPage() {
   return (
     <div className="flex flex-col gap-4 relative h-full">
       {selectedStock && <Drawer onClose={handleCloseDrawer}>
-        <StockForm defaultStock={selectedStock} />
+        <StockForm defaultStock={selectedStock} currentPage={pageNumber}/>
       </Drawer>}
       <div className="flex flex-row justify-between">
         <div>

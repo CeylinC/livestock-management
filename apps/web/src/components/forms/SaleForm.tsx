@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Checkbox from "../Checkbox";
 import DateInput from "../DateInput";
 import Input from "../Input";
 import Dropdown from "../Dropdown";
@@ -14,11 +13,13 @@ import { useSaleStore } from "../../../../../packages/shared/stores/useSaleStore
 import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
 
 export default function StockForm({
-  defaultSale
+  defaultSale,
+  currentPage
 }: {
   defaultSale: ISale | null
+  currentPage: number
 }) {
-  const { addSale, updateSale } = useSaleStore()
+  const { addSale, updateSale, deleteSale, getSales } = useSaleStore()
   const { user } = useUserStore()
   const [sale, setSale] = useState(defaultSale ?? new Sale())
 
@@ -70,10 +71,19 @@ export default function StockForm({
 
   const onSubmit = () => {
     if (user?.id) {
-      if(sale.id) {
+      if (sale.id) {
         updateSale(user.id, sale)
       } else {
         addSale(user.id, sale)
+      }
+    }
+  }
+
+  const onDelete = async () => {
+    if (user?.id) {
+      if (sale.id) {
+        await deleteSale(user.id, sale.id)
+        await getSales(user.id, currentPage)
       }
     }
   }
@@ -113,6 +123,9 @@ export default function StockForm({
           format="DD.MM.YYYY" />
       </div>
     </div>
-    <Button label="Ekle" onClick={onSubmit} />
+    <div className="flex flex-row gap-2">
+      <Button label="Ekle" onClick={onSubmit} />
+      <Button label="Sil" onClick={onDelete} />
+    </div>
   </div>
 }

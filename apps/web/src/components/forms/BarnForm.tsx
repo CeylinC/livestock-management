@@ -12,11 +12,13 @@ import { useBarnStore } from "../../../../../packages/shared/stores/useBarnStore
 import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
 
 export default function BarnForm({
-  defaultBarn
+  defaultBarn,
+  currentPage
 }: {
   defaultBarn: IBarn | null
+  currentPage: number
 }) {
-  const { addBarn, updateBarn } = useBarnStore()
+  const { addBarn, updateBarn, deleteBarn, getBarns } = useBarnStore()
   const { user } = useUserStore()
   const [barn, setBarn] = useState(defaultBarn ?? new Barn())
 
@@ -45,10 +47,19 @@ export default function BarnForm({
 
   const onSubmit = () => {
     if (user?.id) {
-      if(barn.id) {
+      if (barn.id) {
         updateBarn(user.id, barn)
       } else {
         addBarn(user.id, barn)
+      }
+    }
+  }
+
+  const onDelete = async () => {
+    if (user?.id) {
+      if (barn.id) {
+        await deleteBarn(user.id, barn.id)
+        await getBarns(user.id, currentPage)
       }
     }
   }
@@ -70,6 +81,9 @@ export default function BarnForm({
       onChange={onChangeGender}
       placeholder="Seçiniz"
     />
-    <Button label="Ekle" onClick={onSubmit} />
+    <div className="flex flex-row gap-2">
+      <Button label="Ekle" onClick={onSubmit} />
+      <Button label="Sil" onClick={onDelete} />
+    </div>
   </div>
 }

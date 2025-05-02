@@ -16,6 +16,7 @@ interface SaleState {
   getSaleCount: (userID: string) => void
   addSale: (userId: string, sale: ISale) => void
   updateSale: (userId: string, sale: ISale) => void
+  deleteSale: (userId: string, saleId: string) => void
 }
 
 export const useSaleStore = create<SaleState>((set, get) => ({
@@ -91,6 +92,22 @@ export const useSaleStore = create<SaleState>((set, get) => ({
         ? state.sales.map((s) => s.id === sale.id ? new Sale(data) : s)
         : []
     }));
+  },
+  deleteSale: async (userId, saleId) => {
+    const { error } = await supabase
+      .from('sales')
+      .delete()
+      .eq('id', saleId)
+      .eq('user_id', userId);
+  
+    if (!error) {
+      set((state) => ({
+        sales: state.sales
+          ? state.sales.filter(sale => sale.id !== saleId)
+          : []
+      }));
+    }
   }
+  
   
 }))

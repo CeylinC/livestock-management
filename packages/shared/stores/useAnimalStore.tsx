@@ -17,6 +17,7 @@ interface AnimalState {
   setFilters: (value: { type: animalTypes | null, gender: gender | null, barn: string | null }) => void
   addAnimal: (userId: string, animal: IAnimal) => void
   updateAnimal: (userId: string, animal: IAnimal) => void
+  deleteAnimal: (userId: string, animalId: string) => void
 }
 
 export const useAnimalStore = create<AnimalState>((set, get) => ({
@@ -92,5 +93,21 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
         ? state.animals.map((a) => a.id === animal.id ? new Animal(data) : a)
         : []
     }));
+  },
+  deleteAnimal: async (userId, animalId) => {
+    const { error } = await supabase
+      .from('animals')
+      .delete()
+      .eq('id', animalId)
+      .eq('user_id', userId);
+  
+    if (!error) {
+      set((state) => ({
+        animals: state.animals
+          ? state.animals.filter(animal => animal.id !== animalId)
+          : []
+      }));
+    }
   }
+  
 }))
