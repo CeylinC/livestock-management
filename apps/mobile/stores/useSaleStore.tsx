@@ -24,29 +24,55 @@ export const useSaleStore = create<SaleState>((set, get) => ({
   filters: { category: null, paymentState: null },
   saleCount: 0,
   getSales: async (userId, pageNumber) => {
-    const { data, error } = await supabase
+    const { filters } = get()
+  
+    let query = supabase
       .from('sales')
       .select('*')
       .eq('user_id', userId)
+  
+    if (filters.category) {
+      query = query.eq('category', filters.category)
+    }
+  
+    if (filters.paymentState) {
+      query = query.eq('payment_state', filters.paymentState)
+    }
+  
+    query = query
       .order('created_at', { ascending: false })
-      .range((pageNumber - 1) * 10, pageNumber * 10 - 1);
-
-    set(() => ({ sales: data ? data.map((sale => new Sale(sale))) : null }))
+      .range((pageNumber - 1) * 10, pageNumber * 10 - 1)
+  
+    const { data, error } = await query
+  
+    set(() => ({ sales: data ? data.map(sale => new Sale(sale)) : null }))
   },
   selectSale: (sale) => {
     set(() => ({ selectedSale: sale }))
   },
   setFilters: (value) => set({ filters: value }),
   getSaleCount: async (userID) => {
-    const { count } = await supabase
+    const { filters } = get()
+  
+    let query = supabase
       .from('sales')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', userID);
-
-    if (count && count >= 0) {
+      .eq('user_id', userID)
+  
+    if (filters.category) {
+      query = query.eq('category', filters.category)
+    }
+  
+    if (filters.paymentState) {
+      query = query.eq('payment_state', filters.paymentState)
+    }
+  
+    const { count } = await query
+  
+    if (count !== null && count >= 0) {
       set(() => ({ saleCount: count }))
     }
-  },
+  },  
   addSale: async (userId, sale) => {
     const { data, error } = await supabase
       .from('sales')

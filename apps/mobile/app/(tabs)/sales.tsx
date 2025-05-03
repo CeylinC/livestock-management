@@ -16,7 +16,7 @@ import { useUserStore } from '@/stores/useUserStore';
 const windowWidth = Dimensions.get('window').width;
 
 export default function SalesScreen() {
-  const { getSales, sales, selectSale, selectedSale, getSaleCount, saleCount } = useSaleStore()
+  const { getSales, sales, selectSale, selectedSale, getSaleCount, saleCount, filters } = useSaleStore()
   const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
@@ -26,13 +26,13 @@ export default function SalesScreen() {
     if(user?.id) {
       getSaleCount(user.id)
     }
-  }, [user])
+  }, [user, filters])
 
   useEffect(() => {
     if (user?.id && pageNumber) {
       getSales(user.id, pageNumber)
     }
-  }, [pageNumber])
+  }, [pageNumber, filters])
 
   const openBottomSheet = (sale: ISale | null) => {
     selectSale(sale)

@@ -16,7 +16,7 @@ import { useUserStore } from '@/stores/useUserStore';
 const windowWidth = Dimensions.get('window').width;
 
 export default function BarnsScreen() {
-  const { getBarns, barns, selectedBarn, selectBarn, getBarnCount, barnCount } = useBarnStore()
+  const { getBarns, barns, selectedBarn, selectBarn, getBarnCount, barnCount, filters } = useBarnStore()
   const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
@@ -26,13 +26,13 @@ export default function BarnsScreen() {
     if (user?.id) {
       getBarnCount(user.id)
     }
-  }, [user])
+  }, [user, filters])
 
   useEffect(() => {
     if (user?.id && pageNumber) {
       getBarns(user.id, pageNumber)
     }
-  }, [pageNumber])
+  }, [pageNumber, filters])
 
   const openBottomSheet = (barn: IBarn | null) => {
     selectBarn(barn)

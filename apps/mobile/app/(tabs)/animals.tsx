@@ -17,7 +17,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 const windowWidth = Dimensions.get('window').width;
 
 export default function AnimalsScreen() {
-  const { getAnimals, animals, selectAnimal, selectedAnimal, getAnimalCount, animalCount } = useAnimalStore()
+  const { getAnimals, animals, selectAnimal, selectedAnimal, getAnimalCount, animalCount, filters } = useAnimalStore()
   const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
@@ -27,13 +27,13 @@ export default function AnimalsScreen() {
     if (user?.id) {
       getAnimalCount(user.id)
     }
-  }, [user])
+  }, [user, filters])
 
   useEffect(() => {
     if (user?.id && pageNumber) {
       getAnimals(user.id, pageNumber)
     }
-  }, [pageNumber])
+  }, [pageNumber, filters])
 
   const openBottomSheet = (animal: IAnimal | null) => {
     selectAnimal(animal)

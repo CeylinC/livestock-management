@@ -24,26 +24,44 @@ export const useStockStore = create<StockState>((set, get) => ({
   filters: { category: null },
   stockCount: 0,
   getStocks: async (userId, pageNumber) => {
-    const { data, error } = await supabase
+    const { filters } = get()
+
+    let query = supabase
       .from('stocks')
       .select('*')
       .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .range((pageNumber - 1) * 10, pageNumber * 10 - 1);
 
-    set(() => ({ stocks: data ? data.map((stock => new Stock(stock))) : null }))
+    if (filters.category) {
+      query = query.eq('category', filters.category)
+    }
+
+    query = query
+      .order('created_at', { ascending: false })
+      .range((pageNumber - 1) * 10, pageNumber * 10 - 1)
+
+    const { data, error } = await query
+
+    set(() => ({ stocks: data ? data.map(stock => new Stock(stock)) : null }))
   },
   selectStock: (stock) => {
     set(() => ({ selectedStock: stock }))
   },
   setFilters: (value) => set({ filters: value }),
   getStockCount: async (userID) => {
-    const { count } = await supabase
+    const { filters } = get()
+
+    let query = supabase
       .from('stocks')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', userID);
+      .eq('user_id', userID)
 
-    if (count && count >= 0) {
+    if (filters.category) {
+      query = query.eq('category', filters.category)
+    }
+
+    const { count } = await query
+
+    if (count !== null && count >= 0) {
       set(() => ({ stockCount: count }))
     }
   },

@@ -16,7 +16,7 @@ import { useUserStore } from '@/stores/useUserStore';
 const windowWidth = Dimensions.get('window').width;
 
 export default function StocksScreen() {
-  const { getStocks, stocks, selectStock, selectedStock, getStockCount, stockCount } = useStockStore()
+  const { getStocks, stocks, selectStock, selectedStock, getStockCount, stockCount, filters } = useStockStore()
   const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
@@ -26,13 +26,13 @@ export default function StocksScreen() {
     if (user?.id) {
       getStockCount(user.id)
     }
-  }, [user])
+  }, [user, filters])
 
   useEffect(() => {
     if (user?.id && pageNumber) {
       getStocks(user.id, pageNumber)
     }
-  }, [pageNumber])
+  }, [pageNumber, filters])
 
   const openBottomSheet = (stock: IStock | null) => {
     selectStock(stock)
