@@ -4,9 +4,11 @@ import { IAnimal } from "../../../../../packages/shared/models"
 import { toReadableGender } from "../../../../../packages/shared/utils/toReadableGender"
 import dayjs from "dayjs"
 import { toReadableAnimalType } from "../../../../../packages/shared/utils/toReadableAnimalType"
+import { useBarnStore } from "@/stores/useBarnStore"
 
 export default function AnimalTable() {
   const { animals } = useAnimalStore()
+
 
   return <div className="flex flex-col gap-2">
     <AnimalTableHeader />
@@ -63,6 +65,7 @@ function AnimalTableItem({
   animal: IAnimal
 }) {
   const { selectAnimal } = useAnimalStore()
+  const { allBarns } = useBarnStore()
 
   const selectTableItem = (animal: IAnimal) => {
     selectAnimal(animal)
@@ -104,7 +107,7 @@ function AnimalTableItem({
       </div>
     </div>
     <div className="w-1/6 text-center text-sm">
-      {animal.barnName || "-"}
+      {allBarns?.find((barn) => barn.id == animal.barnName)?.name || "-"}
     </div>
   </div>
 }

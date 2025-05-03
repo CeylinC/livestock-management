@@ -10,14 +10,22 @@ import Button from "@/components/Button";
 import { Animal } from "../../../../../../packages/shared/classes";
 import AnimalFilterMenu from "@/components/filterMenus/AnimalFilterMenu";
 import { useUserStore } from "@/stores/useUserStore";
+import { useBarnStore } from "@/stores/useBarnStore";
 
 export default function AnimalsPage() {
   const { getAnimals, selectedAnimal, selectAnimal, getAnimalCount, animalCount, filters } = useAnimalStore()
+  const { getAllBarns } = useBarnStore()
   const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
 
   useEffect(() => {
-    if(user?.id) {
+    if (user?.id) {
+      getAllBarns(user.id)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (user?.id) {
       getAnimalCount(user.id)
     }
   }, [user, filters])
@@ -35,7 +43,7 @@ export default function AnimalsPage() {
   return (
     <div className="flex flex-col gap-4 relative h-full">
       {selectedAnimal && <Drawer onClose={handleCloseDrawer}>
-        <AnimalForm defaultAnimal={selectedAnimal} currentPage={pageNumber}/>
+        <AnimalForm defaultAnimal={selectedAnimal} currentPage={pageNumber} />
       </Drawer>
       }
       <div className="flex flex-row justify-between">

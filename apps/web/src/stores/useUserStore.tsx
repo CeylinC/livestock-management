@@ -30,8 +30,6 @@ export const useUserStore = create<UserState>((set, get) => ({
       .eq('email', email)
       .single();
 
-      console.log(data, error)
-
       set(() => ({ user: new User(data)}))
   },
   clearUser: () => set(() => ({user: new User()}))
