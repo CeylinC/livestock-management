@@ -12,7 +12,7 @@ import AnimalFilterMenu from "@/components/filterMenus/AnimalFilterMenu";
 import { useUserStore } from "@/stores/useUserStore";
 
 export default function AnimalsPage() {
-  const { getAnimals, selectedAnimal, selectAnimal, getAnimalCount, animalCount, animals } = useAnimalStore()
+  const { getAnimals, selectedAnimal, selectAnimal, getAnimalCount, animalCount, filters } = useAnimalStore()
   const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
 
@@ -20,13 +20,13 @@ export default function AnimalsPage() {
     if(user?.id) {
       getAnimalCount(user.id)
     }
-  }, [user])
+  }, [user, filters])
 
   useEffect(() => {
     if (user?.id && pageNumber) {
       getAnimals(user.id, pageNumber)
     }
-  }, [pageNumber])
+  }, [pageNumber, filters])
 
   const handleCloseDrawer = () => {
     selectAnimal(null)

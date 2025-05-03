@@ -12,7 +12,7 @@ import SaleFilterMenu from "@/components/filterMenus/SaleFilterMenu";
 import { useUserStore } from "@/stores/useUserStore";
 
 export default function SalesPage() {
-  const { getSales, selectSale, selectedSale, getSaleCount, saleCount } = useSaleStore()
+  const { getSales, selectSale, selectedSale, getSaleCount, saleCount, filters } = useSaleStore()
   const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
 
@@ -20,13 +20,13 @@ export default function SalesPage() {
     if(user?.id) {
       getSaleCount(user.id)
     }
-  }, [user])
+  }, [user, filters])
 
   useEffect(() => {
     if (user?.id && pageNumber) {
       getSales(user.id, pageNumber)
     }
-  }, [pageNumber])
+  }, [pageNumber, filters])
 
   const handleCloseDrawer = () => {
     selectSale(null)

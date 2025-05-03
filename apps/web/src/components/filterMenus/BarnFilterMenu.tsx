@@ -44,14 +44,14 @@ export default function BarnFilterMenu() {
       content={
         <div className="flex flex-col gap-2">
           <Dropdown
-            label="Cinsiyet"
+            label="Tür"
             options={typeOptions}
             value={filters.type ?? ""}
             onChange={(val) => onChangeType((val as animalTypes) || null)}
             placeholder="Seçiniz"
           />
           <Dropdown
-            label="Tür"
+            label="Cinsiyet"
             options={genderOptions}
             value={filters.gender ?? ""}
             onChange={(val) => onChangeGender((val as gender) || null)}

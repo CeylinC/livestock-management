@@ -25,25 +25,58 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
   filters: { type: null, gender: null, barn: null },
   animalCount: 0,
   getAnimals: async (userId, pageNumber) => {
-    const { data, error } = await supabase
+    const { filters } = get()
+    let query = supabase
       .from('animals')
       .select('*')
       .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .range((pageNumber - 1) * 10, pageNumber * 10 - 1);
 
-    set(() => ({ animals: data ? data.map((animal => new Animal(animal))) : null }))
+    if (filters.type) {
+      query = query.eq('type', filters.type)
+    }
+
+    if (filters.gender) {
+      query = query.eq('gender', filters.gender)
+    }
+
+    if (filters.barn) {
+      query = query.eq('barn', filters.barn)
+    }
+
+    query = query
+      .order('created_at', { ascending: false })
+      .range((pageNumber - 1) * 10, pageNumber * 10 - 1)
+
+    const { data, error } = await query
+
+    set(() => ({ animals: data ? data.map(animal => new Animal(animal)) : null }))
   },
   getAnimalCount: async (userID) => {
-    const { count } = await supabase
+    const { filters } = get()
+  
+    let query = supabase
       .from('animals')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', userID);
-
-    if (count && count >= 0) {
+      .eq('user_id', userID)
+  
+    if (filters.type) {
+      query = query.eq('type', filters.type)
+    }
+  
+    if (filters.gender) {
+      query = query.eq('gender', filters.gender)
+    }
+  
+    if (filters.barn) {
+      query = query.eq('barn', filters.barn)
+    }
+  
+    const { count } = await query
+  
+    if (count !== null && count >= 0) {
       set(() => ({ animalCount: count }))
     }
-  },
+  },  
   selectAnimal: (animal) => {
     set(() => ({ selectedAnimal: animal }))
   },
@@ -86,7 +119,7 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
       .eq('user_id', userId)
       .select()
       .single();
-  
+
     set((state) => ({
       animals: state.animals
         ? state.animals.map((a) => a.id === animal.id ? new Animal(data) : a)
@@ -99,7 +132,7 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
       .delete()
       .eq('id', animalId)
       .eq('user_id', userId);
-  
+
     if (!error) {
       set((state) => ({
         animals: state.animals
@@ -108,5 +141,5 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
       }));
     }
   }
-  
+
 }))

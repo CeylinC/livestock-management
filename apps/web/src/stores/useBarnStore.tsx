@@ -26,29 +26,55 @@ export const useBarnStore = create<BarnState>((set, get) => ({
   filters: { type: null, gender: null },
   barnCount: 0,
   getBarns: async (userId, pageNumber) => {
-    const { data, error } = await supabase
+    const { filters } = get()
+  
+    let query = supabase
       .from('barns')
       .select('*')
       .eq('user_id', userId)
+  
+    if (filters.type) {
+      query = query.eq('type', filters.type)
+    }
+  
+    if (filters.gender) {
+      query = query.eq('gender', filters.gender)
+    }
+  
+    query = query
       .order('created_at', { ascending: false })
-      .range((pageNumber - 1) * 10, pageNumber * 10 - 1);
-
-    set(() => ({ barns: data ? data.map((barn => new Barn(barn))) : null }))
-  },
+      .range((pageNumber - 1) * 10, pageNumber * 10 - 1)
+  
+    const { data, error } = await query
+  
+    set(() => ({ barns: data ? data.map(barn => new Barn(barn)) : null }))
+  },  
   selectBarn: (barn) => {
     set(() => ({ selectedBarn: barn }))
   },
   setFilters: (value) => set({ filters: value }),
   getBarnCount: async (userID) => {
-    const { count } = await supabase
+    const { filters } = get()
+  
+    let query = supabase
       .from('barns')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', userID);
-
-    if (count && count >= 0) {
+      .eq('user_id', userID)
+  
+    if (filters.type) {
+      query = query.eq('type', filters.type)
+    }
+  
+    if (filters.gender) {
+      query = query.eq('gender', filters.gender)
+    }
+  
+    const { count } = await query
+  
+    if (count !== null && count >= 0) {
       set(() => ({ barnCount: count }))
     }
-  },
+  },  
   addBarn: async (userId, barn) => {
     const { data, error } = await supabase
       .from('barns')

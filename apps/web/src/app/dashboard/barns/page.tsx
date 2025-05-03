@@ -12,7 +12,7 @@ import BarnFilterMenu from "@/components/filterMenus/BarnFilterMenu";
 import { useUserStore } from "@/stores/useUserStore";
 
 export default function BarnsPage() {
-  const { getBarns, selectBarn, selectedBarn, getBarnCount, barnCount } = useBarnStore()
+  const { getBarns, selectBarn, selectedBarn, getBarnCount, barnCount, filters } = useBarnStore()
   const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
 
@@ -20,13 +20,13 @@ export default function BarnsPage() {
     if (user?.id) {
       getBarnCount(user.id)
     }
-  }, [user])
+  }, [user, filters])
 
   useEffect(() => {
     if (user?.id && pageNumber) {
       getBarns(user.id, pageNumber)
     }
-  }, [pageNumber])
+  }, [pageNumber, filters])
 
   const handleCloseDrawer = () => {
     selectBarn(null)

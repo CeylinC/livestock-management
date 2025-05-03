@@ -12,7 +12,7 @@ import StockFilterMenu from "@/components/filterMenus/StockFilterMenu";
 import { useUserStore } from "@/stores/useUserStore";
 
 export default function StocksPage() {
-  const { getStocks, selectStock, selectedStock, getStockCount, stockCount } = useStockStore()
+  const { getStocks, selectStock, selectedStock, getStockCount, stockCount, filters } = useStockStore()
   const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
 
@@ -20,13 +20,13 @@ export default function StocksPage() {
     if (user?.id) {
       getStockCount(user.id)
     }
-  }, [user])
+  }, [user, filters])
 
   useEffect(() => {
     if (user?.id && pageNumber) {
       getStocks(user.id, pageNumber)
     }
-  }, [pageNumber])
+  }, [pageNumber, filters])
 
   const handleCloseDrawer = () => {
     selectStock(null)
