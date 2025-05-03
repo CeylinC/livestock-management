@@ -1,5 +1,5 @@
 import { paymentState, saleCategory } from "../../../../../packages/shared/enums";
-import { useSaleStore } from "../../../../../packages/shared/stores/useSaleStore";
+import { useSaleStore } from "@/stores/useSaleStore";
 import { toReadablePaymentState } from "../../../../../packages/shared/utils/toReadablePaymentState";
 import { toReadableSalesCategories } from "../../../../../packages/shared/utils/toReadableSalesCategories";
 import Dropdown from "../Dropdown";

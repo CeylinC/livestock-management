@@ -1,8 +1,7 @@
 import { create } from "zustand"
-import { IStock } from "../models"
-import { Stock } from "../classes"
-import { webPageSize } from "../constant/pageSize";
-import { saleCategory } from "../enums";
+import { IStock } from "../../../../packages/shared/models"
+import { Stock } from "../../../../packages/shared/classes"
+import { saleCategory } from "../../../../packages/shared/enums";
 import { supabase } from "../utils/supabaseClient";
 
 interface StockState {

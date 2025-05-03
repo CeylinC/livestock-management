@@ -2,14 +2,14 @@
 
 import Pagination from "@/components/Pagination";
 import BarnTable from "@/components/tables/BarnTable";
-import { useBarnStore } from "../../../../../../packages/shared/stores/useBarnStore"
+import { useBarnStore } from "@/stores/useBarnStore"
 import { useEffect, useState } from "react";
 import Drawer from "@/components/Drawer";
 import Button from "@/components/Button";
 import { Barn } from "../../../../../../packages/shared/classes";
 import BarnForm from "@/components/forms/BarnForm";
 import BarnFilterMenu from "@/components/filterMenus/BarnFilterMenu";
-import { useUserStore } from "../../../../../../packages/shared/stores/useUserStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function BarnsPage() {
   const { getBarns, selectBarn, selectedBarn, getBarnCount, barnCount } = useBarnStore()

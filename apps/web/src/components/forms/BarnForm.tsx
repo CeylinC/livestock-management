@@ -8,8 +8,8 @@ import { gender } from "../../../../../packages/shared/enums";
 import { toReadableGender } from "../../../../../packages/shared/utils/toReadableGender";
 import { animalTypes } from "../../../../../packages/shared/enums/animalTypes";
 import { toReadableAnimalType } from "../../../../../packages/shared/utils/toReadableAnimalType";
-import { useBarnStore } from "../../../../../packages/shared/stores/useBarnStore";
-import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
+import { useBarnStore } from "@/stores/useBarnStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function BarnForm({
   defaultBarn,

@@ -2,14 +2,14 @@
 
 import Pagination from "@/components/Pagination";
 import AnimalTable from "@/components/tables/AnimalTable";
-import { useAnimalStore } from "../../../../../../packages/shared/stores/useAnimalStore"
+import { useAnimalStore } from "@/stores/useAnimalStore"
 import { useEffect, useState } from "react";
 import Drawer from "@/components/Drawer";
 import AnimalForm from "@/components/forms/AnimalForm";
 import Button from "@/components/Button";
 import { Animal } from "../../../../../../packages/shared/classes";
 import AnimalFilterMenu from "@/components/filterMenus/AnimalFilterMenu";
-import { useUserStore } from "../../../../../../packages/shared/stores/useUserStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function AnimalsPage() {
   const { getAnimals, selectedAnimal, selectAnimal, getAnimalCount, animalCount, animals } = useAnimalStore()

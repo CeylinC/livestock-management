@@ -2,7 +2,7 @@
 
 import Button from "@/components/Button";
 import { supabase } from "@/utils/supabaseClient";
-import { useUserStore } from "../../../../../../packages/shared/stores/useUserStore";
+import { useUserStore } from "@/stores/useUserStore";
 import { useRouter } from "next/navigation";
 
 export default function SettingsPage() {

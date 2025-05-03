@@ -6,8 +6,8 @@ import { IStock } from "../../../../../packages/shared/models";
 import { Stock } from "../../../../../packages/shared/classes";
 import { saleCategory } from "../../../../../packages/shared/enums";
 import { toReadableSalesCategories } from "../../../../../packages/shared/utils/toReadableSalesCategories";
-import { useStockStore } from "../../../../../packages/shared/stores/useStockStore";
-import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
+import { useStockStore } from "@/stores/useStockStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function StockForm({
   defaultStock,

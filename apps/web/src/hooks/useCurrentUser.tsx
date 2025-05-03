@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
-import { useUserStore } from "../../../../packages/shared/stores/useUserStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 const useCurrentUser = () => {
   const router = useRouter();

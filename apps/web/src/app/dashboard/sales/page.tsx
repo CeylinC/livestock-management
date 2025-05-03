@@ -1,7 +1,7 @@
 'use client'
 
 import Pagination from "@/components/Pagination";
-import { useSaleStore } from "../../../../../../packages/shared/stores/useSaleStore"
+import { useSaleStore } from "@/stores/useSaleStore"
 import { useEffect, useState } from "react";
 import SaleTable from "@/components/tables/SaleTable";
 import Drawer from "@/components/Drawer";
@@ -9,7 +9,7 @@ import Button from "@/components/Button";
 import { Sale } from "../../../../../../packages/shared/classes";
 import SaleForm from "@/components/forms/SaleForm";
 import SaleFilterMenu from "@/components/filterMenus/SaleFilterMenu";
-import { useUserStore } from "../../../../../../packages/shared/stores/useUserStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function SalesPage() {
   const { getSales, selectSale, selectedSale, getSaleCount, saleCount } = useSaleStore()

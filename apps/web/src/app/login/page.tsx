@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { supabase } from "@/utils/supabaseClient";
 import { useState } from "react";
-import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
+import { useUserStore } from "@/stores/useUserStore";
 import { useRouter } from "next/navigation";
 
 export default function Login() {

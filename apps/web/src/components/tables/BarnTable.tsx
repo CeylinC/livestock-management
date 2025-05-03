@@ -1,6 +1,6 @@
 import Badge from "../Badge"
 import { IBarn } from "../../../../../packages/shared/models"
-import { useBarnStore } from "../../../../../packages/shared/stores/useBarnStore"
+import { useBarnStore } from "@/stores/useBarnStore"
 import { toReadableGender } from "../../../../../packages/shared/utils/toReadableGender"
 import { toReadableAnimalType } from "../../../../../packages/shared/utils/toReadableAnimalType"
 

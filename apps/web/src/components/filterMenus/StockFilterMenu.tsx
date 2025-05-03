@@ -1,5 +1,5 @@
 import { saleCategory } from "../../../../../packages/shared/enums";
-import { useStockStore } from "../../../../../packages/shared/stores/useStockStore";
+import { useStockStore } from "@/stores/useStockStore";
 import { toReadableSalesCategories } from "../../../../../packages/shared/utils/toReadableSalesCategories";
 import Dropdown from "../Dropdown";
 import Popover from "../Popover";

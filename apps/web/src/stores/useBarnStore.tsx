@@ -1,9 +1,9 @@
 import { create } from "zustand"
-import { IBarn } from "../models"
-import { Barn } from "../classes"
-import { webPageSize } from "../constant/pageSize";
-import { gender } from "../enums";
-import { animalTypes } from "../enums/animalTypes";
+import { IBarn } from "../../../../packages/shared/models"
+import { Barn } from "../../../../packages/shared/classes"
+import { webPageSize } from "../../../../packages/shared/constant/pageSize";
+import { gender } from "../../../../packages/shared/enums";
+import { animalTypes } from "../../../../packages/shared/enums/animalTypes";
 import { supabase } from "../utils/supabaseClient";
 
 interface BarnState {

@@ -1,5 +1,5 @@
 import Badge from "../Badge"
-import { useAnimalStore } from "../../../../../packages/shared/stores/useAnimalStore"
+import { useAnimalStore } from "@/stores/useAnimalStore"
 import { IAnimal } from "../../../../../packages/shared/models"
 import { toReadableGender } from "../../../../../packages/shared/utils/toReadableGender"
 import dayjs from "dayjs"

@@ -1,8 +1,7 @@
 import { create } from "zustand"
-import { ISale } from "../models"
-import { Sale } from "../classes"
-import { webPageSize } from "../constant/pageSize";
-import { paymentState, saleCategory } from "../enums";
+import { ISale } from "../../../../packages/shared/models"
+import { Sale } from "../../../../packages/shared/classes"
+import { paymentState, saleCategory } from "../../../../packages/shared/enums";
 import { supabase } from "../utils/supabaseClient";
 
 interface SaleState {

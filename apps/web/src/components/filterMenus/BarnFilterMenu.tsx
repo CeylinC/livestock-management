@@ -1,6 +1,6 @@
 import { gender } from "../../../../../packages/shared/enums";
 import { animalTypes } from "../../../../../packages/shared/enums/animalTypes";
-import { useBarnStore } from "../../../../../packages/shared/stores/useBarnStore";
+import { useBarnStore } from "@/stores/useBarnStore";
 import { toReadableAnimalType } from "../../../../../packages/shared/utils/toReadableAnimalType";
 import { toReadableGender } from "../../../../../packages/shared/utils/toReadableGender";
 import Dropdown from "../Dropdown";

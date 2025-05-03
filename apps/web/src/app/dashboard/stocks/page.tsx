@@ -1,7 +1,7 @@
 'use client'
 
 import Pagination from "@/components/Pagination";
-import { useStockStore } from "../../../../../../packages/shared/stores/useStockStore"
+import { useStockStore } from "@/stores/useStockStore"
 import { useEffect, useState } from "react";
 import StockTable from "@/components/tables/StockTable";
 import Drawer from "@/components/Drawer";
@@ -9,7 +9,7 @@ import Button from "@/components/Button";
 import { Stock } from "../../../../../../packages/shared/classes";
 import StockForm from "@/components/forms/StockForm";
 import StockFilterMenu from "@/components/filterMenus/StockFilterMenu";
-import { useUserStore } from "../../../../../../packages/shared/stores/useUserStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function StocksPage() {
   const { getStocks, selectStock, selectedStock, getStockCount, stockCount } = useStockStore()

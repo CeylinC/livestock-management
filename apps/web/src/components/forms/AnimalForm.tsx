@@ -11,8 +11,8 @@ import { gender } from "../../../../../packages/shared/enums";
 import { toReadableGender } from "../../../../../packages/shared/utils/toReadableGender";
 import { toReadableAnimalType } from "../../../../../packages/shared/utils/toReadableAnimalType";
 import { animalTypes } from "../../../../../packages/shared/enums/animalTypes";
-import { useAnimalStore } from "../../../../../packages/shared/stores/useAnimalStore";
-import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
+import { useAnimalStore } from "@/stores/useAnimalStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function AnimalForm({
   defaultAnimal,

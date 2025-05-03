@@ -1,6 +1,6 @@
 import { create } from "zustand"
-import { IUser } from "../models/IUser"
-import { User } from "../classes/User";
+import { IUser } from "../../../../packages/shared/models/IUser"
+import { User } from "../../../../packages/shared/classes/User";
 import { supabase } from "../utils/supabaseClient";
 
 interface UserState {

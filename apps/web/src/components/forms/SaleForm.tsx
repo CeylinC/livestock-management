@@ -9,8 +9,8 @@ import { paymentState, saleCategory } from "../../../../../packages/shared/enums
 import { toReadableSalesCategories } from "../../../../../packages/shared/utils/toReadableSalesCategories";
 import { Dayjs } from "dayjs";
 import { toReadablePaymentState } from "../../../../../packages/shared/utils/toReadablePaymentState";
-import { useSaleStore } from "../../../../../packages/shared/stores/useSaleStore";
-import { useUserStore } from "../../../../../packages/shared/stores/useUserStore";
+import { useSaleStore } from "@/stores/useSaleStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function StockForm({
   defaultSale,

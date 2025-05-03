@@ -1,6 +1,6 @@
 import Badge from "../Badge"
 import { IStock } from "../../../../../packages/shared/models"
-import { useStockStore } from "../../../../../packages/shared/stores/useStockStore"
+import { useStockStore } from "@/stores/useStockStore"
 import { toReadableSalesCategories } from "../../../../../packages/shared/utils/toReadableSalesCategories"
 
 export default function StockTable() {

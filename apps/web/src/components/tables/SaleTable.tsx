@@ -1,6 +1,6 @@
 import Badge from "../Badge"
 import { ISale } from "../../../../../packages/shared/models"
-import { useSaleStore } from "../../../../../packages/shared/stores/useSaleStore"
+import { useSaleStore } from "@/stores/useSaleStore"
 import { toReadableSalesCategories } from "../../../../../packages/shared/utils/toReadableSalesCategories"
 import { toReadablePaymentState } from "../../../../../packages/shared/utils/toReadablePaymentState"
 import dayjs from "dayjs"
