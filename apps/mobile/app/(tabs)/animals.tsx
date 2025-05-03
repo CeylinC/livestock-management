@@ -12,6 +12,7 @@ import AnimalForm from '@/components/forms/AnimalForm';
 import { IAnimal } from '../../../../packages/shared/models';
 import AnimalFilterMenu from '@/components/filtermenus/AnimalFilterMenu';
 import { useUserStore } from '@/stores/useUserStore';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -23,7 +24,7 @@ export default function AnimalsScreen() {
   const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
 
   useEffect(() => {
-    if(user?.id) {
+    if (user?.id) {
       getAnimalCount(user.id)
     }
   }, [user])
@@ -45,33 +46,35 @@ export default function AnimalsScreen() {
 
   return (
     <GestureHandlerRootView>
-      <Layout>
-        <Text>Animals</Text>
-        <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
+      <BottomSheetModalProvider>
+        <Layout>
+          <Text>Animals</Text>
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
+            </View>
+            <View style={styles.button}>
+              <Button label='Hayvan Ekle' onPress={() => openBottomSheet(null)} />
+            </View>
           </View>
-          <View style={styles.button}>
-            <Button label='Hayvan Ekle' onPress={() => openBottomSheet(null)} />
+          <View style={styles.cardContainer}>
+            {
+              animals?.map(((animal, index) => (
+                <TouchableOpacity onPress={() => openBottomSheet(animal)} key={index}>
+                  <AnimalCard animal={animal} />
+                </TouchableOpacity>
+              )))
+            }
+            <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={animalCount / 10 + 1} />
           </View>
-        </View>
-        <View style={styles.cardContainer}>
-          {
-            animals?.map(((animal, index) => (
-              <TouchableOpacity onPress={() => openBottomSheet(animal)} key={index}>
-                <AnimalCard animal={animal} />
-              </TouchableOpacity>
-            )))
-          }
-          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={animalCount / 10 + 1} />
-        </View>
-      </Layout>
-      <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-        <AnimalForm defaultAnimal={selectedAnimal} currentPage={pageNumber}/>
-      </SheetModal>
-      <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
-        <AnimalFilterMenu/>
-      </SheetModal>
+        </Layout>
+        <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
+          <AnimalForm defaultAnimal={selectedAnimal} currentPage={pageNumber} />
+        </SheetModal>
+        <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
+          <AnimalFilterMenu />
+        </SheetModal>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }

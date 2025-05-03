@@ -1,5 +1,5 @@
-import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { useCallback, useMemo } from "react";
+import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Modal, StyleSheet } from 'react-native';
 
 export default function SheetModal({
@@ -12,6 +12,7 @@ export default function SheetModal({
   children: React.JSX.Element
 }) {
   const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
+  const bottomSheetRef = useRef<BottomSheetModal>(null)
 
   const renderBackdrop = useCallback(
     (props: BottomSheetBackdropProps) => (
@@ -23,9 +24,30 @@ export default function SheetModal({
     []
   );
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (index !== -1) {
+        bottomSheetRef.current?.present()
+      }
+    }, 100)
+
+    return () => {
+      clearTimeout(timer)
+      bottomSheetRef.current?.dismiss()
+    }
+  }, [index])
+
+  useEffect(() => {
+    if (index !== -1) {
+      bottomSheetRef.current?.present()
+    } else {
+      bottomSheetRef.current?.dismiss()
+    }
+  }, [index])
+
   return (
-    <Modal transparent visible={index >= 0}>
-      <BottomSheet
+      <BottomSheetModal
+      ref={bottomSheetRef}
         index={index}
         snapPoints={snapPoints}
         enableDynamicSizing={true}
@@ -34,8 +56,7 @@ export default function SheetModal({
         <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
           {children}
         </BottomSheetScrollView>
-      </BottomSheet>
-    </Modal>
+      </BottomSheetModal>
   );
 }
 

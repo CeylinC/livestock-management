@@ -132,7 +132,7 @@ export default function AnimalForm({
         <View style={styles.buttonContainer}><Button label={"Kaydı Güncelle"} onPress={onSubmit} /></View>
         <View style={styles.buttonContainer}><Button label={"Kaydı Sil"} onPress={onDelete} /></View>
       </View>
-      : <View style={styles.buttonContainer}><Button label={"Kayıt Oluştur"} onPress={onSubmit} /></View>
+      : <View><Button label={"Kayıt Oluştur"} onPress={onSubmit} /></View>
     }
   </View>
 }
