@@ -67,7 +67,7 @@ export default function StocksScreen() {
         </View>
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-        <StockForm defaultStock={selectedStock} />
+        <StockForm defaultStock={selectedStock} currentPage={pageNumber}/>
       </SheetModal>
       <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
         <StockFilterMenu />

@@ -7,13 +7,19 @@ import Input from "../Input";
 import Dropdown from "../Dropdown";
 import Button from "../Button";
 import { toReadableSalesCategories } from "../../../../packages/shared/utils/toReadableSalesCategories";
+import { useStockStore } from "@/stores/useStockStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function StockForm({
-  defaultStock
+  defaultStock,
+  currentPage
 }: {
   defaultStock: IStock | null
+  currentPage: number
 }) {
   const [stock, setStock] = useState(defaultStock ?? new Stock())
+  const { addStock, updateStock, deleteStock, getStocks } = useStockStore()
+  const { user } = useUserStore()
 
   const options = Object.values(saleCategory).map((g) => ({
     label: toReadableSalesCategories[g],
@@ -41,7 +47,22 @@ export default function StockForm({
   }
 
   const onSubmit = () => {
-    console.log(stock)
+    if (user?.id) {
+      if (stock.id) {
+        updateStock(user.id, stock)
+      } else {
+        addStock(user.id, stock)
+      }
+    }
+  }
+
+  const onDelete = async () => {
+    if (user?.id) {
+      if (stock.id) {
+        await deleteStock(user.id, stock.id)
+        await getStocks(user.id, currentPage)
+      }
+    }
   }
 
   return <View style={styles.container}>
@@ -57,7 +78,13 @@ export default function StockForm({
     <Input name="type" label="Satıcı" value={stock.dealer} onChange={(value) => onChangeDealer(value)} />
     <Input name="type" label="Stok Yeri" value={stock.storage} onChange={(value) => onChangeStorage(value)} />
 
-    <Button label={defaultStock?.id ? "Kaydı Güncelle" : "Kayıt Oluştur"} onPress={onSubmit} />
+    {defaultStock?.id ?
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}><Button label={"Kaydı Güncelle"} onPress={onSubmit} /></View>
+        <View style={styles.buttonContainer}><Button label={"Kaydı Sil"} onPress={onDelete} /></View>
+      </View>
+      : <View style={styles.buttonContainer}><Button label={"Kayıt Oluştur"} onPress={onSubmit} /></View>
+    }
   </View>
 }
 const styles = StyleSheet.create({
@@ -66,5 +93,13 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     display: "flex",
     gap: 8
+  },
+  buttonsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 8
+  },
+  buttonContainer: {
+    width: "50%"
   }
 })

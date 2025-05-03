@@ -12,13 +12,19 @@ import Input from "../Input";
 import Dropdown from "../Dropdown";
 import DateInput from "../DateInput";
 import Button from "../Button";
+import { useAnimalStore } from "@/stores/useAnimalStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function AnimalForm({
-  defaultAnimal
+  defaultAnimal,
+  currentPage
 }: {
   defaultAnimal: IAnimal | null
+  currentPage: number
 }) {
   const [animal, setAnimal] = useState(defaultAnimal ?? new Animal())
+  const { addAnimal, updateAnimal, deleteAnimal, getAnimals } = useAnimalStore()
+  const { user } = useUserStore()
 
   const genderOptions = [gender.female, gender.male].map((gender) => ({
     label: toReadableGender[gender],
@@ -68,7 +74,22 @@ export default function AnimalForm({
   }
 
   const onSubmit = () => {
-    console.log(animal)
+    if (user?.id) {
+      if (animal.id) {
+        updateAnimal(user.id, animal)
+      } else {
+        addAnimal(user.id, animal)
+      }
+    }
+  }
+
+  const onDelete = async () => {
+    if (user?.id) {
+      if (animal.id) {
+        await deleteAnimal(user.id, animal.id)
+        await getAnimals(user.id, currentPage)
+      }
+    }
   }
 
   return <View style={styles.container}>
@@ -106,7 +127,13 @@ export default function AnimalForm({
       onChange={onChangeBarn}
       placeholder="Seçiniz"
     />
-    <Button label={defaultAnimal?.id ? "Kaydı Güncelle" : "Kayıt Oluştur"} onPress={onSubmit} />
+    {defaultAnimal?.id ?
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}><Button label={"Kaydı Güncelle"} onPress={onSubmit} /></View>
+        <View style={styles.buttonContainer}><Button label={"Kaydı Sil"} onPress={onDelete} /></View>
+      </View>
+      : <View style={styles.buttonContainer}><Button label={"Kayıt Oluştur"} onPress={onSubmit} /></View>
+    }
   </View>
 }
 const styles = StyleSheet.create({
@@ -115,5 +142,13 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     display: "flex",
     gap: 8
+  },
+  buttonsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 8
+  },
+  buttonContainer: {
+    width: "50%"
   }
 })

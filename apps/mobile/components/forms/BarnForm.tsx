@@ -9,13 +9,19 @@ import { animalTypes } from "../../../../packages/shared/enums/animalTypes";
 import Input from "../Input";
 import Dropdown from "../Dropdown";
 import Button from "../Button";
+import { useBarnStore } from "@/stores/useBarnStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function BarnForm({
-  defaultBarn
+  defaultBarn,
+  currentPage
 }: {
   defaultBarn: IBarn | null
+  currentPage: number
 }) {
   const [barn, setBarn] = useState(defaultBarn ?? new Barn())
+  const { addBarn, updateBarn, deleteBarn, getBarns } = useBarnStore()
+  const { user } = useUserStore()
 
   const genderOptions = [gender.female, gender.male].map((gender) => ({
     label: toReadableGender[gender],
@@ -40,7 +46,22 @@ export default function BarnForm({
   }
 
   const onSubmit = () => {
-    console.log(barn)
+    if (user?.id) {
+      if (barn.id) {
+        updateBarn(user.id, barn)
+      } else {
+        addBarn(user.id, barn)
+      }
+    }
+  }
+
+  const onDelete = async () => {
+    if (user?.id) {
+      if (barn.id) {
+        await deleteBarn(user.id, barn.id)
+        await getBarns(user.id, currentPage)
+      }
+    }
   }
 
   return <View style={styles.container}>
@@ -59,7 +80,13 @@ export default function BarnForm({
       onChange={onChangeGender}
       placeholder="Seçiniz"
     />
-    <Button label={defaultBarn?.id ? "Kaydı Güncelle" : "Kayıt Oluştur"} onPress={onSubmit} />
+    {defaultBarn?.id ?
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}><Button label={"Kaydı Güncelle"} onPress={onSubmit} /></View>
+        <View style={styles.buttonContainer}><Button label={"Kaydı Sil"} onPress={onDelete} /></View>
+      </View>
+      : <View style={styles.buttonContainer}><Button label={"Kayıt Oluştur"} onPress={onSubmit} /></View>
+    }
   </View>
 }
 
@@ -69,5 +96,13 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     display: "flex",
     gap: 8
+  },
+  buttonsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 8
+  },
+  buttonContainer: {
+    width: "50%"
   }
 })

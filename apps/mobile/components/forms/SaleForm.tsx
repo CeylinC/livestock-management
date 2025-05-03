@@ -10,13 +10,19 @@ import { Sale } from "../../../../packages/shared/classes";
 import { toReadableSalesCategories } from "../../../../packages/shared/utils/toReadableSalesCategories";
 import { toReadablePaymentState } from "../../../../packages/shared/utils/toReadablePaymentState";
 import { View, StyleSheet } from "react-native";
+import { useSaleStore } from "@/stores/useSaleStore";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function SaleForm({
-  defaultSale
+  defaultSale,
+  currentPage
 }: {
   defaultSale: ISale | null
+  currentPage: number
 }) {
   const [sale, setSale] = useState(defaultSale ?? new Sale())
+  const { addSale, updateSale, deleteSale, getSales } = useSaleStore()
+  const { user } = useUserStore()
 
   const categoryOptions = Object.values(saleCategory).map((g) => ({
     label: toReadableSalesCategories[g],
@@ -65,7 +71,22 @@ export default function SaleForm({
   }
 
   const onSubmit = () => {
-    console.log(sale)
+    if (user?.id) {
+      if (sale.id) {
+        updateSale(user.id, sale)
+      } else {
+        addSale(user.id, sale)
+      }
+    }
+  }
+
+  const onDelete = async () => {
+    if (user?.id) {
+      if (sale.id) {
+        await deleteSale(user.id, sale.id)
+        await getSales(user.id, currentPage)
+      }
+    }
   }
 
   return <View style={styles.container}>
@@ -96,7 +117,14 @@ export default function SaleForm({
       value={sale.saleDate}
       onChange={onChangePaymentDate}
       format="DD.MM.YYYY" />
-    <Button label={defaultSale?.id ? "Kaydı Güncelle" : "Kayıt Oluştur"} onPress={onSubmit} />
+
+    {defaultSale?.id ?
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}><Button label={"Kaydı Güncelle"} onPress={onSubmit} /></View>
+        <View style={styles.buttonContainer}><Button label={"Kaydı Sil"} onPress={onDelete} /></View>
+      </View>
+      : <View style={styles.buttonContainer}><Button label={"Kayıt Oluştur"} onPress={onSubmit} /></View>
+    }
   </View >
 }
 
@@ -106,5 +134,13 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     display: "flex",
     gap: 8
+  },
+  buttonsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 8
+  },
+  buttonContainer: {
+    width: "50%"
   }
 })

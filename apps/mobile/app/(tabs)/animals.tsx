@@ -67,7 +67,7 @@ export default function AnimalsScreen() {
         </View>
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-        <AnimalForm defaultAnimal={selectedAnimal}/>
+        <AnimalForm defaultAnimal={selectedAnimal} currentPage={pageNumber}/>
       </SheetModal>
       <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
         <AnimalFilterMenu/>
