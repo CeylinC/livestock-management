@@ -4,12 +4,15 @@ import { gender } from "../../../../packages/shared/enums";
 import { IAnimal } from "../../../../packages/shared/models";
 import { toReadableGender } from "../../../../packages/shared/utils/toReadableGender";
 import { toReadableAnimalType } from "../../../../packages/shared/utils/toReadableAnimalType";
+import { useBarnStore } from "@/stores/useBarnStore";
 
 export default function AnimalCard({
   animal
 }: {
   animal: IAnimal
 }) {
+  const { allBarns } = useBarnStore()
+  
   return <View style={styles.card}>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>İsim</Text>
@@ -58,7 +61,7 @@ export default function AnimalCard({
     </View>
     <View style={styles.contentRow}>
       <Text style={styles.contentLabel}>Ağıl</Text>
-      <Text style={styles.contentValue}>{animal.barnName}</Text>
+      <Text style={styles.contentValue}>{allBarns?.find((barn) => barn.id == animal.barnName)?.name || "-"}</Text>
     </View>
   </View>
 }

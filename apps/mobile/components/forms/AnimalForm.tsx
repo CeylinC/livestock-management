@@ -14,6 +14,7 @@ import DateInput from "../DateInput";
 import Button from "../Button";
 import { useAnimalStore } from "@/stores/useAnimalStore";
 import { useUserStore } from "@/stores/useUserStore";
+import { useBarnStore } from "@/stores/useBarnStore";
 
 export default function AnimalForm({
   defaultAnimal,
@@ -24,6 +25,7 @@ export default function AnimalForm({
 }) {
   const [animal, setAnimal] = useState(defaultAnimal ?? new Animal())
   const { addAnimal, updateAnimal, deleteAnimal, getAnimals } = useAnimalStore()
+  const {allBarns} = useBarnStore()
   const { user } = useUserStore()
 
   const genderOptions = [gender.female, gender.male].map((gender) => ({
@@ -35,6 +37,11 @@ export default function AnimalForm({
     label: toReadableAnimalType[g],
     value: g
   }));
+
+  const barnOptions = allBarns?.filter(barn => barn.type === animal.type).map(b => ({
+    label: b.name,
+    value: b.id
+  }))
 
   const onChangeName = (value: string) => {
     setAnimal(prev => ({ ...prev, name: value }))
@@ -70,7 +77,7 @@ export default function AnimalForm({
 
 
   const onChangeBarn = (value: string) => {
-    setAnimal(prev => ({ ...prev, barn: value }))
+    setAnimal(prev => ({ ...prev, barnName: value }))
   }
 
   const onSubmit = () => {
@@ -122,7 +129,7 @@ export default function AnimalForm({
     }
     <Dropdown
       label="Ağıl"
-      options={genderOptions}
+      options={barnOptions ?? []}
       value={animal.barnName}
       onChange={onChangeBarn}
       placeholder="Seçiniz"

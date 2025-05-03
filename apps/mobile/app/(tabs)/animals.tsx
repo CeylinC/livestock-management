@@ -13,15 +13,23 @@ import { IAnimal } from '../../../../packages/shared/models';
 import AnimalFilterMenu from '@/components/filtermenus/AnimalFilterMenu';
 import { useUserStore } from '@/stores/useUserStore';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { useBarnStore } from '@/stores/useBarnStore';
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function AnimalsScreen() {
   const { getAnimals, animals, selectAnimal, selectedAnimal, getAnimalCount, animalCount, filters } = useAnimalStore()
   const { user } = useUserStore()
+  const { getAllBarns } = useBarnStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
   const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
+
+  useEffect(() => {
+    if (user?.id) {
+      getAllBarns(user.id)
+    }
+  }, [])
 
   useEffect(() => {
     if (user?.id) {
