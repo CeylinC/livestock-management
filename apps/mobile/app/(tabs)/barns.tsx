@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-nati
 import Layout from '@/components/Layout';
 import BarnCard from '@/components/cards/BarnCard';
 import { useEffect, useState } from 'react';
-import { useBarnStore } from "../../../../packages/shared/stores/useBarnStore"
+import { useBarnStore } from "@/stores/useBarnStore"
 import Pagination from '@/components/Pagination';
 import GhostButton from '@/components/GhostButton';
 import Button from '@/components/Button';
@@ -11,18 +11,26 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BarnForm from '@/components/forms/BarnForm';
 import { IBarn } from '../../../../packages/shared/models';
 import BarnFilterMenu from '@/components/filtermenus/BarnFilterMenu';
+import { useUserStore } from '@/stores/useUserStore';
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function BarnsScreen() {
-  const { getBarns, barns, selectedBarn, selectBarn } = useBarnStore()
+  const { getBarns, barns, selectedBarn, selectBarn, getBarnCount, barnCount } = useBarnStore()
+  const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
   const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
 
   useEffect(() => {
-    if (pageNumber) {
-      getBarns(pageNumber)
+    if (user?.id) {
+      getBarnCount(user.id)
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (user?.id && pageNumber) {
+      getBarns(user.id, pageNumber)
     }
   }, [pageNumber])
 
@@ -55,7 +63,7 @@ export default function BarnsScreen() {
               </TouchableOpacity>
             )))
           }
-          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={5} />
+          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={barnCount / 10 + 1} />
         </View>
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>

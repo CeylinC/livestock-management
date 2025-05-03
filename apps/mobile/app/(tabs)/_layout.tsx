@@ -8,7 +8,7 @@ import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { supabase } from '@/utils/supabaseClient';
-import { useUserStore } from '../../../../packages/shared/stores/useUserStore';
+import { useUserStore } from '@/stores/useUserStore';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -21,7 +21,7 @@ export default function TabLayout() {
       if (!data?.session) {
         router.push("/login");
       } else {
-        if(!user && data.session.user.email) {
+        if(!user?.id && data.session.user.email) {
           getUser(data.session?.user.email)
         }
       }

@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { useAnimalStore } from "../../../../packages/shared/stores/useAnimalStore";
+import { useAnimalStore } from "@/stores/useAnimalStore";
 import { gender } from "../../../../packages/shared/enums";
 import { toReadableGender } from "../../../../packages/shared/utils/toReadableGender";
 import { animalTypes } from "../../../../packages/shared/enums/animalTypes";

@@ -2,7 +2,7 @@ import Input from "@/components/Input";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Text, TouchableOpacity, View, StyleSheet, Image, Dimensions } from "react-native";
-import { useUserStore } from "../../../packages/shared/stores/useUserStore"
+import { useUserStore } from "@/stores/useUserStore"
 import { supabase } from "@/utils/supabaseClient";
 import Button from "@/components/Button";
 import { User } from "../../../packages/shared/classes/User";

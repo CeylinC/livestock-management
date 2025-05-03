@@ -3,7 +3,7 @@ import { paymentState, saleCategory } from "../../../../packages/shared/enums";
 import Dropdown from "../Dropdown";
 import { toReadableSalesCategories } from "../../../../packages/shared/utils/toReadableSalesCategories";
 import { toReadablePaymentState } from "../../../../packages/shared/utils/toReadablePaymentState";
-import { useSaleStore } from "../../../../packages/shared/stores/useSaleStore";
+import { useSaleStore } from "@/stores/useSaleStore";
 
 export default function SaleFilterMenu() {
   const { filters, setFilters } = useSaleStore();

@@ -2,7 +2,7 @@ import { StyleSheet, Text } from 'react-native';
 
 import Layout from '@/components/Layout';
 import { supabase } from '@/utils/supabaseClient';
-import { useUserStore } from '../../../packages/shared/stores/useUserStore';
+import { useUserStore } from '@/stores/useUserStore';
 import { router } from 'expo-router';
 import Button from '@/components/Button';
 

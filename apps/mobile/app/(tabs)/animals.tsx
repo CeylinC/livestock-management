@@ -3,7 +3,7 @@ import Layout from '@/components/Layout';
 import AnimalCard from '@/components/cards/AnimalCard';
 import Pagination from '@/components/Pagination';
 import { useEffect, useState } from 'react';
-import { useAnimalStore } from "../../../../packages/shared/stores/useAnimalStore"
+import { useAnimalStore } from "@/stores/useAnimalStore"
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SheetModal from '@/components/SheetModal';
 import Button from '@/components/Button';
@@ -11,18 +11,26 @@ import GhostButton from '@/components/GhostButton';
 import AnimalForm from '@/components/forms/AnimalForm';
 import { IAnimal } from '../../../../packages/shared/models';
 import AnimalFilterMenu from '@/components/filtermenus/AnimalFilterMenu';
+import { useUserStore } from '@/stores/useUserStore';
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function AnimalsScreen() {
-  const { getAnimals, animals, selectAnimal, selectedAnimal } = useAnimalStore()
+  const { getAnimals, animals, selectAnimal, selectedAnimal, getAnimalCount, animalCount } = useAnimalStore()
+  const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
   const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
 
   useEffect(() => {
-    if (pageNumber) {
-      getAnimals(pageNumber)
+    if(user?.id) {
+      getAnimalCount(user.id)
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (user?.id && pageNumber) {
+      getAnimals(user.id, pageNumber)
     }
   }, [pageNumber])
 
@@ -55,7 +63,7 @@ export default function AnimalsScreen() {
               </TouchableOpacity>
             )))
           }
-          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={5} />
+          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={animalCount / 10 + 1} />
         </View>
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>

@@ -2,7 +2,7 @@ import Input from "@/components/Input";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Text, TouchableOpacity, View, Image, StyleSheet, Dimensions } from "react-native";
-import { useUserStore } from "../../../packages/shared/stores/useUserStore"
+import { useUserStore } from "@/stores/useUserStore"
 import { supabase } from "@/utils/supabaseClient";
 import Button from "@/components/Button";
 import { LinearGradient } from "expo-linear-gradient";
@@ -24,7 +24,7 @@ export default function Login() {
     if (error) {
       throw new Error(error.message);
     } else {
-      getUser(email)
+      await getUser(email)
       router.push("/(tabs)")
     }
 

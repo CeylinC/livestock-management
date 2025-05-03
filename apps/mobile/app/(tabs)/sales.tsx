@@ -3,7 +3,7 @@ import Layout from '@/components/Layout';
 import SaleCard from '@/components/cards/SaleCard';
 import Pagination from '@/components/Pagination';
 import { useEffect, useState } from 'react';
-import { useSaleStore } from "../../../../packages/shared/stores/useSaleStore"
+import { useSaleStore } from "@/stores/useSaleStore"
 import GhostButton from '@/components/GhostButton';
 import Button from '@/components/Button';
 import SheetModal from '@/components/SheetModal';
@@ -11,18 +11,26 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ISale } from '../../../../packages/shared/models';
 import SaleForm from '@/components/forms/SaleForm';
 import SaleFilterMenu from '@/components/filtermenus/SaleFilterMenu';
+import { useUserStore } from '@/stores/useUserStore';
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function SalesScreen() {
-  const { getSales, sales, selectSale, selectedSale } = useSaleStore()
+  const { getSales, sales, selectSale, selectedSale, getSaleCount, saleCount } = useSaleStore()
+  const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
   const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
 
   useEffect(() => {
-    if (pageNumber) {
-      getSales(pageNumber)
+    if(user?.id) {
+      getSaleCount(user.id)
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (user?.id && pageNumber) {
+      getSales(user.id, pageNumber)
     }
   }, [pageNumber])
 
@@ -55,7 +63,7 @@ export default function SalesScreen() {
               </TouchableOpacity>
             )))
           }
-          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={5} />
+          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={saleCount / 10 + 1} />
         </View>
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>

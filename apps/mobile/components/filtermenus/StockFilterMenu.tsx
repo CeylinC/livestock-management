@@ -2,7 +2,7 @@ import { View, StyleSheet } from "react-native";
 import { saleCategory } from "../../../../packages/shared/enums";
 import Dropdown from "../Dropdown";
 import { toReadableSalesCategories } from "../../../../packages/shared/utils/toReadableSalesCategories";
-import { useStockStore } from "../../../../packages/shared/stores/useStockStore";
+import { useStockStore } from "@/stores/useStockStore";
 
 export default function StockFilterMenu() {
   const { filters, setFilters } = useStockStore();

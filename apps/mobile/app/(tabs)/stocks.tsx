@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-nati
 import Layout from '@/components/Layout';
 import StockCard from '@/components/cards/StockCard';
 import { useEffect, useState } from 'react';
-import { useStockStore } from "../../../../packages/shared/stores/useStockStore"
+import { useStockStore } from "@/stores/useStockStore"
 import Pagination from '@/components/Pagination';
 import GhostButton from '@/components/GhostButton';
 import Button from '@/components/Button';
@@ -11,18 +11,26 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { IStock } from '../../../../packages/shared/models';
 import StockForm from '@/components/forms/StockForm';
 import StockFilterMenu from '@/components/filtermenus/StockFilterMenu';
+import { useUserStore } from '@/stores/useUserStore';
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function StocksScreen() {
-  const { getStocks, stocks, selectStock, selectedStock } = useStockStore()
+  const { getStocks, stocks, selectStock, selectedStock, getStockCount, stockCount } = useStockStore()
+  const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
   const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
 
   useEffect(() => {
-    if (pageNumber) {
-      getStocks(pageNumber)
+    if (user?.id) {
+      getStockCount(user.id)
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (user?.id && pageNumber) {
+      getStocks(user.id, pageNumber)
     }
   }, [pageNumber])
 
@@ -55,7 +63,7 @@ export default function StocksScreen() {
               </TouchableOpacity>
             )))
           }
-          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={5} />
+          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={stockCount / 10 + 1} />
         </View>
       </Layout>
       <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
