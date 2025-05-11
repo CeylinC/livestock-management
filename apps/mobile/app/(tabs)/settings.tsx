@@ -21,7 +21,7 @@ export default function SettingsScreen() {
   return (
     <Layout>
       <Text>Setting</Text>
-      <Button label="Çıkış Yap" onPress={signOut} />
+      <Button label="Çıkış Yap" onPress={signOut} variant='danger'/>
     </Layout>
   );
 }

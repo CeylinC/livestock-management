@@ -1,4 +1,5 @@
 import SettingIcon from "@/assets/icons/setting";
+import { useUserStore } from "@/stores/useUserStore";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { ReactNode } from "react";
@@ -11,6 +12,7 @@ export default function Layout({
 }: {
   children?: ReactNode
 }) {
+    const { user } = useUserStore()
 
   const routeSettings = () => {
     router.push("/settings")
@@ -26,7 +28,7 @@ export default function Layout({
         <View style={styles.topContent}>
           <View>
             <Text style={styles.welcomeText}>Hoşgeldin</Text>
-            <Text style={styles.usernameText}>Ceylin</Text>
+            <Text style={styles.usernameText}>{user?.username}</Text>
           </View>
           <View>
             <TouchableOpacity onPress={routeSettings}><SettingIcon stroke="#fff" size={32}/></TouchableOpacity>

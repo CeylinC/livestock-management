@@ -5,13 +5,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 type ButtonProps = {
   label: string;
   onPress: (event: GestureResponderEvent) => void;
+  variant?: 'default' | 'danger';
 };
 
-export default function Button({ label, onPress }: ButtonProps) {
+export default function Button({ label, onPress, variant = 'default' }: ButtonProps) {
+  const gradientColors =
+  variant === 'danger'
+    ? ['#d71d38', '#D70654'] as const
+    : ['#0A8270', '#7CFF6B'] as const;
+
   return (
     <TouchableOpacity onPress={onPress} style={styles.buttonWrapper} activeOpacity={0.9}>
       <LinearGradient
-        colors={['#0A8270', '#7CFF6B']}
+        colors={gradientColors}
         start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 0 }}
         style={styles.button}

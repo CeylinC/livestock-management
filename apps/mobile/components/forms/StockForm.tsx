@@ -81,7 +81,7 @@ export default function StockForm({
     {defaultStock?.id ?
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}><Button label={"Kaydı Güncelle"} onPress={onSubmit} /></View>
-        <View style={styles.buttonContainer}><Button label={"Kaydı Sil"} onPress={onDelete} /></View>
+        <View style={styles.buttonContainer}><Button label={"Kaydı Sil"} onPress={onDelete} variant="danger"/></View>
       </View>
       : <View><Button label={"Kayıt Oluştur"} onPress={onSubmit} /></View>
     }
