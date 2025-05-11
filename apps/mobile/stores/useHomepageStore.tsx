@@ -49,8 +49,6 @@ export const useHomepageStore = create<HomepageState>((set, get) => ({
         getTotalBarn(userId)
       ])
 
-      console.log('All data fetched successfully')
-
     } catch (error) {
       console.error("Error fetching homepage data:", error)
     }

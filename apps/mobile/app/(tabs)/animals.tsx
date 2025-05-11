@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import Layout from '@/components/Layout';
 import AnimalCard from '@/components/cards/AnimalCard';
 import Pagination from '@/components/Pagination';
@@ -21,26 +21,43 @@ export default function AnimalsScreen() {
   const { getAnimals, animals, selectAnimal, selectedAnimal, getAnimalCount, animalCount, filters } = useAnimalStore()
   const { user } = useUserStore()
   const { getAllBarns } = useBarnStore()
+
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
   const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (user?.id) {
-      getAllBarns(user.id)
+    const fetchBarns = async () => {
+      if (user?.id) {
+        setIsLoading(true)
+        await getAllBarns(user.id)
+        setIsLoading(false)
+      }
     }
+    fetchBarns()
   }, [])
 
   useEffect(() => {
-    if (user?.id) {
-      getAnimalCount(user.id)
+    const fetchAnimalCount = async () => {
+      if (user?.id) {
+        setIsLoading(true)
+        await getAnimalCount(user.id)
+        setIsLoading(false)
+      }
     }
+    fetchAnimalCount()
   }, [user, filters])
 
   useEffect(() => {
-    if (user?.id && pageNumber) {
-      getAnimals(user.id, pageNumber)
+    const fetchAnimals = async () => {
+      if (user?.id && pageNumber) {
+        setIsLoading(true)
+        await getAnimals(user.id, pageNumber)
+        setIsLoading(false)
+      }
     }
+    fetchAnimals()
   }, [pageNumber, filters])
 
   const openBottomSheet = (animal: IAnimal | null) => {
@@ -57,6 +74,7 @@ export default function AnimalsScreen() {
       <BottomSheetModalProvider>
         <Layout>
           <Text>Animals</Text>
+
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
               <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
@@ -65,17 +83,21 @@ export default function AnimalsScreen() {
               <Button label='Hayvan Ekle' onPress={() => openBottomSheet(null)} />
             </View>
           </View>
-          <View style={styles.cardContainer}>
-            {
-              animals?.map(((animal, index) => (
+
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#000" />
+          ) : (
+            <View style={styles.cardContainer}>
+              {animals?.map((animal, index) => (
                 <TouchableOpacity onPress={() => openBottomSheet(animal)} key={index}>
                   <AnimalCard animal={animal} />
                 </TouchableOpacity>
-              )))
-            }
-            <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={animalCount / 10 + 1} />
-          </View>
+              ))}
+              <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={animalCount / 10 + 1} />
+            </View>
+          )}
         </Layout>
+
         <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
           <AnimalForm defaultAnimal={selectedAnimal} currentPage={pageNumber} />
         </SheetModal>

@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Layout from '@/components/Layout';
 import StockCard from '@/components/cards/StockCard';
 import { useEffect, useState } from 'react';
@@ -22,17 +22,28 @@ export default function StocksScreen() {
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
   const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (user?.id) {
-      getStockCount(user.id)
+    const fetchStockCount = async () => {
+      if (user?.id) {
+        setIsLoading(true)
+        await getStockCount(user.id)
+        setIsLoading(false)
+      }
     }
+    fetchStockCount()
   }, [user, filters])
 
   useEffect(() => {
-    if (user?.id && pageNumber) {
-      getStocks(user.id, pageNumber)
+    const fetchStocks = async () => {
+      if (user?.id && pageNumber) {
+        setIsLoading(true)
+        await getStocks(user.id, pageNumber)
+        setIsLoading(false)
+      }
     }
+    fetchStocks()
   }, [pageNumber, filters])
 
   const openBottomSheet = (stock: IStock | null) => {
@@ -47,33 +58,37 @@ export default function StocksScreen() {
   return (
     <GestureHandlerRootView>
       <BottomSheetModalProvider>
-      <Layout>
-        <Text>Stocks</Text>
-        <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
+        <Layout>
+          <Text>Stocks</Text>
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
+            </View>
+            <View style={styles.button}>
+              <Button label='Stock Ekle' onPress={() => openBottomSheet(null)} />
+            </View>
           </View>
-          <View style={styles.button}>
-            <Button label='Stock Ekle' onPress={() => openBottomSheet(null)} />
-          </View>
-        </View>
-        <View style={styles.cardContainer}>
-          {
-            stocks?.map(((stock, index) => (
-              <TouchableOpacity onPress={() => openBottomSheet(stock)} key={index}>
-                <StockCard stock={stock} key={index} />
-              </TouchableOpacity>
-            )))
-          }
-          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={stockCount / 10 + 1} />
-        </View>
-      </Layout>
-      <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-        <StockForm defaultStock={selectedStock} currentPage={pageNumber}/>
-      </SheetModal>
-      <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
-        <StockFilterMenu />
-      </SheetModal>
+
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#000" />
+          ) : (
+            <View style={styles.cardContainer}>
+              {stocks?.map((stock, index) => (
+                <TouchableOpacity onPress={() => openBottomSheet(stock)} key={index}>
+                  <StockCard stock={stock} />
+                </TouchableOpacity>
+              ))}
+              <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={stockCount / 10 + 1} />
+            </View>
+          )}
+        </Layout>
+
+        <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
+          <StockForm defaultStock={selectedStock} currentPage={pageNumber} />
+        </SheetModal>
+        <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
+          <StockFilterMenu />
+        </SheetModal>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );

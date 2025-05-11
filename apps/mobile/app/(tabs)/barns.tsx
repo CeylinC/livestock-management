@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Layout from '@/components/Layout';
 import BarnCard from '@/components/cards/BarnCard';
 import { useEffect, useState } from 'react';
@@ -19,20 +19,32 @@ const windowWidth = Dimensions.get('window').width;
 export default function BarnsScreen() {
   const { getBarns, barns, selectedBarn, selectBarn, getBarnCount, barnCount, filters } = useBarnStore()
   const { user } = useUserStore()
+
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
   const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (user?.id) {
-      getBarnCount(user.id)
+    const fetchBarnCount = async () => {
+      if (user?.id) {
+        setIsLoading(true)
+        await getBarnCount(user.id)
+        setIsLoading(false)
+      }
     }
+    fetchBarnCount()
   }, [user, filters])
 
   useEffect(() => {
-    if (user?.id && pageNumber) {
-      getBarns(user.id, pageNumber)
+    const fetchBarns = async () => {
+      if (user?.id && pageNumber) {
+        setIsLoading(true)
+        await getBarns(user.id, pageNumber)
+        setIsLoading(false)
+      }
     }
+    fetchBarns()
   }, [pageNumber, filters])
 
   const openBottomSheet = (barn: IBarn | null) => {
@@ -47,33 +59,38 @@ export default function BarnsScreen() {
   return (
     <GestureHandlerRootView>
       <BottomSheetModalProvider>
-      <Layout>
-        <Text>Barns</Text>
-        <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <GhostButton label='Filtrele' onPress={() => {}} />
+        <Layout>
+          <Text>Barns</Text>
+
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
+            </View>
+            <View style={styles.button}>
+              <Button label='Ağıl Ekle' onPress={() => openBottomSheet(null)} />
+            </View>
           </View>
-          <View style={styles.button}>
-            <Button label='Ağıl Ekle' onPress={() => openBottomSheet(null)} />
-          </View>
-        </View>
-        <View style={styles.cardContainer}>
-          {
-            barns?.map(((barn, index) => (
-              <TouchableOpacity onPress={() => openBottomSheet(barn)} key={index}>
-                <BarnCard barn={barn} />
-              </TouchableOpacity>
-            )))
-          }
-          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={barnCount / 10 + 1} />
-        </View>
-      </Layout>
-      <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-        <BarnForm defaultBarn={selectedBarn} currentPage={pageNumber}/>
-      </SheetModal>
-      <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
-        <BarnFilterMenu/>
-      </SheetModal>
+
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#000" />
+          ) : (
+            <View style={styles.cardContainer}>
+              {barns?.map((barn, index) => (
+                <TouchableOpacity onPress={() => openBottomSheet(barn)} key={index}>
+                  <BarnCard barn={barn} />
+                </TouchableOpacity>
+              ))}
+              <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={barnCount / 10 + 1} />
+            </View>
+          )}
+        </Layout>
+
+        <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
+          <BarnForm defaultBarn={selectedBarn} currentPage={pageNumber} />
+        </SheetModal>
+        <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
+          <BarnFilterMenu />
+        </SheetModal>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );

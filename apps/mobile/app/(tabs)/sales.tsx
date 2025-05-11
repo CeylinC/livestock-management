@@ -1,4 +1,4 @@
-import { Text, StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, View, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Layout from '@/components/Layout';
 import SaleCard from '@/components/cards/SaleCard';
 import Pagination from '@/components/Pagination';
@@ -19,20 +19,32 @@ const windowWidth = Dimensions.get('window').width;
 export default function SalesScreen() {
   const { getSales, sales, selectSale, selectedSale, getSaleCount, saleCount, filters } = useSaleStore()
   const { user } = useUserStore()
+
   const [pageNumber, setPageNumber] = useState(1)
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1)
   const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (user?.id) {
-      getSaleCount(user.id)
+    const fetchSaleCount = async () => {
+      if (user?.id) {
+        setIsLoading(true)
+        await getSaleCount(user.id)
+        setIsLoading(false)
+      }
     }
+    fetchSaleCount()
   }, [user, filters])
 
   useEffect(() => {
-    if (user?.id && pageNumber) {
-      getSales(user.id, pageNumber)
+    const fetchSales = async () => {
+      if (user?.id && pageNumber) {
+        setIsLoading(true)
+        await getSales(user.id, pageNumber)
+        setIsLoading(false)
+      }
     }
+    fetchSales()
   }, [pageNumber, filters])
 
   const openBottomSheet = (sale: ISale | null) => {
@@ -57,17 +69,21 @@ export default function SalesScreen() {
               <Button label='Satış Ekle' onPress={() => openBottomSheet(null)} />
             </View>
           </View>
-          <View style={styles.cardContainer}>
-            {
-              sales?.map(((sale, index) => (
+
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#000" />
+          ) : (
+            <View style={styles.cardContainer}>
+              {sales?.map((sale, index) => (
                 <TouchableOpacity onPress={() => openBottomSheet(sale)} key={index}>
                   <SaleCard sale={sale} />
                 </TouchableOpacity>
-              )))
-            }
-            <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={saleCount / 10 + 1} />
-          </View>
+              ))}
+              <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={saleCount / 10 + 1} />
+            </View>
+          )}
         </Layout>
+
         <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
           <SaleForm defaultSale={selectedSale} currentPage={pageNumber} />
         </SheetModal>
