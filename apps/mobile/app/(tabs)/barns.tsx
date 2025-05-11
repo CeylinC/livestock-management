@@ -12,6 +12,7 @@ import BarnForm from '@/components/forms/BarnForm';
 import { IBarn } from '../../../../packages/shared/models';
 import BarnFilterMenu from '@/components/filtermenus/BarnFilterMenu';
 import { useUserStore } from '@/stores/useUserStore';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -45,6 +46,7 @@ export default function BarnsScreen() {
 
   return (
     <GestureHandlerRootView>
+      <BottomSheetModalProvider>
       <Layout>
         <Text>Barns</Text>
         <View style={styles.buttonContainer}>
@@ -72,6 +74,7 @@ export default function BarnsScreen() {
       <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
         <BarnFilterMenu/>
       </SheetModal>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }

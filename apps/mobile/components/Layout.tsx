@@ -1,3 +1,4 @@
+import SettingIcon from "@/assets/icons/setting";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { ReactNode } from "react";
@@ -28,7 +29,7 @@ export default function Layout({
             <Text style={styles.usernameText}>Ceylin</Text>
           </View>
           <View>
-            <TouchableOpacity onPress={routeSettings}><Text>S</Text></TouchableOpacity>
+            <TouchableOpacity onPress={routeSettings}><SettingIcon stroke="#fff" size={32}/></TouchableOpacity>
           </View>
         </View>
         <ScrollView style={styles.content}>
@@ -58,6 +59,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center"
   },
   welcomeText: {
     color: "white"

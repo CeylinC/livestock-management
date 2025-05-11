@@ -12,6 +12,7 @@ import { IStock } from '../../../../packages/shared/models';
 import StockForm from '@/components/forms/StockForm';
 import StockFilterMenu from '@/components/filtermenus/StockFilterMenu';
 import { useUserStore } from '@/stores/useUserStore';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -45,6 +46,7 @@ export default function StocksScreen() {
 
   return (
     <GestureHandlerRootView>
+      <BottomSheetModalProvider>
       <Layout>
         <Text>Stocks</Text>
         <View style={styles.buttonContainer}>
@@ -72,6 +74,7 @@ export default function StocksScreen() {
       <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
         <StockFilterMenu />
       </SheetModal>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }

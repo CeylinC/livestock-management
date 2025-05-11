@@ -12,6 +12,7 @@ import { ISale } from '../../../../packages/shared/models';
 import SaleForm from '@/components/forms/SaleForm';
 import SaleFilterMenu from '@/components/filtermenus/SaleFilterMenu';
 import { useUserStore } from '@/stores/useUserStore';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -23,7 +24,7 @@ export default function SalesScreen() {
   const [bottomSheetIndexFilter, setBottomSheetIndexFilter] = useState(-1)
 
   useEffect(() => {
-    if(user?.id) {
+    if (user?.id) {
       getSaleCount(user.id)
     }
   }, [user, filters])
@@ -45,33 +46,35 @@ export default function SalesScreen() {
 
   return (
     <GestureHandlerRootView>
-      <Layout>
-        <Text>Sales</Text>
-        <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
+      <BottomSheetModalProvider>
+        <Layout>
+          <Text>Sales</Text>
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
+            </View>
+            <View style={styles.button}>
+              <Button label='Satış Ekle' onPress={() => openBottomSheet(null)} />
+            </View>
           </View>
-          <View style={styles.button}>
-            <Button label='Satış Ekle' onPress={() => openBottomSheet(null)} />
+          <View style={styles.cardContainer}>
+            {
+              sales?.map(((sale, index) => (
+                <TouchableOpacity onPress={() => openBottomSheet(sale)} key={index}>
+                  <SaleCard sale={sale} />
+                </TouchableOpacity>
+              )))
+            }
+            <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={saleCount / 10 + 1} />
           </View>
-        </View>
-        <View style={styles.cardContainer}>
-          {
-            sales?.map(((sale, index) => (
-              <TouchableOpacity onPress={() => openBottomSheet(sale)} key={index}>
-                <SaleCard sale={sale} />
-              </TouchableOpacity>
-            )))
-          }
-          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={saleCount / 10 + 1} />
-        </View>
-      </Layout>
-      <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-        <SaleForm defaultSale={selectedSale} currentPage={pageNumber}/>
-      </SheetModal>
-      <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
-        <SaleFilterMenu />
-      </SheetModal>
+        </Layout>
+        <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
+          <SaleForm defaultSale={selectedSale} currentPage={pageNumber} />
+        </SheetModal>
+        <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
+          <SaleFilterMenu />
+        </SheetModal>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }
