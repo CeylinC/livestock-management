@@ -20,8 +20,15 @@ export default function SettingsScreen() {
 
   return (
     <Layout>
-      <Text>Setting</Text>
+      <Text style={styles.title}>Ayarlar</Text>
       <Button label="Çıkış Yap" onPress={signOut} variant='danger'/>
     </Layout>
   );
 }
+const styles = StyleSheet.create({
+  title: {
+    fontWeight: "600",
+    fontSize: 24,
+    marginBottom: 8
+  },
+})

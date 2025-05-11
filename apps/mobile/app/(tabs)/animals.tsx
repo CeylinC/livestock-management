@@ -73,8 +73,7 @@ export default function AnimalsScreen() {
     <GestureHandlerRootView>
       <BottomSheetModalProvider>
         <Layout>
-          <Text>Animals</Text>
-
+          <Text style={styles.title}>Hayvanlar</Text>
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
               <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
@@ -110,6 +109,11 @@ export default function AnimalsScreen() {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    fontWeight: "600",
+    fontSize: 24,
+    marginBottom: 8
+  },
   cardContainer: {
     display: "flex",
     flexDirection: "column",

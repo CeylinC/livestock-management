@@ -60,8 +60,7 @@ export default function BarnsScreen() {
     <GestureHandlerRootView>
       <BottomSheetModalProvider>
         <Layout>
-          <Text>Barns</Text>
-
+          <Text style={styles.title}>Ağıllar</Text>
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
               <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
@@ -97,6 +96,11 @@ export default function BarnsScreen() {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    fontWeight: "600",
+    fontSize: 24,
+    marginBottom: 8
+  },
   cardContainer: {
     display: "flex",
     flexDirection: "column",

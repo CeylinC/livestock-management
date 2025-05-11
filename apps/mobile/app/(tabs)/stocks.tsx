@@ -59,7 +59,7 @@ export default function StocksScreen() {
     <GestureHandlerRootView>
       <BottomSheetModalProvider>
         <Layout>
-          <Text>Stocks</Text>
+          <Text style={styles.title}>Stoklar</Text>
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
               <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
@@ -95,6 +95,11 @@ export default function StocksScreen() {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    fontWeight: "600",
+    fontSize: 24,
+    marginBottom: 8
+  },
   cardContainer: {
     display: "flex",
     flexDirection: "column",

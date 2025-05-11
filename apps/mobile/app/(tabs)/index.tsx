@@ -29,7 +29,7 @@ export default function HomeScreen() {
 
   return (
     <Layout>
-      <Text>Anasayfa</Text>
+      <Text style={styles.pageTitle}>Anasayfa</Text>
       {isLoading ? (
         <ActivityIndicator size="large" color="#000" />
       ) : (
@@ -93,6 +93,11 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  pageTitle: {
+    fontWeight: "600",
+    fontSize: 24,
+    marginBottom: 8
+  },
   container: {
     padding: 16,
   },
