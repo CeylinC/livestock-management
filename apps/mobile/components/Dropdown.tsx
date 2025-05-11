@@ -30,7 +30,7 @@ export default function Dropdown({
   placeholder = 'Seçiniz',
 }: DropdownProps) {
   const [visible, setVisible] = useState(false);
-  const selected = options.find(opt => opt.value === value);
+  const selected = options.find(opt => opt.value == value);
 
   return (
     <View style={styles.container}>
