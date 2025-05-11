@@ -51,8 +51,8 @@ export default function Login() {
       <View style={styles.container}>
         <Text style={styles.title}>Tekrar Hoşgeldin!</Text>
         <Input name="email" label="Email" onChange={(value) => setEmail(value)} />
-        <Input name="password" label="Şifre" onChange={(value) => setPassword(value)} />
-        <Button label="Üye Ol" onPress={() => signInWithEmail(email, password)} />
+        <Input name="password" label="Şifre" onChange={(value) => setPassword(value)} secureTextEntry />
+        <Button label="Giriş Yap" onPress={() => signInWithEmail(email, password)} />
         <TouchableOpacity onPress={routeLogin}><Text>Hesabın yok mu? Üye ol</Text></TouchableOpacity>
       </View>
     </View>
