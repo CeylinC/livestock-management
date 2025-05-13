@@ -7,7 +7,7 @@ import Dropdown from "../Dropdown";
 import Popover from "../Popover";
 
 export default function AnimalFilterMenu() {
-  const { filters, setFilters } = useAnimalStore();
+  const { filters, setFilters,  } = useAnimalStore();
 
   const genderOptions = [
     ...[gender.female, gender.male].map((g) => ({
