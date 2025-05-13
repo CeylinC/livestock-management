@@ -83,7 +83,7 @@ export default function BarnForm({
     />
     <div className="flex flex-row gap-2">
       <Button label="Ekle" onClick={onSubmit} />
-      <Button label="Sil" onClick={onDelete} />
+      <Button label="Sil" onClick={onDelete} variant="danger"/>
     </div>
   </div>
 }

@@ -21,9 +21,9 @@ export default function SettingsPage() {
   
   return (
     <div>
-      Settings Page
-      <div className="w-80">
-      <Button label="Çıkış Yap" onClick={signOut}/>
+      <div className="font-bold text-2xl">Ayarlar</div>
+      <div className="w-80 mt-4">
+      <Button label="Çıkış Yap" onClick={signOut} variant="danger"/>
       </div>
     </div>
   );

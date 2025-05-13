@@ -1,14 +1,22 @@
 export default function Button({
   label,
-  onClick
+  onClick,
+  variant = 'default',
 }: {
   label: string,
-  onClick: () => void
+  onClick: () => void,
+  variant?: 'default' | 'danger',
 }) {
-  return <button
-  onClick={onClick}
-  className="w-full h-10 bg-gradient-to-tr from-[#0A8270] to-[#7CFF6B] flex justify-center items-center rounded-md text-white font-semibold hover:brightness-90 transition"
-  >
-    {label}
-  </button>
+  const buttonStyles = variant === 'danger'
+    ? 'bg-gradient-to-tr from-[#d71d38] to-[#D70654]'
+    : 'bg-gradient-to-tr from-[#0A8270] to-[#7CFF6B]';
+
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full h-10 ${buttonStyles} flex justify-center items-center rounded-md text-white font-semibold hover:brightness-90 transition`}
+    >
+      {label}
+    </button>
+  );
 }
