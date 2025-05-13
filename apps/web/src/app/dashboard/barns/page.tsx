@@ -1,31 +1,43 @@
 'use client'
 
-import Pagination from "@/components/Pagination";
-import BarnTable from "@/components/tables/BarnTable";
+import { useEffect, useState } from "react"
+import Pagination from "@/components/Pagination"
+import BarnTable from "@/components/tables/BarnTable"
+import Drawer from "@/components/Drawer"
+import Button from "@/components/Button"
+import { Barn } from "../../../../../../packages/shared/classes"
+import BarnForm from "@/components/forms/BarnForm"
+import BarnFilterMenu from "@/components/filterMenus/BarnFilterMenu"
 import { useBarnStore } from "@/stores/useBarnStore"
-import { useEffect, useState } from "react";
-import Drawer from "@/components/Drawer";
-import Button from "@/components/Button";
-import { Barn } from "../../../../../../packages/shared/classes";
-import BarnForm from "@/components/forms/BarnForm";
-import BarnFilterMenu from "@/components/filterMenus/BarnFilterMenu";
-import { useUserStore } from "@/stores/useUserStore";
+import { useUserStore } from "@/stores/useUserStore"
+import Spinner from "@/components/Spinner"
 
 export default function BarnsPage() {
   const { getBarns, selectBarn, selectedBarn, getBarnCount, barnCount, filters } = useBarnStore()
   const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (user?.id) {
-      getBarnCount(user.id)
+    const fetchBarnCount = async () => {
+      if (user?.id) {
+        setIsLoading(true)
+        await getBarnCount(user.id)
+        setIsLoading(false)
+      }
     }
+    fetchBarnCount()
   }, [user, filters])
 
   useEffect(() => {
-    if (user?.id && pageNumber) {
-      getBarns(user.id, pageNumber)
+    const fetchBarns = async () => {
+      if (user?.id && pageNumber) {
+        setIsLoading(true)
+        await getBarns(user.id, pageNumber)
+        setIsLoading(false)
+      }
     }
+    fetchBarns()
   }, [pageNumber, filters])
 
   const handleCloseDrawer = () => {
@@ -34,9 +46,12 @@ export default function BarnsPage() {
 
   return (
     <div className="flex flex-col gap-4 relative h-full">
-      {selectedBarn && <Drawer onClose={handleCloseDrawer}>
-        <BarnForm defaultBarn={selectedBarn} currentPage={pageNumber}/>
-      </Drawer>}
+      {selectedBarn && (
+        <Drawer onClose={handleCloseDrawer}>
+          <BarnForm defaultBarn={selectedBarn} currentPage={pageNumber} />
+        </Drawer>
+      )}
+
       <div className="flex flex-row justify-between">
         <div>
           <div className="font-bold text-2xl">Ağıllar</div>
@@ -49,10 +64,21 @@ export default function BarnsPage() {
           </div>
         </div>
       </div>
-      <BarnTable />
-      <div className="absolute bottom-10 right-1/2 translate-1/2">
-        <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={barnCount / 10 + 1} />
-      </div>
+
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <BarnTable />
+          <div className="absolute bottom-10 right-1/2 translate-x-1/2">
+            <Pagination
+              pageNumber={pageNumber}
+              setPageNumber={setPageNumber}
+              totalPages={Math.ceil(barnCount / 10)}
+            />
+          </div>
+        </>
+      )}
     </div>
-  );
+  )
 }

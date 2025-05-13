@@ -1,31 +1,43 @@
 'use client'
 
-import Pagination from "@/components/Pagination";
+import { useEffect, useState } from "react"
+import Pagination from "@/components/Pagination"
+import SaleTable from "@/components/tables/SaleTable"
+import Drawer from "@/components/Drawer"
+import Button from "@/components/Button"
+import { Sale } from "../../../../../../packages/shared/classes"
+import SaleForm from "@/components/forms/SaleForm"
+import SaleFilterMenu from "@/components/filterMenus/SaleFilterMenu"
 import { useSaleStore } from "@/stores/useSaleStore"
-import { useEffect, useState } from "react";
-import SaleTable from "@/components/tables/SaleTable";
-import Drawer from "@/components/Drawer";
-import Button from "@/components/Button";
-import { Sale } from "../../../../../../packages/shared/classes";
-import SaleForm from "@/components/forms/SaleForm";
-import SaleFilterMenu from "@/components/filterMenus/SaleFilterMenu";
-import { useUserStore } from "@/stores/useUserStore";
+import { useUserStore } from "@/stores/useUserStore"
+import Spinner from "@/components/Spinner"
 
 export default function SalesPage() {
   const { getSales, selectSale, selectedSale, getSaleCount, saleCount, filters } = useSaleStore()
   const { user } = useUserStore()
   const [pageNumber, setPageNumber] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if(user?.id) {
-      getSaleCount(user.id)
+    const fetchSaleCount = async () => {
+      if (user?.id) {
+        setIsLoading(true)
+        await getSaleCount(user.id)
+        setIsLoading(false)
+      }
     }
+    fetchSaleCount()
   }, [user, filters])
 
   useEffect(() => {
-    if (user?.id && pageNumber) {
-      getSales(user.id, pageNumber)
+    const fetchSales = async () => {
+      if (user?.id && pageNumber) {
+        setIsLoading(true)
+        await getSales(user.id, pageNumber)
+        setIsLoading(false)
+      }
     }
+    fetchSales()
   }, [pageNumber, filters])
 
   const handleCloseDrawer = () => {
@@ -34,9 +46,12 @@ export default function SalesPage() {
 
   return (
     <div className="flex flex-col gap-4 relative h-full">
-      {selectedSale && <Drawer onClose={handleCloseDrawer}>
-        <SaleForm defaultSale={selectedSale} currentPage={pageNumber}/>
-      </Drawer>}
+      {selectedSale && (
+        <Drawer onClose={handleCloseDrawer}>
+          <SaleForm defaultSale={selectedSale} currentPage={pageNumber} />
+        </Drawer>
+      )}
+
       <div className="flex flex-row justify-between">
         <div>
           <div className="font-bold text-2xl">Satışlar</div>
@@ -49,10 +64,21 @@ export default function SalesPage() {
           </div>
         </div>
       </div>
-      <SaleTable />
-      <div className="absolute bottom-10 right-1/2 translate-1/2">
-        <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={saleCount / 10 + 1} />
-      </div>
+
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <SaleTable />
+          <div className="absolute bottom-10 right-1/2 translate-x-1/2">
+            <Pagination
+              pageNumber={pageNumber}
+              setPageNumber={setPageNumber}
+              totalPages={Math.ceil(saleCount / 10)}
+            />
+          </div>
+        </>
+      )}
     </div>
-  );
+  )
 }
