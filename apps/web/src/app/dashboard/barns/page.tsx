@@ -70,7 +70,7 @@ export default function BarnsPage() {
       ) : (
         <>
           <BarnTable />
-          <div className="absolute bottom-10 right-1/2 translate-x-1/2">
+          <div className="-mt-5">
             <Pagination
               pageNumber={pageNumber}
               setPageNumber={setPageNumber}
