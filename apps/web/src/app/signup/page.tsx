@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useUserStore } from '@/stores/useUserStore'
 import { User } from '../../../../../packages/shared/classes/User'
 import { useRouter } from "next/navigation";
+import signupImage from "../../../public/signup.jpg";
 
 export default function Signup() {
   const [email, setEmail] = useState("")
@@ -32,15 +33,21 @@ export default function Signup() {
   };
 
 
-  return <div className="w-full h-screen bg-gradient-to-tr from-[#0A8270] to-[#7CFF6B] flex justify-center items-center">
-    <div className="bg-white p-8 rounded-md flex flex-col gap-6">
-      Üye ol
+  return <div className="w-full h-screen flex justify-start"
+        style={{
+          backgroundImage: `linear-gradient(to top right, #0A8270cc, #7CFF6B99), url(${signupImage.src})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}>
+    <div className="bg-white p-8 rounded-md flex flex-col gap-6 h-full items-center justify-center">
+      <div className="font-bold text-lg">Merhaba, Hoşgeldin!</div>
       <div className="flex flex-col gap-4">
         <Input name="email" label="Email" onChange={(value) => setEmail(value)} />
         <Input name="userName" label="Kullanıcı Adı" onChange={(value) => setUsername(value)} />
         <Input name="password" label="Password" onChange={(value) => setPassword(value)} />
       </div>
       <Button label="Üye ol" onClick={() => signUpWithEmail(email, password)} />
+      <div onClick={() => router.push("/login")}>Hesabın var mı? Giriş Yap</div>
     </div>
   </div>
 }
