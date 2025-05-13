@@ -8,8 +8,8 @@ import Popover from "../Popover";
 import { useBarnStore } from "@/stores/useBarnStore";
 
 export default function AnimalFilterMenu() {
-  const { filters, setFilters,  } = useAnimalStore();
-    const { allBarns } = useBarnStore()
+  const { filters, setFilters, } = useAnimalStore();
+  const { allBarns } = useBarnStore()
 
   const genderOptions = [
     ...[gender.female, gender.male].map((g) => ({
@@ -33,10 +33,17 @@ export default function AnimalFilterMenu() {
     },
   ];
 
-    const barnOptions = allBarns?.map(b => ({
-    label: b.name,
-    value: b.id
-  }))
+  const barnOptions = [
+    {
+      label: "Hepsi",
+      value: "",
+    },
+    ...allBarns?.map(b => ({
+      label: b.name,
+      value: b.id,
+    })) ?? []
+  ]
+
 
   const onChangeType = (value: animalTypes | null) => {
     setFilters({ ...filters, type: value })

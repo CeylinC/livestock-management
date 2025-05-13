@@ -5,9 +5,11 @@ import { toReadableGender } from "../../../../packages/shared/utils/toReadableGe
 import { animalTypes } from "../../../../packages/shared/enums/animalTypes";
 import { toReadableAnimalType } from "../../../../packages/shared/utils/toReadableAnimalType";
 import Dropdown from "../Dropdown";
+import { useBarnStore } from "@/stores/useBarnStore";
 
 export default function AnimalFilterMenu() {
   const { filters, setFilters } = useAnimalStore();
+  const { allBarns } = useBarnStore()
 
   const genderOptions = [
     ...[gender.female, gender.male].map((g) => ({
@@ -30,6 +32,18 @@ export default function AnimalFilterMenu() {
       value: "",
     },
   ];
+
+const barnOptions = [
+  {
+    label: "Hepsi",
+    value: "",
+  },
+  ...allBarns?.map(b => ({
+    label: b.name,
+    value: b.id,
+  })) ?? []
+]
+
 
   const onChangeType = (value: animalTypes | null) => {
     setFilters({ ...filters, type: value })
@@ -60,7 +74,7 @@ export default function AnimalFilterMenu() {
     />
     <Dropdown
       label="Ağıl"
-      options={genderOptions}
+      options={barnOptions || []}
       value={filters.barn ?? ""}
       onChange={(val) => onChangeBarn(val || null)}
       placeholder="Seçiniz"
