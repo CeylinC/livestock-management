@@ -45,7 +45,7 @@ export default function Login() {
         <Input name="password" label="Password" onChange={(value) => setPassword(value)} />
       </div>
       <Button label="Giriş Yap" onClick={() => signInWithEmail(email, password)} />
-      <div onClick={() => router.push("/login")}>Hesabın yok mu? Üye ol</div>
+      <div onClick={() => router.push("/signup")}>Hesabın yok mu? Üye ol</div>
     </div>
   </div>
 }
