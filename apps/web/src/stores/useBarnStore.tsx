@@ -126,7 +126,7 @@ export const useBarnStore = create<BarnState>((set, get) => ({
     }
   },
   getAllBarns: async (userId) => {
-    let query = supabase
+    const query = supabase
       .from('barns')
       .select('*')
       .eq('user_id', userId)
