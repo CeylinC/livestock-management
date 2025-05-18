@@ -12,10 +12,12 @@ import { useUserStore } from "@/stores/useUserStore";
 
 export default function StockForm({
   defaultStock,
-  currentPage
+  currentPage,
+  onClose
 }: {
   defaultStock: IStock | null
   currentPage: number
+  onClose: () => void
 }) {
   const [stock, setStock] = useState(defaultStock ?? new Stock())
   const { addStock, updateStock, deleteStock, getStocks } = useStockStore()
@@ -53,6 +55,7 @@ export default function StockForm({
       } else {
         addStock(user.id, stock)
       }
+      onClose()
     }
   }
 
@@ -61,6 +64,7 @@ export default function StockForm({
       if (stock.id) {
         await deleteStock(user.id, stock.id)
         await getStocks(user.id, currentPage)
+        onClose()
       }
     }
   }

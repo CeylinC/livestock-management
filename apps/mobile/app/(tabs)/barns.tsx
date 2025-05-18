@@ -85,7 +85,7 @@ export default function BarnsScreen() {
         </Layout>
 
         <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-          <BarnForm defaultBarn={selectedBarn} currentPage={pageNumber} />
+          <BarnForm defaultBarn={selectedBarn} currentPage={pageNumber} onClose={() => setBottomSheetIndex(-1)}/>
         </SheetModal>
         <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
           <BarnFilterMenu />

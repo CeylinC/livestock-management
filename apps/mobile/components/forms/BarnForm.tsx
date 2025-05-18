@@ -14,10 +14,12 @@ import { useUserStore } from "@/stores/useUserStore";
 
 export default function BarnForm({
   defaultBarn,
-  currentPage
+  currentPage,
+  onClose
 }: {
   defaultBarn: IBarn | null
   currentPage: number
+  onClose: () => void
 }) {
   const [barn, setBarn] = useState(defaultBarn ?? new Barn())
   const { addBarn, updateBarn, deleteBarn, getBarns } = useBarnStore()
@@ -52,6 +54,7 @@ export default function BarnForm({
       } else {
         addBarn(user.id, barn)
       }
+      onClose()
     }
   }
 
@@ -60,6 +63,7 @@ export default function BarnForm({
       if (barn.id) {
         await deleteBarn(user.id, barn.id)
         await getBarns(user.id, currentPage)
+        onClose()
       }
     }
   }

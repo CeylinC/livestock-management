@@ -15,10 +15,12 @@ import { useUserStore } from "@/stores/useUserStore";
 
 export default function SaleForm({
   defaultSale,
-  currentPage
+  currentPage,
+  onClose
 }: {
   defaultSale: ISale | null
   currentPage: number
+  onClose: () => void
 }) {
   const [sale, setSale] = useState(defaultSale ?? new Sale())
   const { addSale, updateSale, deleteSale, getSales } = useSaleStore()
@@ -77,6 +79,7 @@ export default function SaleForm({
       } else {
         addSale(user.id, sale)
       }
+      onClose()
     }
   }
 
@@ -85,6 +88,7 @@ export default function SaleForm({
       if (sale.id) {
         await deleteSale(user.id, sale.id)
         await getSales(user.id, currentPage)
+        onClose()
       }
     }
   }

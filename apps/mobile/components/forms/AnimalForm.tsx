@@ -18,10 +18,12 @@ import { useBarnStore } from "@/stores/useBarnStore";
 
 export default function AnimalForm({
   defaultAnimal,
-  currentPage
+  currentPage,
+  onClose
 }: {
   defaultAnimal: IAnimal | null
   currentPage: number
+  onClose: () => void
 }) {
   const [animal, setAnimal] = useState(defaultAnimal ?? new Animal())
   const { addAnimal, updateAnimal, deleteAnimal, getAnimals } = useAnimalStore()
@@ -87,6 +89,7 @@ export default function AnimalForm({
       } else {
         addAnimal(user.id, animal)
       }
+      onClose()
     }
   }
 
@@ -95,6 +98,7 @@ export default function AnimalForm({
       if (animal.id) {
         await deleteAnimal(user.id, animal.id)
         await getAnimals(user.id, currentPage)
+        onClose()
       }
     }
   }

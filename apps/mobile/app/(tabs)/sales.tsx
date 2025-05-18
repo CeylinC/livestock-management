@@ -85,7 +85,7 @@ export default function SalesScreen() {
         </Layout>
 
         <SheetModal index={bottomSheetIndex} setIndex={setBottomSheetIndex}>
-          <SaleForm defaultSale={selectedSale} currentPage={pageNumber} />
+          <SaleForm defaultSale={selectedSale} currentPage={pageNumber} onClose={() => setBottomSheetIndex(-1)}/>
         </SheetModal>
         <SheetModal index={bottomSheetIndexFilter} setIndex={setBottomSheetIndexFilter}>
           <SaleFilterMenu />
