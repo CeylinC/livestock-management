@@ -13,10 +13,12 @@ import { useUserStore } from "@/stores/useUserStore";
 
 export default function BarnForm({
   defaultBarn,
-  currentPage
+  currentPage,
+  onClose
 }: {
   defaultBarn: IBarn | null
   currentPage: number
+  onClose: () => void
 }) {
   const { addBarn, updateBarn, deleteBarn, getBarns } = useBarnStore()
   const { user } = useUserStore()
@@ -52,6 +54,7 @@ export default function BarnForm({
       } else {
         addBarn(user.id, barn)
       }
+      onClose()
     }
   }
 
@@ -60,6 +63,7 @@ export default function BarnForm({
       if (barn.id) {
         await deleteBarn(user.id, barn.id)
         await getBarns(user.id, currentPage)
+        onClose()
       }
     }
   }
@@ -82,7 +86,7 @@ export default function BarnForm({
       placeholder="Seçiniz"
     />
     <div className="flex flex-row gap-2">
-      <Button label="Ekle" onClick={onSubmit} />
+      <Button label={barn.id ? "Güncelle" : "Ekle" } onClick={onSubmit} />
       <Button label="Sil" onClick={onDelete} variant="danger"/>
     </div>
   </div>

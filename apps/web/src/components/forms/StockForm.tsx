@@ -11,10 +11,12 @@ import { useUserStore } from "@/stores/useUserStore";
 
 export default function StockForm({
   defaultStock,
-  currentPage
+  currentPage,
+  onClose
 }: {
   defaultStock: IStock | null
   currentPage: number
+  onClose: () => void
 }) {
   const { addStock, updateStock, deleteStock, getStocks } = useStockStore()
   const { user } = useUserStore()
@@ -52,6 +54,7 @@ export default function StockForm({
       } else {
         addStock(user.id, stock)
       }
+      onClose()
     }
   }
 
@@ -60,6 +63,7 @@ export default function StockForm({
       if (stock.id) {
         await deleteStock(user.id, stock.id)
         await getStocks(user.id, currentPage)
+        onClose()
       }
     }
   }
@@ -78,7 +82,7 @@ export default function StockForm({
     <Input name="type" label="Satıcı" value={stock.dealer} onChange={(value) => onChangeDealer(value)} />
     <Input name="type" label="Stok Yeri" value={stock.storage} onChange={(value) => onChangeStorage(value)} />
     <div className="flex flex-row gap-2">
-      <Button label="Ekle" onClick={onSubmit} />
+      <Button label={stock.id ? "Güncelle" : "Ekle" } onClick={onSubmit} />
       <Button label="Sil" onClick={onDelete} variant="danger"/>
     </div>
   </div>

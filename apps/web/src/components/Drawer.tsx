@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Xmark from '../../public/icons/Xmark';
 
 const Drawer = ({
   children,
@@ -30,7 +31,7 @@ const Drawer = ({
         <div className="flex items-center justify-between p-2">
           <button onClick={onClose}>
             <div className="w-5 h-5"
-            >Kapat</div>
+            ><Xmark /></div>
           </button>
         </div>
         {children}

@@ -14,10 +14,12 @@ import { useUserStore } from "@/stores/useUserStore";
 
 export default function StockForm({
   defaultSale,
-  currentPage
+  currentPage,
+  onClose
 }: {
   defaultSale: ISale | null
   currentPage: number
+  onClose: () => void
 }) {
   const { addSale, updateSale, deleteSale, getSales } = useSaleStore()
   const { user } = useUserStore()
@@ -76,6 +78,7 @@ export default function StockForm({
       } else {
         addSale(user.id, sale)
       }
+      onClose()
     }
   }
 
@@ -84,6 +87,7 @@ export default function StockForm({
       if (sale.id) {
         await deleteSale(user.id, sale.id)
         await getSales(user.id, currentPage)
+        onClose()
       }
     }
   }
@@ -124,7 +128,7 @@ export default function StockForm({
       </div>
     </div>
     <div className="flex flex-row gap-2">
-      <Button label="Ekle" onClick={onSubmit} />
+      <Button label={sale.id ? "Güncelle" : "Ekle" } onClick={onSubmit} />
       <Button label="Sil" onClick={onDelete} variant="danger"/>
     </div>
   </div>

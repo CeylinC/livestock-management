@@ -48,7 +48,7 @@ export default function Sales() {
     <div className="flex flex-col gap-4 relative h-full">
       {selectedSale && (
         <Drawer onClose={handleCloseDrawer}>
-          <SaleForm defaultSale={selectedSale} currentPage={pageNumber} />
+          <SaleForm defaultSale={selectedSale} currentPage={pageNumber} onClose={handleCloseDrawer}/>
         </Drawer>
       )}
 

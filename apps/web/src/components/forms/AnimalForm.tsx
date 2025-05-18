@@ -17,10 +17,12 @@ import { useBarnStore } from "@/stores/useBarnStore";
 
 export default function AnimalForm({
   defaultAnimal,
-  currentPage
+  currentPage,
+  onClose
 }: {
   defaultAnimal: IAnimal | null
   currentPage: number
+  onClose: () => void
 }) {
   const { addAnimal, updateAnimal, deleteAnimal, getAnimals } = useAnimalStore()
   const { allBarns } = useBarnStore()
@@ -85,6 +87,7 @@ export default function AnimalForm({
       } else {
         addAnimal(user.id, animal)
       }
+      onClose()
     }
   }
 
@@ -93,6 +96,7 @@ export default function AnimalForm({
       if (animal.id) {
         await deleteAnimal(user.id, animal.id)
         await getAnimals(user.id, currentPage)
+        onClose()
       }
     }
   }
@@ -141,7 +145,7 @@ export default function AnimalForm({
       direction="up"
     />
     <div className="flex flex-row gap-2">
-      <Button label="Ekle" onClick={onSubmit} />
+      <Button label={animal.id ? "Güncelle" : "Ekle" } onClick={onSubmit} />
       <Button label="Sil" onClick={onDelete} variant="danger"/>
     </div>
   </div>

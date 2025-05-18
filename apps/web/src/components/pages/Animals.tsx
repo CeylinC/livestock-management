@@ -61,7 +61,7 @@ export default function Animals() {
     <div className="flex flex-col gap-4 relative h-full">
       {selectedAnimal && (
         <Drawer onClose={handleCloseDrawer}>
-          <AnimalForm defaultAnimal={selectedAnimal} currentPage={pageNumber} />
+          <AnimalForm defaultAnimal={selectedAnimal} currentPage={pageNumber} onClose={handleCloseDrawer}/>
         </Drawer>
       )}
 

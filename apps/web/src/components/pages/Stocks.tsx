@@ -48,7 +48,7 @@ export default function Stocks() {
     <div className="flex flex-col gap-4 relative h-full">
       {selectedStock && (
         <Drawer onClose={handleCloseDrawer}>
-          <StockForm defaultStock={selectedStock} currentPage={pageNumber} />
+          <StockForm defaultStock={selectedStock} currentPage={pageNumber} onClose={handleCloseDrawer}/>
         </Drawer>
       )}
 

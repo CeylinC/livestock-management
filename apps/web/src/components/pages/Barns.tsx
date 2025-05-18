@@ -48,7 +48,7 @@ export default function Barns() {
     <div className="flex flex-col gap-4 relative h-full">
       {selectedBarn && (
         <Drawer onClose={handleCloseDrawer}>
-          <BarnForm defaultBarn={selectedBarn} currentPage={pageNumber} />
+          <BarnForm defaultBarn={selectedBarn} currentPage={pageNumber} onClose={handleCloseDrawer}/>
         </Drawer>
       )}
 
