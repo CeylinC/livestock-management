@@ -91,7 +91,7 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
         type: animal.type,
         genus: animal.genus,
         gender: animal.gender,
-        birthday: animal.birthday.toDate(),
+        birthday: animal.birthday.format("YYYY-MM-DD"),
         weight: animal.weight,
         is_pregnant: animal.isPregnant,
         barn: animal.barnName
@@ -110,7 +110,7 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
         type: animal.type,
         genus: animal.genus,
         gender: animal.gender,
-        birthday: animal.birthday.toDate(),
+        birthday: animal.birthday.format("YYYY-MM-DD"),
         weight: animal.weight,
         is_pregnant: animal.isPregnant,
         barn: animal.barnName

@@ -82,7 +82,7 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
   },
   setFilters: (value) => set({ filters: value }),
   addAnimal: async (userId, animal) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('animals')
       .insert([{
         user_id: userId,
@@ -91,7 +91,7 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
         type: animal.type,
         genus: animal.genus,
         gender: animal.gender,
-        birthday: animal.birthday.toDate(),
+        birthday: animal.birthday.format("YYYY-MM-DD"),
         weight: animal.weight,
         is_pregnant: animal.isPregnant,
         barn: animal.barnName
@@ -102,7 +102,7 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
     set((state) => ({ animals: state.animals ? [new Animal(data), ...state.animals].slice(0, -1) : [new Animal(data)] }))
   },
   updateAnimal: async (userId, animal) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('animals')
       .update({
         name: animal.name,
@@ -110,7 +110,7 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
         type: animal.type,
         genus: animal.genus,
         gender: animal.gender,
-        birthday: animal.birthday.toDate(),
+        birthday: animal.birthday.format("YYYY-MM-DD"),
         weight: animal.weight,
         is_pregnant: animal.isPregnant,
         barn: animal.barnName
