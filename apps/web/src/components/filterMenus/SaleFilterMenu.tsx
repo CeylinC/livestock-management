@@ -59,11 +59,10 @@ export default function SaleFilterMenu() {
           />
         </div>
       }
-      children={
+      >
         <div className="h-10 px-4 border border-gray-300 rounded-md text-gray-400 flex items-center transition hover:brightness-90 hover:bg-black/5">
           Filtrele
         </div>
-      }
-    />
+       </Popover>
   </div>
 }

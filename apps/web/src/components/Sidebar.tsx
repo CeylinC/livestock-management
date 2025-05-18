@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname, useRouter } from "next/navigation"
-import { useEffect, useState } from "react";
 
 export default function Sidebar() {
   const router = useRouter();
