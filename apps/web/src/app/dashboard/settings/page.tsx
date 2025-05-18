@@ -1,30 +1,11 @@
-'use client'
+import Settings from "@/components/pages/Settings";
+import { Metadata } from "next";
 
-import Button from "@/components/Button";
-import { supabase } from "@/utils/supabaseClient";
-import { useUserStore } from "@/stores/useUserStore";
-import { useRouter } from "next/navigation";
+export const metadata: Metadata = {
+  title: "Ayarlar | Dijital Çiftlik",
+  description: "Dijital Çiftlik, çiftlik yönetimini kolaylaştıran ve optimize eden bir platformdur.",
+};
 
 export default function SettingsPage() {
-  const { clearUser } = useUserStore()
-  const router = useRouter()
-
-  
-  const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      throw new Error(error.message);
-    }
-    clearUser()
-    router.push("/login")
-  };
-  
-  return (
-    <div>
-      <div className="font-bold text-2xl">Ayarlar</div>
-      <div className="w-80 mt-4">
-      <Button label="Çıkış Yap" onClick={signOut} variant="danger"/>
-      </div>
-    </div>
-  );
+  return <Settings />
 }
