@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Dijital Çiftlik",
   description: "Dijital Çiftlik, çiftlik yönetimini kolaylaştıran ve optimize eden bir platformdur.",
+  icons: {
+    icon: "/icon.svg",
+  }
 };
 
 export default function RootLayout({
