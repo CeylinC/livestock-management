@@ -39,7 +39,7 @@ export const useStockStore = create<StockState>((set, get) => ({
       .order('created_at', { ascending: false })
       .range((pageNumber - 1) * 10, pageNumber * 10 - 1)
 
-    const { data, error } = await query
+    const { data } = await query
 
     set(() => ({ stocks: data ? data.map(stock => new Stock(stock)) : null }))
   },
@@ -66,7 +66,7 @@ export const useStockStore = create<StockState>((set, get) => ({
     }
   },  
   addStock: async (userId, stock) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('stocks')
       .insert([{
         user_id: userId,
@@ -82,7 +82,7 @@ export const useStockStore = create<StockState>((set, get) => ({
     set((state) => ({ stocks: state.stocks ? [new Stock(data), ...state.stocks].slice(0, -1) : [new Stock(data)] }))
   },
   updateStock: async (userId, stock) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('stocks')
       .update({
         name: stock.name,

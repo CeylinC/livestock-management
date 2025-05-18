@@ -1,7 +1,6 @@
 import { create } from "zustand"
 import { IBarn } from "../../../../packages/shared/models"
 import { Barn } from "../../../../packages/shared/classes"
-import { webPageSize } from "../../../../packages/shared/constant/pageSize";
 import { gender } from "../../../../packages/shared/enums";
 import { animalTypes } from "../../../../packages/shared/enums/animalTypes";
 import { supabase } from "../utils/supabaseClient";
@@ -48,7 +47,7 @@ export const useBarnStore = create<BarnState>((set, get) => ({
       .order('created_at', { ascending: false })
       .range((pageNumber - 1) * 10, pageNumber * 10 - 1)
   
-    const { data, error } = await query
+    const { data } = await query
   
     set(() => ({ barns: data ? data.map(barn => new Barn(barn)) : null }))
   },  
@@ -79,7 +78,7 @@ export const useBarnStore = create<BarnState>((set, get) => ({
     }
   },  
   addBarn: async (userId, barn) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('barns')
       .insert([{
         user_id: userId,
@@ -93,7 +92,7 @@ export const useBarnStore = create<BarnState>((set, get) => ({
     set((state) => ({ barns: state.barns ? [new Barn(data), ...state.barns].slice(0, -1) : [new Barn(data)] }))
   },
   updateBarn: async (userId, barn) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('barns')
       .update({
         name: barn.name,
@@ -132,7 +131,7 @@ export const useBarnStore = create<BarnState>((set, get) => ({
       .select('*')
       .eq('user_id', userId)
 
-      const { data, error } = await query
+      const { data } = await query
 
       set(() => ({allBarns: data ? data.map(barn => new Barn(barn)) : null}))
   },

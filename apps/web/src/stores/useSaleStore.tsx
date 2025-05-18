@@ -43,7 +43,7 @@ export const useSaleStore = create<SaleState>((set, get) => ({
       .order('created_at', { ascending: false })
       .range((pageNumber - 1) * 10, pageNumber * 10 - 1)
   
-    const { data, error } = await query
+    const { data } = await query
   
     set(() => ({ sales: data ? data.map(sale => new Sale(sale)) : null }))
   },
@@ -74,7 +74,7 @@ export const useSaleStore = create<SaleState>((set, get) => ({
     }
   },  
   addSale: async (userId, sale) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('sales')
       .insert([{
         user_id: userId,
@@ -94,7 +94,7 @@ export const useSaleStore = create<SaleState>((set, get) => ({
     set((state) => ({ sales: state.sales ? [new Sale(data), ...state.sales].slice(0, -1) : [new Sale(data)] }))
   },
   updateSale: async (userId, sale) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('sales')
       .update({
         name: sale.name,

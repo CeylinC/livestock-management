@@ -47,7 +47,7 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
       .order('created_at', { ascending: false })
       .range((pageNumber - 1) * 10, pageNumber * 10 - 1)
 
-    const { data, error } = await query
+    const { data } = await query
 
     set(() => ({ animals: data ? data.map(animal => new Animal(animal)) : null }))
   },
@@ -82,7 +82,7 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
   },
   setFilters: (value) => set({ filters: value }),
   addAnimal: async (userId, animal) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('animals')
       .insert([{
         user_id: userId,
@@ -102,7 +102,7 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
     set((state) => ({ animals: state.animals ? [new Animal(data), ...state.animals].slice(0, -1) : [new Animal(data)] }))
   },
   updateAnimal: async (userId, animal) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('animals')
       .update({
         name: animal.name,

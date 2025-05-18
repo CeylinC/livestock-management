@@ -10,7 +10,7 @@ interface UserState {
   clearUser: () => void
 }
 
-export const useUserStore = create<UserState>((set, get) => ({
+export const useUserStore = create<UserState>((set) => ({
   user: new User(),
   createUser: async (user) => {
     const { data } = await supabase.from('users').insert([
@@ -24,7 +24,7 @@ export const useUserStore = create<UserState>((set, get) => ({
     set(() => ({ user: new User(data) }))
   },
   getUser: async (email) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('users')
       .select('*')
       .eq('email', email)

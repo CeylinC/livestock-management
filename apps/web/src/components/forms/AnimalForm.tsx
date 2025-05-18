@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Checkbox from "../Checkbox";
 import DateInput from "../DateInput";
 import Input from "../Input";
