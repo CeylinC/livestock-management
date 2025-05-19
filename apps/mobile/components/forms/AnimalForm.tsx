@@ -27,7 +27,7 @@ export default function AnimalForm({
 }) {
   const [animal, setAnimal] = useState(defaultAnimal ?? new Animal())
   const { addAnimal, updateAnimal, deleteAnimal, getAnimals } = useAnimalStore()
-  const {allBarns} = useBarnStore()
+  const { allBarns } = useBarnStore()
   const { user } = useUserStore()
 
   const genderOptions = [gender.female, gender.male].map((gender) => ({
@@ -70,7 +70,7 @@ export default function AnimalForm({
   }
 
   const onChangeGender = (value: string) => {
-    setAnimal(prev => ({ ...prev, gender: (value as gender) }))
+    setAnimal(prev => ({ ...prev, gender: (value as gender), isPregnant: value === gender.male ? false : prev.isPregnant }))
   }
 
   const onChangePregnant = (value: boolean) => {
@@ -141,7 +141,7 @@ export default function AnimalForm({
     {defaultAnimal?.id ?
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}><Button label={"Kaydı Güncelle"} onPress={onSubmit} /></View>
-        <View style={styles.buttonContainer}><Button label={"Kaydı Sil"} onPress={onDelete} variant="danger"/></View>
+        <View style={styles.buttonContainer}><Button label={"Kaydı Sil"} onPress={onDelete} variant="danger" /></View>
       </View>
       : <View><Button label={"Kayıt Oluştur"} onPress={onSubmit} /></View>
     }

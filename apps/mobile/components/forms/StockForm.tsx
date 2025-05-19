@@ -36,8 +36,8 @@ export default function StockForm({
     setStock(prev => ({ ...prev, category: (value as saleCategory) }))
   }
 
-  const onChangeType = (value: string) => {
-    setStock(prev => ({ ...prev, type: value }))
+  const onChangeAmount = (value: string) => {
+    setStock(prev => ({ ...prev, amount: value }))
   }
 
   const onChangeDealer = (value: string) => {
@@ -78,9 +78,9 @@ export default function StockForm({
       onChange={onChangeCategory}
       placeholder="Seçiniz"
     />
-    <Input name="type" label="Miktar" value={stock.amount} onChange={(value) => onChangeType(value)} />
-    <Input name="type" label="Satıcı" value={stock.dealer} onChange={(value) => onChangeDealer(value)} />
-    <Input name="type" label="Stok Yeri" value={stock.storage} onChange={(value) => onChangeStorage(value)} />
+    <Input name="amount" label="Miktar" value={stock.amount} onChange={(value) => onChangeAmount(value)} />
+    <Input name="dealer" label="Satıcı" value={stock.dealer} onChange={(value) => onChangeDealer(value)} />
+    <Input name="storage" label="Stok Yeri" value={stock.storage} onChange={(value) => onChangeStorage(value)} />
 
     {defaultStock?.id ?
       <View style={styles.buttonsContainer}>

@@ -44,8 +44,8 @@ export default function SaleForm({
     setSale(prev => ({ ...prev, category: (value as saleCategory) }))
   }
 
-  const onChangeType = (value: string) => {
-    setSale(prev => ({ ...prev, type: value }))
+  const onChangeAmount = (value: string) => {
+    setSale(prev => ({ ...prev, amount: value }))
   }
 
   const onChangePrice = (value: string) => {
@@ -102,14 +102,14 @@ export default function SaleForm({
       onChange={onChangeCategory}
       placeholder="Seçiniz"
     />
-    <Input name="type" label="Miktar" value={sale.amount} onChange={(value) => onChangeType(value)} />
-    <Input name="type" label="Ücret" value={sale.price} onChange={(value) => onChangePrice(value)} />
+    <Input name="amount" label="Miktar" value={sale.amount} onChange={(value) => onChangeAmount(value)} />
+    <Input name="price" label="Ücret" value={sale.price} onChange={(value) => onChangePrice(value)} />
     <DateInput label="Satış Tarihi (örn. 19.04.2025)"
       value={sale.saleDate}
       onChange={onChangeSaleDate}
       format="DD.MM.YYYY" />
-    <Input name="type" label="Alıcı İsmi" value={sale.recipientName} onChange={(value) => onChangeRecipientName(value)} />
-    <Input name="type" label="İletişim" value={sale.contact} onChange={(value) => onChangeContact(value)} />
+    <Input name="recipientName" label="Alıcı İsmi" value={sale.recipientName} onChange={(value) => onChangeRecipientName(value)} />
+    <Input name="contact" label="İletişim" value={sale.contact} onChange={(value) => onChangeContact(value)} />
     <Dropdown
       label="Ödeme Durumu"
       options={PaymentStateOptions}
@@ -118,7 +118,7 @@ export default function SaleForm({
       placeholder="Seçiniz"
     />
     <DateInput label="Satış Tarihi (örn. 19.04.2025)"
-      value={sale.saleDate}
+      value={sale.paymentDate}
       onChange={onChangePaymentDate}
       format="DD.MM.YYYY" />
 
