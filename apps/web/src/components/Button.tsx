@@ -14,7 +14,7 @@ export default function Button({
   return (
     <button
       onClick={onClick}
-      className={`w-full h-10 ${buttonStyles} flex justify-center items-center rounded-md text-white font-semibold hover:brightness-90 transition`}
+      className={`w-full h-10 ${buttonStyles} cursor-pointer flex justify-center items-center rounded-md text-white font-semibold hover:brightness-90 transition`}
     >
       {label}
     </button>

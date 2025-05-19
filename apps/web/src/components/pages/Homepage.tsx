@@ -23,8 +23,8 @@ export default function Home() {
       >
         <div className="text-xl font-bold">Dijital Çiftlik</div>
         <nav className="flex gap-4">
-          <button className="hover:underline" onClick={() => router.push("/signup")}>Üye Ol</button>
-          <button className="hover:underline" onClick={() => router.push("/login")}>Giriş Yap</button>
+          <button className="cursor-pointer hover:underline" onClick={() => router.push("/signup")}>Üye Ol</button>
+          <button className="cursor-pointer hover:underline" onClick={() => router.push("/login")}>Giriş Yap</button>
         </nav>
       </header>
 

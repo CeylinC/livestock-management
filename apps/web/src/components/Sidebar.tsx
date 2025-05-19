@@ -19,7 +19,7 @@ export default function Sidebar() {
       {menuItems.map((menuItem, index) => (
         <div
           key={index}
-          className={`text-white opacity-80 hover:opacity-100 transition-opacity px-2 py-2 rounded-l-xl ${pathname === menuItem.redirect && "bg-white !text-[#0A8270] opacity-100"}`}
+          className={`text-white opacity-80 hover:opacity-100 transition-opacity px-2 py-2 cursor-pointer rounded-l-xl ${pathname === menuItem.redirect && "bg-white !text-[#0A8270] opacity-100"}`}
           onClick={() => handleClickMenuItem(menuItem.redirect)}>
           {menuItem.label}
         </div>
