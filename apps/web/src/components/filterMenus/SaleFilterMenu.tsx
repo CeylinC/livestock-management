@@ -9,25 +9,25 @@ export default function SaleFilterMenu() {
   const { filters, setFilters } = useSaleStore();
 
   const categoryOptions = [
+    {
+      label: "Hepsi",
+      value: "",
+    },
     ...Object.values(saleCategory).map((g) => ({
       label: toReadableSalesCategories[g],
       value: g,
     })),
+  ];
+
+  const paymentStateOptions = [
     {
       label: "Hepsi",
       value: "",
     },
-  ];
-
-  const paymentStateOptions = [
     ...Object.values(paymentState).map((g) => ({
       label: toReadablePaymentState[g],
       value: g,
     })),
-    {
-      label: "Hepsi",
-      value: "",
-    },
   ];
 
   const onChangeCategory = (value: saleCategory | null) => {
@@ -59,10 +59,10 @@ export default function SaleFilterMenu() {
           />
         </div>
       }
-      >
-        <div className="h-10 px-4 border border-gray-300 rounded-md text-gray-400 flex items-center transition hover:brightness-90 hover:bg-black/5">
-          Filtrele
-        </div>
-       </Popover>
+    >
+      <div className="h-10 px-4 border border-gray-300 rounded-md text-gray-400 flex items-center transition hover:brightness-90 hover:bg-black/5">
+        Filtrele
+      </div>
+    </Popover>
   </div>
 }

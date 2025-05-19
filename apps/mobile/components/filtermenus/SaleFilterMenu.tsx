@@ -8,27 +8,27 @@ import { useSaleStore } from "@/stores/useSaleStore";
 export default function SaleFilterMenu() {
   const { filters, setFilters } = useSaleStore();
 
-  const categoryOptions = [
-    ...Object.values(saleCategory).map((g) => ({
-      label: toReadableSalesCategories[g],
-      value: g,
-    })),
-    {
-      label: "Hepsi",
-      value: "",
-    },
-  ];
+const categoryOptions = [
+  {
+    label: "Hepsi",
+    value: "",
+  },
+  ...Object.values(saleCategory).map((g) => ({
+    label: toReadableSalesCategories[g],
+    value: g,
+  })),
+];
 
-  const paymentStateOptions = [
-    ...Object.values(paymentState).map((g) => ({
-      label: toReadablePaymentState[g],
-      value: g,
-    })),
-    {
-      label: "Hepsi",
-      value: "",
-    },
-  ];
+const paymentStateOptions = [
+  {
+    label: "Hepsi",
+    value: "",
+  },
+  ...Object.values(paymentState).map((g) => ({
+    label: toReadablePaymentState[g],
+    value: g,
+  })),
+];
 
   const onChangeCategory = (value: saleCategory | null) => {
     setFilters({ ...filters, category: value })

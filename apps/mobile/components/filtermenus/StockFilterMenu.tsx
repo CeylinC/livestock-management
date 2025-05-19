@@ -8,15 +8,15 @@ export default function StockFilterMenu() {
   const { filters, setFilters } = useStockStore();
 
   const categoryOptions = [
-    ...Object.values(saleCategory).map((g) => ({
-      label: toReadableSalesCategories[g],
-      value: g,
-    })),
-    {
-      label: "Hepsi",
-      value: "",
-    },
-  ];
+  {
+    label: "Hepsi",
+    value: "",
+  },
+  ...Object.values(saleCategory).map((g) => ({
+    label: toReadableSalesCategories[g],
+    value: g,
+  })),
+];
 
   const onChangeCategory = (value: saleCategory | null) => {
     setFilters({ ...filters, category: value })

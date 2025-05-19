@@ -10,25 +10,25 @@ export default function BarnFilterMenu() {
   const { filters, setFilters } = useBarnStore();
 
   const genderOptions = [
-    ...[gender.female, gender.male].map((g) => ({
-      label: toReadableGender[g],
-      value: g.toString(),
-    })),
     {
       label: "Hepsi",
       value: "",
     },
+    ...Object.values(gender).map((g) => ({
+      label: toReadableGender[g],
+      value: g.toString(),
+    })),
   ];
 
   const typeOptions = [
+    {
+      label: "Hepsi",
+      value: "",
+    },
     ...Object.values(animalTypes).map((g) => ({
       label: toReadableAnimalType[g],
       value: g,
     })),
-    {
-      label: "Hepsi",
-      value: "",
-    },
   ];
 
   const onChangeType = (value: animalTypes | null) => {
