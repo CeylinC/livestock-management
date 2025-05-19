@@ -69,7 +69,7 @@ export default function AnimalForm({
   }
 
   const onChangeGender = (value: string) => {
-    setAnimal(prev => ({ ...prev, gender: (value as gender) }))
+    setAnimal(prev => ({ ...prev, gender: (value as gender), isPregnant: value === gender.male ? false : prev.isPregnant }))
   }
 
   const onChangePregnant = (value: boolean) => {

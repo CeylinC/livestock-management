@@ -86,7 +86,7 @@ export const useSaleStore = create<SaleState>((set, get) => ({
         recipient_name: sale.recipientName,
         contact: sale.contact,
         payment_state: sale.paymentState,
-        payment_date: sale.saleDate.format("YYYY-MM-DD")
+        payment_date: sale.paymentDate.format("YYYY-MM-DD")
       }])
       .select()
       .single()
@@ -105,7 +105,7 @@ export const useSaleStore = create<SaleState>((set, get) => ({
         recipient_name: sale.recipientName,
         contact: sale.contact,
         payment_state: sale.paymentState,
-        payment_date: sale.saleDate.format("YYYY-MM-DD")
+        payment_date: sale.paymentDate.format("YYYY-MM-DD")
       })
       .eq('id', sale.id)
       .eq('user_id', userId)
