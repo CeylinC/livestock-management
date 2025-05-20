@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { useAnimalStore } from "@/stores/useAnimalStore";
+import { useBarnStore } from "@/stores/useBarnStore";
 import { gender } from "../../../../packages/shared/enums";
 import { toReadableGender } from "../../../../packages/shared/utils/toReadableGender";
 import { animalTypes } from "../../../../packages/shared/enums/animalTypes";
@@ -7,7 +7,7 @@ import { toReadableAnimalType } from "../../../../packages/shared/utils/toReadab
 import Dropdown from "../Dropdown";
 
 export default function BarnFilterMenu() {
-  const { filters, setFilters } = useAnimalStore();
+  const { filters, setFilters } = useBarnStore();
 
   const genderOptions = [
     {
