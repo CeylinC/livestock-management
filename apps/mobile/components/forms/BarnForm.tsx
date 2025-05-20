@@ -25,7 +25,7 @@ export default function BarnForm({
   const { addBarn, updateBarn, deleteBarn, getBarns } = useBarnStore()
   const { user } = useUserStore()
 
-  const genderOptions = [gender.female, gender.male].map((gender) => ({
+  const genderOptions = Object.values(gender).map((gender) => ({
     label: toReadableGender[gender],
     value: gender
   }));

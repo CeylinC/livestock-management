@@ -24,11 +24,10 @@ export default function BarnForm({
   const { user } = useUserStore()
   const [barn, setBarn] = useState(defaultBarn ?? new Barn())
 
-  const options = [
-    { label: toReadableGender[gender.female], value: gender.female },
-    { label: toReadableGender[gender.male], value: gender.male },
-    { label: toReadableGender[gender.karma], value: gender.karma },
-  ];
+    const genderOptions = Object.values(gender).map((gender) => ({
+    label: toReadableGender[gender],
+    value: gender
+  }));
 
   const typeOptions = Object.values(animalTypes).map((g) => ({
     label: toReadableAnimalType[g],
@@ -80,7 +79,7 @@ export default function BarnForm({
     />
     <Dropdown
       label="Cinsiyet"
-      options={options}
+      options={genderOptions}
       value={barn.gender}
       onChange={onChangeGender}
       placeholder="Seçiniz"
