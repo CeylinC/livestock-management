@@ -7,13 +7,16 @@ import { supabase } from "@/utils/supabaseClient";
 import Button from "@/components/Button";
 import { User } from "../../../packages/shared/classes/User";
 import { LinearGradient } from "expo-linear-gradient";
+import { toReadableAuthErrors } from "../../../packages/shared/utils/toReadableAuthErrors";
 
 const { width } = Dimensions.get('window');
+type AuthErrorKey = keyof typeof toReadableAuthErrors;
 
 export default function Signup() {
   const [email, setEmail] = useState("")
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState<string | null>(null)
 
   const { createUser } = useUserStore()
 
@@ -24,7 +27,7 @@ export default function Signup() {
     });
 
     if (error) {
-      throw new Error(error.message);
+      setError(error.code || "unknown_error");
     } else {
       createUser(new User({ email, password, username }))
       router.push("/(tabs)")
@@ -54,7 +57,7 @@ export default function Signup() {
       <Text style={styles.title}>Merhabalar, Hoşgeldin!</Text>
       <Input name="email" label="Email" onChange={(value) => setEmail(value)} />
       <Input name="username" label="Kullanıcı Adı" onChange={(value) => setUsername(value)} />
-      <Input name="password" label="Şifre" onChange={(value) => setPassword(value)} secureTextEntry/>
+      <Input name="password" label="Şifre" onChange={(value) => setPassword(value)} secureTextEntry />
       <Button label="Üye Ol" onPress={() => signUpWithEmail(email, password)} />
       <TouchableOpacity onPress={routeLogin}><Text>Hesabın var mı? Giriş yap</Text></TouchableOpacity>
     </View>
@@ -81,5 +84,9 @@ const styles = StyleSheet.create({
     width: width,
     height: 300,
     opacity: 0.3
+  },
+  errorText: {
+    color: "red",
+    fontSize: 14,
   }
 });
