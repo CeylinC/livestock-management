@@ -8,11 +8,15 @@ import { useUserStore } from '@/stores/useUserStore'
 import { User } from '../../../../../packages/shared/classes/User'
 import { useRouter } from "next/navigation";
 import signupImage from "../../../public/signup.jpg";
+import { toReadableAuthErrors } from "../../../../../packages/shared/utils/toReadableAuthErrors";
+
+type AuthErrorKey = keyof typeof toReadableAuthErrors;
 
 export default function Signup() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [username, setUsername] = useState("")
+  const [error, setError] = useState<string | null>(null)
 
   const { createUser } = useUserStore()
   const router = useRouter()
@@ -24,7 +28,8 @@ export default function Signup() {
     });
 
     if (error) {
-      throw new Error(error.message);
+      console.log(error.code, error.message);
+      setError(error.code || "unknown_error");
     } else {
       createUser(new User({ email, password, username }))
       router.push("/dashboard")
@@ -46,6 +51,7 @@ export default function Signup() {
         <Input name="userName" label="Kullanıcı Adı" onChange={(value) => setUsername(value)} />
         <Input name="password" label="Password" type="password" onChange={(value) => setPassword(value)} />
       </div>
+      {error && <div className="text-red-500 text-sm">{toReadableAuthErrors[error as AuthErrorKey]}</div>}
       <Button label="Üye ol" onClick={() => signUpWithEmail(email, password)} />
       <div onClick={() => router.push("/login")}>Hesabın var mı? Giriş Yap</div>
     </div>

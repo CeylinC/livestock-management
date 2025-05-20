@@ -7,10 +7,14 @@ import { useState } from "react";
 import { useUserStore } from "@/stores/useUserStore";
 import { useRouter } from "next/navigation";
 import loginImage from "../../../public/login.jpg";
+import { toReadableAuthErrors } from "../../../../../packages/shared/utils/toReadableAuthErrors";
+
+type AuthErrorKey = keyof typeof toReadableAuthErrors;
 
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState<string | null>(null)
 
   const { getUser } = useUserStore()
   const router = useRouter()
@@ -22,7 +26,7 @@ export default function Login() {
     });
 
     if (error) {
-      throw new Error(error.message);
+      setError(error.code || "unknown_error");
     } else {
       getUser(email)
       router.push("/dashboard")
@@ -44,6 +48,7 @@ export default function Login() {
         <Input name="email" label="Email" onChange={(value) => setEmail(value)} />
         <Input name="password" label="Password" type="password" onChange={(value) => setPassword(value)} />
       </div>
+      {error && <div className="text-red-500 text-sm">{toReadableAuthErrors[error as AuthErrorKey]}</div>}
       <Button label="Giriş Yap" onClick={() => signInWithEmail(email, password)} />
       <div onClick={() => router.push("/signup")}>Hesabın yok mu? Üye ol</div>
     </div>
