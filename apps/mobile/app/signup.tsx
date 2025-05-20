@@ -58,6 +58,7 @@ export default function Signup() {
       <Input name="email" label="Email" onChange={(value) => setEmail(value)} />
       <Input name="username" label="Kullanıcı Adı" onChange={(value) => setUsername(value)} />
       <Input name="password" label="Şifre" onChange={(value) => setPassword(value)} secureTextEntry />
+      {error && <Text style={styles.errorText}>{toReadableAuthErrors[error as AuthErrorKey]}</Text>}
       <Button label="Üye Ol" onPress={() => signUpWithEmail(email, password)} />
       <TouchableOpacity onPress={routeLogin}><Text>Hesabın var mı? Giriş yap</Text></TouchableOpacity>
     </View>
