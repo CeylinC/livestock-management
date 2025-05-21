@@ -29,7 +29,7 @@ export default function Signup() {
     if (error) {
       setError(error.code || "unknown_error");
     } else {
-      createUser(new User({ email, password, username }))
+      await createUser(new User({ email, password, username }))
       router.push("/(tabs)")
     }
 
