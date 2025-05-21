@@ -53,35 +53,37 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
   },
   getAnimalCount: async (userID) => {
     const { filters } = get()
-  
+
     let query = supabase
       .from('animals')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', userID)
-  
+
     if (filters.type) {
       query = query.eq('type', filters.type)
     }
-  
+
     if (filters.gender) {
       query = query.eq('gender', filters.gender)
     }
-  
+
     if (filters.barn) {
       query = query.eq('barn', filters.barn)
     }
-  
+
     const { count } = await query
-  
+
     if (count !== null && count >= 0) {
       set(() => ({ animalCount: count }))
     }
-  },  
+  },
   selectAnimal: (animal) => {
     set(() => ({ selectedAnimal: animal }))
   },
   setFilters: (value) => set({ filters: value }),
   addAnimal: async (userId, animal) => {
+    const { filters } = get();
+
     const { data } = await supabase
       .from('animals')
       .insert([{
@@ -97,10 +99,24 @@ export const useAnimalStore = create<AnimalState>((set, get) => ({
         barn: animal.barnName
       }])
       .select()
-      .single()
+      .single();
 
-    set((state) => ({ animals: state.animals ? [new Animal(data), ...state.animals].slice(0, -1) : [new Animal(data)] }))
+    const newAnimal = new Animal(data);
+
+    const isFilterMatch =
+      (!filters.type || filters.type === newAnimal.type) &&
+      (!filters.gender || filters.gender === newAnimal.gender) &&
+      (!filters.barn || filters.barn === newAnimal.barnName);
+
+    set((state) => ({
+      animals: isFilterMatch
+        ? state.animals
+          ? [newAnimal, ...state.animals].slice(0, 10)
+          : [newAnimal]
+        : state.animals
+    }));
   },
+
   updateAnimal: async (userId, animal) => {
     const { data } = await supabase
       .from('animals')

@@ -25,26 +25,26 @@ export const useSaleStore = create<SaleState>((set, get) => ({
   saleCount: 0,
   getSales: async (userId, pageNumber) => {
     const { filters } = get()
-  
+
     let query = supabase
       .from('sales')
       .select('*')
       .eq('user_id', userId)
-  
+
     if (filters.category) {
       query = query.eq('category', filters.category)
     }
-  
+
     if (filters.paymentState) {
       query = query.eq('payment_state', filters.paymentState)
     }
-  
+
     query = query
       .order('created_at', { ascending: false })
       .range((pageNumber - 1) * 10, pageNumber * 10 - 1)
-  
+
     const { data } = await query
-  
+
     set(() => ({ sales: data ? data.map(sale => new Sale(sale)) : null }))
   },
   selectSale: (sale) => {
@@ -53,27 +53,29 @@ export const useSaleStore = create<SaleState>((set, get) => ({
   setFilters: (value) => set({ filters: value }),
   getSaleCount: async (userID) => {
     const { filters } = get()
-  
+
     let query = supabase
       .from('sales')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', userID)
-  
+
     if (filters.category) {
       query = query.eq('category', filters.category)
     }
-  
+
     if (filters.paymentState) {
       query = query.eq('payment_state', filters.paymentState)
     }
-  
+
     const { count } = await query
-  
+
     if (count !== null && count >= 0) {
       set(() => ({ saleCount: count }))
     }
-  },  
+  },
   addSale: async (userId, sale) => {
+    const { filters } = get();
+
     const { data } = await supabase
       .from('sales')
       .insert([{
@@ -89,9 +91,21 @@ export const useSaleStore = create<SaleState>((set, get) => ({
         payment_date: sale.paymentDate.format("YYYY-MM-DD")
       }])
       .select()
-      .single()
+      .single();
 
-    set((state) => ({ sales: state.sales ? [new Sale(data), ...state.sales].slice(0, -1) : [new Sale(data)] }))
+    const newSale = new Sale(data);
+
+    const isFilterMatch =
+      (!filters?.category || filters.category === newSale.category) &&
+      (!filters?.paymentState || filters.paymentState === newSale.paymentState);
+
+    set((state) => ({
+      sales: isFilterMatch
+        ? state.sales
+          ? [newSale, ...state.sales].slice(0, 10)
+          : [newSale]
+        : state.sales
+    }));
   },
   updateSale: async (userId, sale) => {
     const { data } = await supabase
@@ -111,7 +125,7 @@ export const useSaleStore = create<SaleState>((set, get) => ({
       .eq('user_id', userId)
       .select()
       .single();
-  
+
     set((state) => ({
       sales: state.sales
         ? state.sales.map((s) => s.id === sale.id ? new Sale(data) : s)
@@ -124,7 +138,7 @@ export const useSaleStore = create<SaleState>((set, get) => ({
       .delete()
       .eq('id', saleId)
       .eq('user_id', userId);
-  
+
     if (!error) {
       set((state) => ({
         sales: state.sales
@@ -133,6 +147,6 @@ export const useSaleStore = create<SaleState>((set, get) => ({
       }));
     }
   }
-  
-  
+
+
 }))

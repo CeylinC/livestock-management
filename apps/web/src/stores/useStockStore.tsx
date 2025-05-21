@@ -49,23 +49,25 @@ export const useStockStore = create<StockState>((set, get) => ({
   setFilters: (value) => set({ filters: value }),
   getStockCount: async (userID) => {
     const { filters } = get()
-  
+
     let query = supabase
       .from('stocks')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', userID)
-  
+
     if (filters.category) {
       query = query.eq('category', filters.category)
     }
-  
+
     const { count } = await query
-  
+
     if (count !== null && count >= 0) {
       set(() => ({ stockCount: count }))
     }
-  },  
+  },
   addStock: async (userId, stock) => {
+    const { filters } = get();
+
     const { data } = await supabase
       .from('stocks')
       .insert([{
@@ -77,9 +79,20 @@ export const useStockStore = create<StockState>((set, get) => ({
         storage: stock.storage,
       }])
       .select()
-      .single()
+      .single();
 
-    set((state) => ({ stocks: state.stocks ? [new Stock(data), ...state.stocks].slice(0, -1) : [new Stock(data)] }))
+    const newStock = new Stock(data);
+
+    const isFilterMatch =
+      !filters?.category || filters.category === newStock.category;
+
+    set((state) => ({
+      stocks: isFilterMatch
+        ? state.stocks
+          ? [newStock, ...state.stocks].slice(0, 10)
+          : [newStock]
+        : state.stocks
+    }));
   },
   updateStock: async (userId, stock) => {
     const { data } = await supabase

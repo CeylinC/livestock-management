@@ -51,7 +51,7 @@ export default function AnimalCard({
           <View style={styles.contentCell}>
             <Text style={styles.contentLabel}>Hamilelik</Text>
             <View style={styles.contentBadge}>{
-              animal.gender === gender.female ?
+              animal.isPregnant ?
                 (<Badge label="Hamile" value={"PREGNANT"} />) :
                 <Text style={styles.contentValue}>-</Text>
             }</View>

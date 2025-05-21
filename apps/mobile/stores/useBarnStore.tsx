@@ -29,56 +29,58 @@ export const useBarnStore = create<BarnState>((set, get) => ({
   allBarns: null,
   getBarns: async (userId, pageNumber) => {
     const { filters } = get()
-  
+
     let query = supabase
       .from('barns')
       .select('*')
       .eq('user_id', userId)
-  
+
     if (filters.type) {
       query = query.eq('type', filters.type)
     }
-  
+
     if (filters.gender) {
       query = query.eq('gender', filters.gender)
     }
-  
+
     query = query
       .order('created_at', { ascending: false })
       .range((pageNumber - 1) * 10, pageNumber * 10 - 1)
-  
+
     const { data, error } = await query
-  
+
     set(() => ({ barns: data ? data.map(barn => new Barn(barn)) : null }))
-  },  
+  },
   selectBarn: (barn) => {
     set(() => ({ selectedBarn: barn }))
   },
   setFilters: (value) => set({ filters: value }),
   getBarnCount: async (userID) => {
     const { filters } = get()
-  
+
     let query = supabase
       .from('barns')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', userID)
-  
+
     if (filters.type) {
       query = query.eq('type', filters.type)
     }
-  
+
     if (filters.gender) {
       query = query.eq('gender', filters.gender)
     }
-  
+
     const { count } = await query
-  
+
     if (count !== null && count >= 0) {
       set(() => ({ barnCount: count }))
     }
-  }, 
+  },
   addBarn: async (userId, barn) => {
-    const { data, error } = await supabase
+    const { filters } = get();
+
+    const { data } = await supabase
       .from('barns')
       .insert([{
         user_id: userId,
@@ -87,10 +89,26 @@ export const useBarnStore = create<BarnState>((set, get) => ({
         gender: barn.gender
       }])
       .select()
-      .single()
+      .single();
 
-    set((state) => ({ barns: state.barns ? [new Barn(data), ...state.barns].slice(0, -1) : [new Barn(data)] }))
+    const newBarn = new Barn(data);
+
+    set((state) => {
+      const isFilterMatch =
+        (!filters.type || filters.type === newBarn.type) &&
+        (!filters.gender || filters.gender === newBarn.gender);
+
+      return {
+        allBarns: state.allBarns ? [newBarn, ...state.allBarns] : [newBarn],
+        barns: isFilterMatch
+          ? state.barns
+            ? [newBarn, ...state.barns].slice(0, 10)
+            : [newBarn]
+          : state.barns,
+      };
+    });
   },
+
   updateBarn: async (userId, barn) => {
     const { data, error } = await supabase
       .from('barns')
@@ -103,7 +121,7 @@ export const useBarnStore = create<BarnState>((set, get) => ({
       .eq('user_id', userId)
       .select()
       .single();
-  
+
     set((state) => ({
       barns: state.barns
         ? state.barns.map((b) => b.id === barn.id ? new Barn(data) : b)
@@ -116,7 +134,7 @@ export const useBarnStore = create<BarnState>((set, get) => ({
       .delete()
       .eq('id', barnId)
       .eq('user_id', userId);
-  
+
     if (!error) {
       set((state) => ({
         barns: state.barns
@@ -131,8 +149,8 @@ export const useBarnStore = create<BarnState>((set, get) => ({
       .select('*')
       .eq('user_id', userId)
 
-      const { data, error } = await query
+    const { data, error } = await query
 
-      set(() => ({allBarns: data ? data.map(barn => new Barn(barn)) : null}))
+    set(() => ({ allBarns: data ? data.map(barn => new Barn(barn)) : null }))
   },
 }))
