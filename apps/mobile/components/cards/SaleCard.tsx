@@ -2,6 +2,7 @@ import { View, StyleSheet, Text } from "react-native";
 import Badge from "../Badge";
 import { ISale } from "../../../../packages/shared/models";
 import { toReadableSalesCategories } from "../../../../packages/shared/utils/toReadableSalesCategories";
+import { toReadablePaymentState } from "../../../../packages/shared/utils/toReadablePaymentState";
 
 export default function SaleCard({
   sale
@@ -30,19 +31,17 @@ export default function SaleCard({
       <Text style={styles.contentValue}>{sale.saleDate.format("DD/MM/YYYY") || "-"}</Text>
     </View>
     <View style={styles.contentRow}>
-      <View style={styles.contentCell}>
-        <Text style={styles.contentLabel}>Alıcı İsmi</Text>
-        <Text style={styles.contentValue}>{sale.recipientName || "-"}</Text>
-      </View>
-      <View style={styles.contentCell}>
-        <Text style={styles.contentLabel}>İletişim</Text>
-        <Text style={styles.contentValue}>{sale.contact || "-"}</Text>
-      </View>
+      <Text style={styles.contentLabel}>Alıcı İsmi</Text>
+      <Text style={styles.contentValue}>{sale.recipientName || "-"}</Text>
+    </View>
+    <View style={styles.contentRow}>
+      <Text style={styles.contentLabel}>İletişim</Text>
+      <Text style={styles.contentValue}>{sale.contact || "-"}</Text>
     </View>
     <View style={styles.contentRow}>
       <View style={styles.contentCell}>
         <Text style={styles.contentLabel}>Ödeme Durumu</Text>
-        <Text style={styles.contentValue}>{sale.paymentState || "-"}</Text>
+        <Text style={styles.contentValue}>{toReadablePaymentState[sale.paymentState] || "-"}</Text>
       </View>
       <View style={styles.contentCell}>
         <Text style={styles.contentLabel}>Ödeme Tarihi</Text>

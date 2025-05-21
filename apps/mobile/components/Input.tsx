@@ -4,7 +4,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 type InputProps = {
   name: string;
   label: string;
-  value?: string;
+  value?: string | number;
   onChange: (value: string) => void;
   secureTextEntry?: boolean;
 };
@@ -21,7 +21,7 @@ export default function Input({ label, value, onChange, secureTextEntry = false 
       <Text style={styles.label}>{label}</Text>
       <View style={styles.inputWrapper}>
         <TextInput
-          value={value}
+          value={String(value)}
           onChangeText={onChange}
           style={styles.input}
           secureTextEntry={isSecure}

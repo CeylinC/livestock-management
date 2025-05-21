@@ -65,7 +65,7 @@ export default function StocksScreen() {
               <GhostButton label='Filtrele' onPress={openBottomSheetFilter} />
             </View>
             <View style={styles.button}>
-              <Button label='Stock Ekle' onPress={() => openBottomSheet(null)} />
+              <Button label='Stok Ekle' onPress={() => openBottomSheet(null)} />
             </View>
           </View>
 

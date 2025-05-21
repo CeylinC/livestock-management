@@ -46,17 +46,22 @@ export default function SheetModal({
   }, [index])
 
   return (
-      <BottomSheetModal
+    <BottomSheetModal
       ref={bottomSheetRef}
-        index={index}
-        snapPoints={snapPoints}
-        enableDynamicSizing={true}
-        backdropComponent={renderBackdrop}
-      >
-        <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
-          {children}
-        </BottomSheetScrollView>
-      </BottomSheetModal>
+      index={index}
+      snapPoints={snapPoints}
+      backdropComponent={renderBackdrop}
+      onDismiss={() => setIndex(-1)}
+      onChange={(sheetIndex) => {
+        if (sheetIndex === -1) {
+          setIndex(-1)
+        }
+      }}
+    >
+      <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
+        {children}
+      </BottomSheetScrollView>
+    </BottomSheetModal>
   );
 }
 
