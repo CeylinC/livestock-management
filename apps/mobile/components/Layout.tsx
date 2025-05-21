@@ -2,10 +2,9 @@ import SettingIcon from "@/assets/icons/setting";
 import { useUserStore } from "@/stores/useUserStore";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { SafeAreaView, ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { StyleSheet } from 'react-native';
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function Layout({
   children

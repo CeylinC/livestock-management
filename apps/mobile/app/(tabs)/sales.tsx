@@ -45,7 +45,7 @@ export default function SalesScreen() {
       }
     }
     fetchSales()
-  }, [pageNumber, filters])
+  }, [pageNumber, filters, user])
 
   const openBottomSheet = (sale: ISale | null) => {
     selectSale(sale)

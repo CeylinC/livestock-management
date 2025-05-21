@@ -139,6 +139,9 @@ export const useBarnStore = create<BarnState>((set, get) => ({
       set((state) => ({
         barns: state.barns
           ? state.barns.filter(barn => barn.id !== barnId)
+          : [],
+        allBarns: state.allBarns
+          ? state.allBarns.filter(barn => barn.id !== barnId)
           : []
       }));
     }

@@ -44,7 +44,7 @@ export default function StocksScreen() {
       }
     }
     fetchStocks()
-  }, [pageNumber, filters])
+  }, [pageNumber, filters, user])
 
   const openBottomSheet = (stock: IStock | null) => {
     selectStock(stock)

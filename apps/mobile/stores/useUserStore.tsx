@@ -19,18 +19,19 @@ export const useUserStore = create<UserState>((set, get) => ({
         email: user.email,
       },
     ])
-      .select();
+      .select()
+      .single()
 
     set(() => ({ user: new User(data) }))
   },
   getUser: async (email) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('users')
       .select('*')
       .eq('email', email)
-      .single();
+      .single()
 
-      set(() => ({ user: new User(data)}))
+    set(() => ({ user: new User(data) }))
   },
-  clearUser: () => set(() => ({user: new User()}))
+  clearUser: () => set(() => ({ user: null }))
 }))

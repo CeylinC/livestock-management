@@ -45,7 +45,7 @@ export default function BarnsScreen() {
       }
     }
     fetchBarns()
-  }, [pageNumber, filters])
+  }, [pageNumber, filters, user])
 
   const openBottomSheet = (barn: IBarn | null) => {
     selectBarn(barn)

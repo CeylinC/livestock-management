@@ -36,7 +36,7 @@ export default function AnimalsScreen() {
       }
     }
     fetchBarns()
-  }, [])
+  }, [user])
 
   useEffect(() => {
     const fetchAnimalCount = async () => {
@@ -58,7 +58,7 @@ export default function AnimalsScreen() {
       }
     }
     fetchAnimals()
-  }, [pageNumber, filters])
+  }, [pageNumber, filters, user])
 
   const openBottomSheet = (animal: IAnimal | null) => {
     selectAnimal(animal)
