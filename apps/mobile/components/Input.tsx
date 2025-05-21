@@ -21,7 +21,7 @@ export default function Input({ label, value, onChange, secureTextEntry = false 
       <Text style={styles.label}>{label}</Text>
       <View style={styles.inputWrapper}>
         <TextInput
-          value={String(value)}
+          defaultValue={typeof value === 'number' ? String(value) : value}
           onChangeText={onChange}
           style={styles.input}
           secureTextEntry={isSecure}
