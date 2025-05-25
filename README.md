@@ -1,3 +1,4 @@
+
 # 🐄 Livestock Management – Test Kullanıcı Rehberi
 
 Bu rehber, **Livestock Management** uygulamasının test sürecinde kullanılmak üzere hazırlanmıştır.  
@@ -31,76 +32,96 @@ Aşağıdaki araçların cihazınızda kurulu olması gerekmektedir:
 ```bash
 git clone https://github.com/CeylinC/livestock-management.git
 cd livestock-management
-b. Bağımlılıkların Kurulması
-bash
-Kopyala
-Düzenle
+```
+
+### b. Bağımlılıkların Kurulması
+
+```bash
 yarn install
-c. Ortam Değişkenlerinin Tanımlanması
-Web (Next.js)
-Proje dizininde .env.local dosyası oluşturun ve aşağıdakileri yapıştırın:
+```
 
-env
-Kopyala
-Düzenle
-NEXT_PUBLIC_SUPABASE_URL=https://khfbbenxfpmneregtaud.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoZmJiZW54ZnBtbmVyZWd0YXVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU2ODExNTIsImV4cCI6MjA2MTI1NzE1Mn0.hrzTfXWjZqW1HYjyT5TjSiVgNEfIyK8QJs35K9ZiWBI
-Mobil (Expo)
-Aynı şekilde .env.local dosyasına aşağıdakileri ekleyin:
+### c. Ortam Değişkenlerinin Tanımlanması
 
-env
-Kopyala
-Düzenle
-EXPO_PUBLIC_SUPABASE_URL=https://khfbbenxfpmneregtaud.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoZmJiZW54ZnBtbmVyZWd0YXVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU2ODExNTIsImV4cCI6MjA2MTI1NzE1Mn0.hrzTfXWjZqW1HYjyT5TjSiVgNEfIyK8QJs35K9ZiWBI
-🚀 3. Uygulamanın Başlatılması
-Web
-bash
-Kopyala
-Düzenle
+#### Web (Next.js)
+
+Proje dizininde `.env.local` dosyası oluşturun ve aşağıdakileri yapıştırın:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+```
+
+#### Mobil (Expo)
+
+Aynı şekilde `.env.local` dosyasına aşağıdakileri ekleyin:
+
+```env
+EXPO_PUBLIC_SUPABASE_URL=...
+EXPO_PUBLIC_SUPABASE_ANON_KEY=...
+```
+
+---
+
+## 🚀 3. Uygulamanın Başlatılması
+
+### Web
+
+```bash
 yarn workspace web dev
-Tarayıcıda şu adrese gidin: http://localhost:3000
+```
 
-💻 Web Tanıtım Videosu
-📺 YouTube – Web Sürümü
+Tarayıcıda şu adrese gidin: [http://localhost:3000](http://localhost:3000)
 
-Mobil (Expo)
-Mobil emülatörü başlatın.
+#### 💻 Web Tanıtım Videosu
 
-Terminalde şu komutu çalıştırın:
+📺 [YouTube – Web Sürümü](https://youtu.be/JoLCGfA7OJE)
 
-bash
-Kopyala
-Düzenle
+---
+
+### Mobil (Expo)
+
+1. Mobil emülatörü başlatın.
+2. Terminalde şu komutu çalıştırın:
+
+```bash
 yarn workspace mobile start
-Açılan Expo Metro Bundler ekranında:
+```
 
-Android için a tuşuna basın
+3. Açılan **Expo Metro Bundler** ekranında:
+   - Android için `a` tuşuna basın
+   - iOS için `i` tuşuna basın
 
-iOS için i tuşuna basın
+#### 📱 Mobil Tanıtım Videosu
 
-📱 Mobil Tanıtım Videosu
-📺 YouTube Shorts – Mobil Sürüm
+📺 [YouTube Shorts – Mobil Sürüm](https://youtube.com/shorts/-8g-ubEY5b8?feature=share)
 
-👤 4. Test Kullanıcı Bilgileri
+---
+
+## 👤 4. Test Kullanıcı Bilgileri
+
 Varsayılan test hesabı ile giriş yapabilirsiniz:
 
-E-posta: aile.sev.com@gmail.com
+- **E-posta:** aile.sev.com@gmail.com  
+- **Şifre:** deneme123
 
-Şifre: deneme123
+---
 
-🐞 5. Hata Bildirimi
+## 🐞 5. Hata Bildirimi
+
 Karşılaştığınız hataları aşağıdaki e-posta adresine bildirebilirsiniz:
 
-📧 E-posta: caltepeceylin@gmail.com
+📧 **E-posta:** caltepeceylin@gmail.com
 
-Lütfen bildirirken şu bilgilere yer verin:
+**Lütfen bildirirken şu bilgilere yer verin:**
 
-Hangi adımlardan sonra oluştu?
+- Hangi adımlardan sonra oluştu?
+- Ekran görüntüsü varsa ekleyin.
 
-Ekran görüntüsü varsa ekleyin.
+---
 
-🧩 Katkıda Bulunmak
-Geliştirmelere katkı sunmak isterseniz, fork edip pull request gönderebilirsiniz. 🎉
+## 🧩 Katkıda Bulunmak
+
+Geliştirmelere katkı sunmak isterseniz, fork edip pull request gönderebilirsiniz. 🎉  
 Katkılarınızı bekliyoruz!
 
+---
