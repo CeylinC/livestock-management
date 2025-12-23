@@ -1,9 +1,10 @@
-import Sales from "@/components/pages/Sales";
+import Sales from "@/components/views/Sales";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Satışlar | Dijital Çiftlik",
-  description: "Dijital Çiftlik, çiftlik yönetimini kolaylaştıran ve optimize eden bir platformdur.",
+  description:
+    "Dijital Çiftlik, çiftlik yönetimini kolaylaştıran ve optimize eden bir platformdur.",
 };
 
 export default function SalesPage() {
