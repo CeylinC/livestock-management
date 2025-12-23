@@ -1,3 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "404 - Sayfa Bulunamadı | Dijital Çiftlik",
+  description: "Aradığınız sayfa bulunamadı.",
+};
+
 export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
