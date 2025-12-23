@@ -8,4 +8,13 @@ export interface IBarn {
   type: animalTypes;
   gender: gender;
   createdAt?: Dayjs;
+  sensorData?: ISensorData;
+}
+
+export interface ISensorData {
+  water: boolean;
+  weight: number;
+  humidity: number;
+  temperature: number;
+  createdAt?: Dayjs;
 }
