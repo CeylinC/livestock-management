@@ -2,6 +2,7 @@
   "buildCommand": "cd ../.. && npm install --include=optional && cd apps/web && npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
-  "installCommand": "cd ../.. && npm install --include=optional"
+  "installCommand": "cd ../.. && npm install --include=optional",
+  "rootDirectory": "apps/web"
 }
 
