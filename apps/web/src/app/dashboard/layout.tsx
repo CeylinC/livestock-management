@@ -3,6 +3,8 @@
 import Sidebar from "@/components/Sidebar";
 import useCurrentUser from "@/hooks/useCurrentUser";
 
+export const dynamic = "force-dynamic";
+
 export default function DasboardLayout({
   children,
 }: Readonly<{

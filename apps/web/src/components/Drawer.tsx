@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import Xmark from '../../public/icons/Xmark';
+import React, { useEffect, useState, ReactNode } from 'react';
+import Xmark from './icons/Xmark';
 
 const Drawer = ({
   children,
   onClose
 } : {
-  children?: React.JSX.Element
+  children?: ReactNode
   onClose: () => void
 }) => {
   const [isOpen, setIsOpen] = useState(false);

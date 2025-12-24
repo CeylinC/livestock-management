@@ -12,7 +12,7 @@ import { toReadablePaymentState } from "../../../../../packages/shared/utils/toR
 import { useSaleStore } from "@/stores/useSaleStore";
 import { useUserStore } from "@/stores/useUserStore";
 
-export default function StockForm({
+export default function SaleForm({
   defaultSale,
   currentPage,
   onClose

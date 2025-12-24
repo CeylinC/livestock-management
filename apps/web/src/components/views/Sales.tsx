@@ -27,6 +27,7 @@ export default function Sales() {
       }
     }
     fetchSaleCount()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, filters])
 
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function Sales() {
       }
     }
     fetchSales()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber, filters])
 
   const handleCloseDrawer = () => {

@@ -29,6 +29,7 @@ export default function Animals() {
       }
     }
     fetchBarns()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -40,6 +41,7 @@ export default function Animals() {
       }
     }
     fetchAnimalCount()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, filters])
 
   useEffect(() => {
@@ -51,6 +53,7 @@ export default function Animals() {
       }
     }
     fetchAnimals()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber, filters])
 
   const handleCloseDrawer = () => {

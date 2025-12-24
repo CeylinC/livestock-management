@@ -5,22 +5,30 @@ import { useUserStore } from "@/stores/useUserStore";
 
 const useCurrentUser = () => {
   const router = useRouter();
-  const {user, getUser} = useUserStore()
+  const { user, getUser } = useUserStore();
 
   useEffect(() => {
-    const getCurrentUser = async () => {
-      const { data } = await supabase.auth.getSession();
+    // Only run on client side
+    if (typeof window === "undefined") return;
 
-      if (!data?.session) {
-        router.push("/login");
-      } else {
-        if(!user?.id && data.session.user.email) {
-          getUser(data.session?.user.email)
+    const getCurrentUser = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+
+        if (!data?.session) {
+          router.push("/login");
+        } else {
+          if (!user?.id && data.session.user.email) {
+            getUser(data.session?.user.email);
+          }
         }
+      } catch (error) {
+        console.error("Error getting current user:", error);
       }
     };
 
     getCurrentUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 };
 
